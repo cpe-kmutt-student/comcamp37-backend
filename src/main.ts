@@ -1,22 +1,22 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import morgan from "morgan";
-import { CorsOptions } from "@nestjs/common/interfaces/external/cors-options.interface";
+import type { CorsOptions } from "@nestjs/common/interfaces/external/cors-options.interface";
+import { config } from "./config/app.config";
+import bodyParser from "body-parser";
+import { corsConfig } from "./config/cors.config";
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
 
-	const corsOptions: CorsOptions = {
-		origin: ["http://localhost:3000", "https://yourdomain.com"],
-		methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-		allowedHeaders: ["Content-Type", "Authorization"],
-		credentials: true,
-	};
+	app.enableCors(corsConfig);
 
-	app.enableCors(corsOptions);
-
+	app.use(bodyParser.urlencoded({
+		extended: false,
+		limit: "10mb",
+	}));
 	app.use(morgan("dev"));
 
-	await app.listen(process.env.APP_PORT ?? 3000);
+	await app.listen(config.app.port);
 }
 bootstrap();
