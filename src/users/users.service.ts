@@ -5,6 +5,6 @@ export class UsersService {
 	helloWorld() {
 		return {
 			hello: "World",
-		};
+		}
 	}
 }
