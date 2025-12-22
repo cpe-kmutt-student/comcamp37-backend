@@ -11,10 +11,12 @@ async function bootstrap() {
 
 	app.enableCors(corsConfig);
 
-	app.use(bodyParser.urlencoded({
-		extended: false,
-		limit: "10mb",
-	}));
+	app.use(
+		bodyParser.urlencoded({
+			extended: false,
+			limit: "10mb",
+		}),
+	);
 	app.use(morgan("dev"));
 
 	await app.listen(config.app.port);
