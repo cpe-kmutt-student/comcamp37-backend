@@ -3,14 +3,13 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    container_name: comcamp-service
+    container_name: comcamp37-service
     restart: unless-stopped
     env_file: .env
-    volumes:
-      - .:/app
-      - /app/node_modules
-    command: pnpm run dev
     ports:
       - 8000:3030
     networks:
       - internal
+
+networks:
+  internal:
