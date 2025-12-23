@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY package.json ./
 
-RUN npm install -g pnpm tsx ts-node nodemon
+RUN npm install -g pnpm tsx ts-node 
 
 RUN pnpm install
 
