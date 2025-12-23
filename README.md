@@ -31,8 +31,17 @@
 
 <h3>Commit rules</h3>
 <ul>
-  <li>Use Conventional Commits : <code>feat:</code>, <code>fix:</code>, <code>chore:</code>, etc.</li>
-  <li>Write commit message in English</li>
+  <li>feat – New feature</li>
+  <li>fix – Bug fix</li>
+  <li>perf – Performance improvement</li>
+  <li>refactor – Code change without behavior change</li>
+  <li>style – Code style only (no logic change)</li>
+  <li>test – Add or update tests</li>
+  <li>docs – Documentation only</li>
+  <li>build – Build system or dependencies</li>
+  <li>chore – Maintenance tasks</li>
+  <li>ci – CI/CD configuration</li>
+  <li>revert – Revert previous commit</li>
 </ul>
 
 
