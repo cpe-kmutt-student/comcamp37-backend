@@ -7,7 +7,7 @@ import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
 export class UploadService {
-	constructor(private readonly prisma: PrismaService) {}
+	// constructor(private readonly prisma: PrismaService) {}
 
 	async upload(file: Express.Multer.File) {
 		const key = `${Date.now()}-${file.originalname}`;

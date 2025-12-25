@@ -9,9 +9,8 @@ const prisma = new PrismaClient({ adapter });
 
 class PrismaSeed {
 	constructor() {
-    this.createAdminRole()
-    this.disconnect();
-
+		this.createAdminRole();
+		this.disconnect();
 	}
 
 	async createAdminRole() {
