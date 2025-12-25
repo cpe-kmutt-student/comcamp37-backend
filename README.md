@@ -57,3 +57,6 @@
 <ul>
   <li>Run Prod Project on docker (recommended) : <code>docker compose up --build -d</code></li>
 </ul>
+
+<h3>DB-Diagram (Prototype)</h3>
+<img src="./docs/DB-Diagram.png" alt="ER-Diagram" />
