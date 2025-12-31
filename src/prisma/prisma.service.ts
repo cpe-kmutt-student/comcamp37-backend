@@ -4,7 +4,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { config } from "src/config/app.config";
 
 @Injectable()
-export class PrismaServic extends PrismaClient implements OnModuleInit {
+export class PrismaService extends PrismaClient implements OnModuleInit {
 	constructor() {
 		const pool = new PrismaPg({ connectionString: config.db.url });
 		super({ adapter: pool });
