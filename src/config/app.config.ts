@@ -5,6 +5,7 @@ export const config = {
 	app: {
 		port: parseInt(process.env.APP_PORT || "3000", 10),
 		allowOrigins: (process.env.APP_ALLOW_ORIGIN || "").split(","),
+		jwtSecret: process.env.APP_JWT_SECRET || "KEYES",
 	},
 	db: {
 		url: process.env.DATABASE_URL || "",

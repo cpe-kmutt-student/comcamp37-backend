@@ -5,12 +5,14 @@ import type { CorsOptions } from "@nestjs/common/interfaces/external/cors-option
 import { config } from "./config/app.config";
 import bodyParser from "body-parser";
 import { corsConfig } from "./config/cors.config";
+import cookieParser from "cookie-parser";
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
 
 	app.enableCors(corsConfig);
 
+	app.use(cookieParser());
 	app.use(
 		bodyParser.urlencoded({
 			extended: false,
