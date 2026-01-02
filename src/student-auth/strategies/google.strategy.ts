@@ -22,7 +22,9 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
 		done: VerifyCallback,
 	): Promise<any> {
 		done(null, {
-            profile, accessToken, refreshToken
-        });
+			profile,
+			accessToken,
+			refreshToken,
+		});
 	}
 }

@@ -5,6 +5,6 @@ import { GoogleStrategy } from "./strategies/google.strategy";
 
 @Module({
 	controllers: [StudentAuthController],
-	providers: [StudentAuthService, StudentAuthService, GoogleStrategy]
+	providers: [StudentAuthService, StudentAuthService, GoogleStrategy],
 })
 export class StudentAuthModule {}

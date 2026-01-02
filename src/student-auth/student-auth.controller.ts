@@ -5,12 +5,12 @@ import type { Request, Response } from "express";
 @Controller("student/auth")
 export class StudentAuthController {
 	@Get("/")
-    @UseGuards(GoogleAuthGuard)
+	@UseGuards(GoogleAuthGuard)
 	async redirectGoogleAuth(@Req() _req: Request, @Res() res: Response) {}
 
-    @Get('/callback')
-    @UseGuards(GoogleAuthGuard)
-    async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
-        return res.json(req.user)
-    }
+	@Get("/callback")
+	@UseGuards(GoogleAuthGuard)
+	async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
+		return res.json(req.user);
+	}
 }
