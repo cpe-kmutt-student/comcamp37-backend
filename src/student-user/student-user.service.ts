@@ -6,7 +6,6 @@ export class StudentUserService {
 	constructor(private readonly prisma: PrismaService) {}
 
 	async getStudentProfile() {
-        
 		// return "asd";
 		// const getBasicInfo = this.prisma.studentUsers.findUnique({
 		//     // where: {

@@ -9,7 +9,7 @@ import { UploadService } from "./upload/upload.service";
 import { UploadModule } from "./upload/upload.module";
 import { StudentUserModule } from "./student-user/student-user.module";
 import { StudentAuthMiddleware } from "./student-auth/student-auth.middleware";
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from "./auth/auth.module";
 
 @Module({
 	imports: [

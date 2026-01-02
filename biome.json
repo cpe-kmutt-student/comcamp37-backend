@@ -21,7 +21,9 @@
 			"recommended": true,
 			"correctness": {
 				"noUnusedVariables": "off",
-				"noUnusedImports": "off"
+				"noUnusedImports": "off",
+				"noUnusedPrivateClassMembers": "off",
+				"noUnusedFunctionParameters": "off"
 			}
 		}
 	},

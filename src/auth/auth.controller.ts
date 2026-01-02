@@ -1,7 +1,12 @@
-import { Controller, Get, UseGuards, Request } from "@nestjs/common";
+import { Controller, Get, Req, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { AuthGuard } from "./auth.guard";
-import { Request, Request } from "express";
+import type { Request } from "express";
+// import { Request, Request } from "express";
+
+interface RequestUser extends Request {
+	user: string;
+}
 
 @Controller("auth")
 export class AuthController {
@@ -9,7 +14,7 @@ export class AuthController {
 
 	@UseGuards(AuthGuard)
 	@Get("profile")
-	getProfile(@Request() req: any) {
+	getProfile(@Req() req: RequestUser) {
 		return req.user;
 	}
 }
