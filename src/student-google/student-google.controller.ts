@@ -1,15 +1,15 @@
 import { Controller, Get, Post, Req, Res, UseGuards } from "@nestjs/common";
-import { GoogleAuthGuard } from "./student-auth.guard";
+import { StudentGoogleGuard } from "./student-google.guard";
 import type { Request, Response } from "express";
 
 @Controller("student/auth")
-export class StudentAuthController {
+export class StudentGoogleController {
 	@Get("/")
-	@UseGuards(GoogleAuthGuard)
+	@UseGuards(StudentGoogleGuard)
 	async redirectGoogleAuth(@Req() _req: Request, @Res() res: Response) {}
 
 	@Get("/callback")
-	@UseGuards(GoogleAuthGuard)
+	@UseGuards(StudentGoogleGuard)
 	async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
 		return res.json(req.user);
 	}

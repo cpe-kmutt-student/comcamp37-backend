@@ -1,10 +1,18 @@
 import { Module } from "@nestjs/common";
-import { StudentAuthController } from "./student-auth.controller";
-import { StudentAuthService } from "./student-auth.service";
-import { GoogleStrategy } from "./strategies/google.strategy";
+import { JwtModule } from "@nestjs/jwt";
+import { config } from "src/config/app.config";
+import { StudentAuthGuard } from "./student-auth.guard";
 
 @Module({
-	controllers: [StudentAuthController],
-	providers: [StudentAuthService, StudentAuthService, GoogleStrategy],
+	imports: [
+		JwtModule.register({
+			global: true,
+			secret: config.auth.jwtSecret,
+			signOptions: { expiresIn: "1d" },
+		}),
+	],
+	providers: [StudentAuthGuard],
+	controllers: [],
+	exports: [StudentAuthGuard],
 })
 export class StudentAuthModule {}

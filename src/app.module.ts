@@ -8,8 +8,8 @@ import { PrismaModule } from "./prisma/prisma.module";
 import { UploadService } from "./upload/upload.service";
 import { UploadModule } from "./upload/upload.module";
 import { StudentUserModule } from "./student-user/student-user.module";
-import { AuthModule } from "./auth/auth.module";
 import { StudentAuthModule } from "./student-auth/student-auth.module";
+import { StudentGoogleModule } from "./student-google/student-google.module";
 import { StudentAuthMiddleware } from "./middleware/student-auth.middleware";
 
 @Module({
@@ -18,7 +18,7 @@ import { StudentAuthMiddleware } from "./middleware/student-auth.middleware";
 		PrismaModule,
 		UploadModule,
 		StudentUserModule,
-		AuthModule,
+		StudentGoogleModule,
 		StudentAuthModule,
 	],
 	controllers: [AppController],
