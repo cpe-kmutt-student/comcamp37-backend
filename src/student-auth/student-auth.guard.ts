@@ -11,7 +11,10 @@ import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
 export class StudentAuthGuard implements CanActivate {
-	constructor(private readonly jwtService: JwtService, private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly jwtService: JwtService,
+		private readonly prisma: PrismaService,
+	) {}
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
 		const request = context.switchToHttp().getRequest<Request>();
@@ -24,17 +27,17 @@ export class StudentAuthGuard implements CanActivate {
 				secret: config.auth.jwtSecret,
 			});
 
-			if(!payload || !payload.user_id) {
+			if (!payload || !payload.user_id) {
 				throw new UnauthorizedException();
 			}
 
 			const studentUser = await this.prisma.studentUsers.findUnique({
 				where: {
-					std_user_id: payload.user_id
+					std_user_id: payload.user_id,
 				},
 			});
 
-			if(!studentUser) throw new UnauthorizedException();
+			if (!studentUser) throw new UnauthorizedException();
 
 			request.user = studentUser;
 		} catch {

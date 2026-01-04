@@ -5,7 +5,10 @@ import { AuthGuard } from "@nestjs/passport";
 import { config } from "src/config/app.config";
 
 @Injectable()
-export class StudentGoogleStrategy extends PassportStrategy(Strategy, "google") {
+export class StudentGoogleStrategy extends PassportStrategy(
+	Strategy,
+	"google",
+) {
 	constructor() {
 		super({
 			clientID: config.auth.googleClientId,
