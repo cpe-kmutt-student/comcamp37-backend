@@ -5,25 +5,17 @@ import { AuthGuard } from "@nestjs/passport";
 import { config } from "src/config/app.config";
 
 @Injectable()
-export class StudentGoogleStrategy extends PassportStrategy(
-	Strategy,
-	"google",
-) {
+export class StudentGoogleStrategy extends PassportStrategy(Strategy, "google") {
 	constructor() {
 		super({
 			clientID: config.auth.googleClientId,
 			clientSecret: config.auth.googleClientSecret,
-			callbackURL: "http://localhost:3030/student/google/callback",
+			callbackURL: config.auth.googleCallbackUrl,
 			scope: ["email", "profile"],
 		});
 	}
 
-	async validate(
-		accessToken: string,
-		refreshToken: string,
-		profile: any,
-		done: VerifyCallback,
-	): Promise<any> {
+	async validate(accessToken: string, refreshToken: string, profile: any, done: VerifyCallback): Promise<any> {
 		done(null, {
 			profile,
 			accessToken,
