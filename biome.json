@@ -32,7 +32,8 @@
 	},
 	"javascript": {
 		"formatter": {
-			"quoteStyle": "double"
+			"quoteStyle": "double",
+			"lineWidth": 240
 		},
 		"parser": {
 			"unsafeParameterDecoratorsEnabled": true
