@@ -15,19 +15,25 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
+			"suspicious": {
+				"noExplicitAny": "off"
+			},
 			"style": {
 				"useImportType": "off"
 			},
 			"recommended": true,
 			"correctness": {
 				"noUnusedVariables": "off",
-				"noUnusedImports": "off"
+				"noUnusedImports": "off",
+				"noUnusedPrivateClassMembers": "off",
+				"noUnusedFunctionParameters": "off"
 			}
 		}
 	},
 	"javascript": {
 		"formatter": {
-			"quoteStyle": "double"
+			"quoteStyle": "double",
+			"lineWidth": 240
 		},
 		"parser": {
 			"unsafeParameterDecoratorsEnabled": true

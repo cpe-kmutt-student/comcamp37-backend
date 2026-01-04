@@ -13,14 +13,11 @@ datasource db {
 
 model StudentUsers {
   std_user_id                           String                      @id
+  std_user_email                        String                      @unique
   std_info                              StudentInfo?
   std_file                              StudentFiles?
   std_question                          StudentQuestions?
   std_status                            StudentStatus?
-  std_user_nick_name                    String        
-  std_user_first_name                   String
-  std_user_last_name                    String
-  std_user_email                        String
   created_at                            DateTime                    @default(now())
   updated_at                            DateTime                    @updatedAt
 }
@@ -29,29 +26,32 @@ model StudentUsers {
 model StudentInfo {
   std_user_id                           String                      @id
   std_user                              StudentUsers                @relation(fields: [std_user_id], references: [std_user_id])
-  std_info_age                          Int
-  std_info_gender                       String
-  std_info_religion                     String
-  std_info_blood_group                  String
-  std_info_education_level              String
-  std_info_education_plan               String
-  std_info_phone                        String
-  std_info_alternative_email            String
-  std_info_medical_insurance            String
-  std_info_chronic_disease              String
-  std_info_drug_allergy                 String
-  std_info_food_allergy                 String
-  std_info_address                      String
-  std_info_home_phone                   String
-  std_info_have_participated            Boolean
-  std_info_shirt_size                   String
-  std_info_have_laptop                  Boolean
-  std_info_travel_plan                  String
-  std_info_parent_name                  String
-  std_info_parent_relation              String
-  std_info_parent_phone                 String
-  std_info_food_prefer                  String
-  std_info_can_participate_every_day    Boolean
+  std_user_nick_name                    String?        
+  std_user_first_name                   String?
+  std_user_last_name                    String?
+  std_info_age                          Int?
+  std_info_gender                       String?
+  std_info_religion                     String?
+  std_info_blood_group                  String?
+  std_info_education_level              String?
+  std_info_education_plan               String?
+  std_info_phone                        String?
+  std_info_alternative_email            String?
+  std_info_medical_insurance            String?
+  std_info_chronic_disease              String?
+  std_info_drug_allergy                 String?
+  std_info_food_allergy                 String?
+  std_info_address                      String?
+  std_info_home_phone                   String?
+  std_info_have_participated            Boolean?
+  std_info_shirt_size                   String?
+  std_info_have_laptop                  Boolean?
+  std_info_travel_plan                  String?
+  std_info_parent_name                  String?
+  std_info_parent_relation              String?
+  std_info_parent_phone                 String?
+  std_info_food_prefer                  String?
+  std_info_can_participate_every_day    Boolean?
   created_at                            DateTime                    @default(now())
   updated_at                            DateTime                    @updatedAt
 }
@@ -59,11 +59,11 @@ model StudentInfo {
 model StudentFiles {
   std_user_id                           String                      @id 
   std_user                              StudentUsers                @relation(fields: [std_user_id], references: [std_user_id])
-  std_file_face                         String
-  std_file_national_id                  String
-  std_file_parent_permission            String
-  std_file_pp_1                         String           
-  std_file_pp_7                         String           
+  std_file_face                         String?
+  std_file_national_id                  String?
+  std_file_parent_permission            String?
+  std_file_pp_1                         String?          
+  std_file_pp_7                         String?          
   created_at                            DateTime                    @default(now())
   updated_at                            DateTime                    @updatedAt
 }
@@ -71,11 +71,11 @@ model StudentFiles {
 model StudentQuestions {
   std_user_id                           String                      @id
   std_user                              StudentUsers                @relation(fields: [std_user_id], references: [std_user_id])
-  std_q_1                               String              
-  std_q_2                               String
-  std_q_3                               String
-  std_q_4                               String
-  std_q_5                               String
+  std_q_1                               String?         
+  std_q_2                               String?
+  std_q_3                               String?
+  std_q_4                               String?
+  std_q_5                               String?
   created_at                            DateTime                    @default(now())
   updated_at                            DateTime                    @updatedAt
 }
@@ -83,12 +83,12 @@ model StudentQuestions {
 model StudentStatus {
   std_user_id                           String                      @id
   std_user                              StudentUsers                @relation(fields: [std_user_id], references: [std_user_id])
-  std_status_file_done                  Boolean                     @default(false)
-  std_status_info_done                  Boolean                     @default(false)
-  std_status_question_done              Boolean                     @default(false)
-  stf_info_checked                      Boolean                     @default(false)
-  stf_q_checked                         Boolean                     @default(false)
-  std_q_result                          Float
+  std_status_file_done                  Boolean?                    @default(false)
+  std_status_info_done                  Boolean?                    @default(false)
+  std_status_question_done              Boolean?                    @default(false)
+  stf_info_checked                      Boolean?                    @default(false)
+  stf_q_checked                         Boolean?                    @default(false)
+  std_q_result                          Float?
   created_at                            DateTime                    @default(now())
   updated_at                            DateTime                    @updatedAt
 }
@@ -98,7 +98,7 @@ model StaffUsers {
   stf_role_id                           Int 
   stf_user_role                         StaffRoles                  @relation(fields: [stf_role_id], references: [stf_role_id])
   stf_user_name                         String
-  stf_user_email                        String
+  stf_user_email                        String                      @unique
   stf_user_password                     String
   created_at                            DateTime                    @default(now())
   updated_at                            DateTime                    @updatedAt
