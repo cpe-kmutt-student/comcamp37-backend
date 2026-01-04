@@ -40,6 +40,7 @@
 		"jsonwebtoken": "^9.0.3",
 		"morgan": "^1.10.1",
 		"multer": "^2.0.2",
+		"os": "^0.1.2",
 		"passport": "^0.7.0",
 		"passport-google-oauth20": "^2.0.0",
 		"passport-jwt": "^4.0.1",
@@ -48,6 +49,7 @@
 		"pino-http": "^11.0.0",
 		"reflect-metadata": "^0.2.2",
 		"rxjs": "^7.8.1",
+		"systeminformation": "^5.29.0",
 		"winston": "^3.19.0"
 	},
 	"devDependencies": {
