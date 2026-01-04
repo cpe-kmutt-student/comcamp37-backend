@@ -29,7 +29,6 @@ export class StudentGoogleService {
 
 	async createStudentUserNew(req: Request): Promise<void> {
 		const userProfile = (req.user as RequestUserProfile).profile;
-		console.log(req.user);
 
 		try {
 			const studentUser = await this.prisma.studentUsers.findUnique({
@@ -41,7 +40,7 @@ export class StudentGoogleService {
 
 			if (studentUser) return; // return if user is available or registered
 
-			const a = await this.prisma.studentUsers.create({
+			await this.prisma.studentUsers.create({
 				data: {
 					std_user_id: userProfile.id,
 					std_user_email: userProfile.emails[0].value,
