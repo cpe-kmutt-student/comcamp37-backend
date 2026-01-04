@@ -4,13 +4,6 @@ import { config } from "src/config/app.config";
 import { StudentAuthGuard } from "./student-auth.guard";
 
 @Module({
-	imports: [
-		JwtModule.register({
-			global: true,
-			secret: config.auth.jwtSecret,
-			signOptions: { expiresIn: "1d" },
-		}),
-	],
 	providers: [StudentAuthGuard],
 	controllers: [],
 	exports: [StudentAuthGuard],

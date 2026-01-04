@@ -11,6 +11,9 @@ import { StudentUserModule } from "./student-user/student-user.module";
 import { StudentAuthModule } from "./student-auth/student-auth.module";
 import { StudentGoogleModule } from "./student-google/student-google.module";
 import { StudentAuthMiddleware } from "./middleware/student-auth.middleware";
+import { DevModule } from "./dev/dev.module";
+import { JwtModule } from "@nestjs/jwt";
+import { config } from "./config/app.config";
 
 @Module({
 	imports: [
@@ -20,7 +23,14 @@ import { StudentAuthMiddleware } from "./middleware/student-auth.middleware";
 		StudentUserModule,
 		StudentGoogleModule,
 		StudentAuthModule,
+		DevModule,
+		JwtModule.register({
+			global: true,
+			secret: config.auth.jwtSecret,
+			signOptions: { expiresIn: "1d" },
+		}),
 	],
+
 	controllers: [AppController],
 	providers: [AppService, PrismaService, UploadService],
 })

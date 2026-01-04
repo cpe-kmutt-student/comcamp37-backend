@@ -40,13 +40,13 @@ export class StudentAuthGuard implements CanActivate {
 			if (!studentUser) throw new UnauthorizedException();
 
 			request.user = studentUser;
-		} catch {
+		} catch (e) {
 			throw new UnauthorizedException();
 		}
 		return true;
 	}
 
 	private extractTokenFromCookie(req: Request): string | undefined {
-		return req.cookies?.access_token;
+		return req.cookies?.token;
 	}
 }

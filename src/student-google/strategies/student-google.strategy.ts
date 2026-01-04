@@ -13,7 +13,7 @@ export class StudentGoogleStrategy extends PassportStrategy(
 		super({
 			clientID: config.auth.googleClientId,
 			clientSecret: config.auth.googleClientSecret,
-			callbackURL: "http://localhost:3030/student/auth/callback",
+			callbackURL: "http://localhost:3030/student/google/callback",
 			scope: ["email", "profile"],
 		});
 	}

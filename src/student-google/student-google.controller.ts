@@ -2,7 +2,7 @@ import { Controller, Get, Post, Req, Res, UseGuards } from "@nestjs/common";
 import { StudentGoogleGuard } from "./student-google.guard";
 import type { Request, Response } from "express";
 
-@Controller("student/auth")
+@Controller("student/google")
 export class StudentGoogleController {
 	@Get("/")
 	@UseGuards(StudentGoogleGuard)
