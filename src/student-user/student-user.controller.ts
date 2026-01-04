@@ -1,21 +1,45 @@
-import { Controller, Get, Post, Res } from "@nestjs/common";
+import { Controller, Get, Post, Req, Res, UseGuards } from "@nestjs/common";
 import { StudentUserService } from "./student-user.service";
-import type { Response } from "express";
+import type { Request, Response } from "express";
+import { StudentAuthGuard } from "src/student-auth/student-auth.guard";
+import { StudentUserId } from "src/types/Student.type";
 
 @Controller("student/user")
 export class StudentUserController {
 	constructor(private readonly StudentUserService: StudentUserService) {}
 
-	@Post("/profile")
-	getProfile(@Res() res: Response) {
-		// return this.StudentUserService.getStudentProfile();
-		res.cookie("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30", {
-			path: "/",
-			expires: new Date("2027-01-02T02:31:55Z"),
-			httpOnly: true,
-		});
-		return res.json({
-			status: "SUCCESS",
-		});
+	@Post("/me")
+	@UseGuards(StudentAuthGuard)
+	getMe(@Req() req: Request) {
+		const user = req.user as StudentUserId;
+		return this.StudentUserService.getMe(user);
+	}
+
+	@Post("/info")
+	@UseGuards(StudentAuthGuard)
+	getDetails(@Req() req: Request) {
+		const user = req.user as StudentUserId;
+		return this.StudentUserService.getDetails(user);
+	}
+
+	@Post("/status")
+	@UseGuards(StudentAuthGuard)
+	getStatus(@Req() req: Request) {
+		const user = req.user as StudentUserId;
+		return this.StudentUserService.getStatus(user);
+	}
+
+	@Post("/questions")
+	@UseGuards(StudentAuthGuard)
+	getQuestion(@Req() req: Request) {
+		const user = req.user as StudentUserId;
+		return this.StudentUserService.getQuestions(user);
+	}
+
+	@Post("/files")
+	@UseGuards(StudentAuthGuard)
+	getFiles(@Req() req: Request) {
+		const user = req.user as StudentUserId;
+		return this.StudentUserService.getFiles(user);
 	}
 }
