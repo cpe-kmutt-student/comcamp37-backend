@@ -14,6 +14,7 @@ import { StudentAuthMiddleware } from "./middleware/student-auth.middleware";
 import { DevModule } from "./dev/dev.module";
 import { JwtModule } from "@nestjs/jwt";
 import { config } from "./config/app.config";
+import { StudentInfoModule } from './student-info/student-info.module';
 
 @Module({
 	imports: [
@@ -29,6 +30,7 @@ import { config } from "./config/app.config";
 			secret: config.auth.jwtSecret,
 			signOptions: { expiresIn: "1d" },
 		}),
+		StudentInfoModule,
 	],
 
 	controllers: [AppController],
