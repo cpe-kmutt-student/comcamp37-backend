@@ -30,6 +30,10 @@ export class StudentAuthGuard implements CanActivate {
 				where: {
 					std_user_id: payload.user_id,
 				},
+				select: {
+					std_user_id: true,
+					std_user_email: true,
+				},
 			});
 
 			if (!studentUser) throw new UnauthorizedException();
