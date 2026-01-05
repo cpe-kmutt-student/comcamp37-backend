@@ -23,7 +23,7 @@ class PrismaSeed {
 				{
 					stf_role_name: "Staff",
 					stf_role_weight: 1,
-				}
+				},
 			],
 		});
 
