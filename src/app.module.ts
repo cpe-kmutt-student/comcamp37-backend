@@ -15,6 +15,9 @@ import { DevModule } from "./dev/dev.module";
 import { JwtModule } from "@nestjs/jwt";
 import { config } from "./config/app.config";
 import { StudentInfoModule } from "./student-info/student-info.module";
+import { AuthModule } from '@thallesp/nestjs-better-auth';
+import { auth } from "./libs/auth";
+import { TestAuthModule } from './test-auth/test-auth.module';
 
 @Module({
 	imports: [
@@ -31,6 +34,8 @@ import { StudentInfoModule } from "./student-info/student-info.module";
 			signOptions: { expiresIn: "1d" },
 		}),
 		StudentInfoModule,
+		AuthModule.forRoot({ auth }),
+		TestAuthModule
 	],
 
 	controllers: [AppController],

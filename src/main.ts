@@ -1,26 +1,24 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import morgan from "morgan";
-import type { CorsOptions } from "@nestjs/common/interfaces/external/cors-options.interface";
 import { config } from "./config/app.config";
-import bodyParser from "body-parser";
 import { corsConfig } from "./config/cors.config";
-import cookieParser from "cookie-parser";
 import { ValidationPipe } from "@nestjs/common";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "./libs/auth";
+import type { NestExpressApplication } from "@nestjs/platform-express";
+import type { Express, Request, Response, NextFunction } from "express";
+import cookieParser from "cookie-parser";
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule);
+	const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+		bodyParser: false
+	});
 
-	app.enableCors(corsConfig);
-
-	app.use(cookieParser());
-	app.use(
-		bodyParser.urlencoded({
-			extended: false,
-			limit: "10mb",
-		}),
-	);
+	app.enableCors(corsConfig as any);
 	app.use(morgan("dev"));
+	app.use(cookieParser());
+
 
 	app.useGlobalPipes(new ValidationPipe());
 
