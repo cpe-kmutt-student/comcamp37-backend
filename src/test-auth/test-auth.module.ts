@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { TestAuthController } from './test-auth.controller';
+import { Module } from "@nestjs/common";
+import { TestAuthController } from "./test-auth.controller";
 
 @Module({
-  controllers: [TestAuthController]
+	controllers: [TestAuthController],
 })
 export class TestAuthModule {}

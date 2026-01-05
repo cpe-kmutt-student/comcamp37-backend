@@ -12,13 +12,12 @@ import cookieParser from "cookie-parser";
 
 async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-		bodyParser: false
+		bodyParser: false,
 	});
 
 	app.enableCors(corsConfig as any);
 	app.use(morgan("dev"));
 	app.use(cookieParser());
-
 
 	app.useGlobalPipes(new ValidationPipe());
 
