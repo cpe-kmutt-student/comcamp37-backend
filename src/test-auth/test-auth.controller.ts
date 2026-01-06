@@ -13,12 +13,40 @@ export class TestAuthController {
 	}
 	@Get("public")
 	@AllowAnonymous() // Allow anonymous access
-	async getPublic() {
-		return { message: "Public route" };
+	async getPublic(@Session() session: UserSession) {
+		// return { message: "Public route" };
+		return { authenticated: !!session };
 	}
 	@Get("optional")
 	@OptionalAuth() // Authentication is optional
 	async getOptional(@Session() session: UserSession) {
 		return { authenticated: !!session };
+	}
+
+	@Get("/create-user")
+	@AllowAnonymous()
+	async create() {
+		// const data = await auth.api.signUpEmail({
+		// 	body: {
+		// 		email: "email1@domain.com",
+		// 		name: "Test User",
+		// 		password: "password1234",
+		// 		username: "test1",
+		// 		displayUsername: "Test User123",
+		// 	},
+		// });
+
+		const data = await auth.api.signInUsername({
+			body: {
+				username: "test1",
+				password: "password1234",
+			},
+		});
+
+		return auth.api.getAccessToken({
+			body: {
+				providerId: "credential",
+			},
+		});
 	}
 }
