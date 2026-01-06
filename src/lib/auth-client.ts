@@ -1,4 +1,4 @@
-import { createAuthClient } from "better-auth/client"
+import { createAuthClient } from "better-auth/client";
 export const authClient = createAuthClient({
-    baseURL: "http://localhost:3030"
-})
+	baseURL: "http://localhost:3030",
+});

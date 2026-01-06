@@ -8,17 +8,17 @@ const pool = new PrismaPg({ connectionString: config.db.url });
 const prisma = new PrismaClient({ adapter: pool });
 
 export const auth = betterAuth({
-    database: prismaAdapter(prisma, {
-        provider: "postgresql",
-    }),
-    session: {
-        strategy: "database",
-        expiresIn: 60 * 60 * 24 * 7 // 7 days
-    },
-    socialProviders: {
-        google: {
-            clientId: config.auth.googleClientId,
-            clientSecret: config.auth.googleClientSecret
-        }
-    }
+	database: prismaAdapter(prisma, {
+		provider: "postgresql",
+	}),
+	session: {
+		strategy: "database",
+		expiresIn: 60 * 60 * 24 * 7, // 7 days
+	},
+	socialProviders: {
+		google: {
+			clientId: config.auth.googleClientId,
+			clientSecret: config.auth.googleClientSecret,
+		},
+	},
 });
