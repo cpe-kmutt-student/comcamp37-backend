@@ -4,6 +4,7 @@ import { StudentInfoService } from "./student-info.service";
 import type { Request } from "express";
 import { Session } from "@thallesp/nestjs-better-auth";
 import type { UserSession } from "@thallesp/nestjs-better-auth";
+import { ApiBody, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 @Controller("student/info")
 export class StudentInfoController {
