@@ -1,38 +1,24 @@
-import { Controller, Req, Res, All, Get } from "@nestjs/common";
+import { Controller, Get, Req, Res } from "@nestjs/common";
+import type { Headers } from "@nestjs/common";
 import { auth } from "../lib/auth";
 import type { Request, Response } from "express";
-import { AllowAnonymous } from "@thallesp/nestjs-better-auth";
-import { authClient } from "src/lib/auth-client";
+import { Session, AllowAnonymous, OptionalAuth } from "@thallesp/nestjs-better-auth";
+import type { UserSession } from "@thallesp/nestjs-better-auth";
 
-@Controller("api/auth")
+@Controller("test-auth")
 export class TestAuthController {
-	@Get("/ping")
-	//    @AllowAnonymous()
-	async ping() {
-		await authClient.signIn.social({
-			/**
-			 * The social provider ID
-			 * @example "github", "google", "apple"
-			 */
-			provider: "github",
-			/**
-			 * A URL to redirect after the user authenticates with the provider
-			 * @default "/"
-			 */
-			callbackURL: "/dashboard",
-			/**
-			 * A URL to redirect if an error occurs during the sign in process
-			 */
-			errorCallbackURL: "/error",
-			/**
-			 * A URL to redirect if the user is newly registered
-			 */
-			newUserCallbackURL: "/welcome",
-			/**
-			 * disable the automatic redirect to the provider.
-			 * @default false
-			 */
-			disableRedirect: true,
-		});
+	@Get("me")
+	async getProfile(@Session() session: UserSession) {
+		return { user: session.user };
+	}
+	@Get("public")
+	@AllowAnonymous() // Allow anonymous access
+	async getPublic() {
+		return { message: "Public route" };
+	}
+	@Get("optional")
+	@OptionalAuth() // Authentication is optional
+	async getOptional(@Session() session: UserSession) {
+		return { authenticated: !!session };
 	}
 }
