@@ -9,7 +9,7 @@ export class BetterAuthController {
 	private readonly authHandler = toNodeHandler(auth);
 
 	@All("*path")
-    @OptionalAuth()
+	@OptionalAuth()
 	async handleAuth(@Req() req: Request, @Res() res: Response) {
 		return this.authHandler(req, res);
 	}
