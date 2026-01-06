@@ -1,24 +1,24 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { StudentInfoDto } from "./dto/student-info.dto";
 import { PrismaService } from "src/prisma/prisma.service";
-import { StudentUserId } from "src/types/Student.type";
+import type { UserSession } from "@thallesp/nestjs-better-auth";
 
 @Injectable()
 export class StudentInfoService {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async updateStudentInfo(studentInfoDto: StudentInfoDto, studentUser: StudentUserId) {
+	async updateStudentInfo(studentInfoDto: StudentInfoDto, session: UserSession) {
 		try {
 			const studentInfo = await this.prisma.studentInfo.findUnique({
 				where: {
-					std_user_id: studentUser.std_user_id,
+					std_user_id: session.user.id,
 				},
 			});
 
 			if (!studentInfo) {
 				const createInfo = await this.prisma.studentInfo.create({
 					data: {
-						std_user_id: studentUser.std_user_id,
+						std_user_id: session.user.id,
 						std_user_nick_name: studentInfoDto.nickname,
 						std_user_first_name: studentInfoDto.firstname,
 						std_user_last_name: studentInfoDto.lastname,
@@ -51,7 +51,7 @@ export class StudentInfoService {
 
 			const updateInfo = await this.prisma.studentInfo.update({
 				where: {
-					std_user_id: studentUser.std_user_id,
+					std_user_id: session.user.id,
 				},
 				data: {
 					std_user_nick_name: studentInfoDto.nickname,
