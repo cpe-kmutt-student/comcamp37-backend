@@ -20,7 +20,6 @@ async function bootstrap() {
 	app.useGlobalPipes(new ValidationPipe());
 	app.use(cookieParser());
 	app.use(morgan("dev"));
-	
 
 	// const expressApp = app.getHttpAdapter().getInstance();
 	// const authHandler = toNodeHandler(auth);
