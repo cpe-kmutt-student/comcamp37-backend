@@ -8,6 +8,8 @@ const pool = new PrismaPg({ connectionString: config.db.url });
 const prisma = new PrismaClient({ adapter: pool });
 
 export const auth = betterAuth({
+	basePath: "/api/auth",
+	trustedOrigins: ["http://localhost:3000", config.app.frontendUrl].filter(Boolean),
 	database: prismaAdapter(prisma, {
 		provider: "postgresql",
 	}),
@@ -21,4 +23,5 @@ export const auth = betterAuth({
 			clientSecret: config.auth.googleClientSecret,
 		},
 	},
+	hooks: {},
 });
