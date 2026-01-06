@@ -8,7 +8,6 @@ import { PrismaModule } from "./prisma/prisma.module";
 import { UploadService } from "./upload/upload.service";
 import { UploadModule } from "./upload/upload.module";
 import { StudentUserModule } from "./student-user/student-user.module";
-import { StudentAuthMiddleware } from "./middleware/student-auth.middleware";
 import { JwtModule } from "@nestjs/jwt";
 import { config } from "./config/app.config";
 import { StudentInfoModule } from "./student-info/student-info.module";
