@@ -9,17 +9,22 @@ import cookieParser from "cookie-parser";
 import { ValidationPipe } from "@nestjs/common";
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule);
+	const app = await NestFactory.create(AppModule, {
+		bodyParser: false
+	});
 
-	app.enableCors(corsConfig);
-
+	// app.enableCors(corsConfig);
+	app.enableCors({
+		origin: "http://localhost:3030",
+		credentials: true,
+	});
 	app.use(cookieParser());
-	app.use(
-		bodyParser.urlencoded({
-			extended: false,
-			limit: "10mb",
-		}),
-	);
+	// app.use(
+	// 	bodyParser.urlencoded({
+	// 		extended: false,
+	// 		limit: "10mb",
+	// 	}),
+	// );
 	app.use(morgan("dev"));
 
 	app.useGlobalPipes(new ValidationPipe());

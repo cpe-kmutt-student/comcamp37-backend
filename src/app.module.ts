@@ -15,10 +15,14 @@ import { DevModule } from "./dev/dev.module";
 import { JwtModule } from "@nestjs/jwt";
 import { config } from "./config/app.config";
 import { StudentInfoModule } from "./student-info/student-info.module";
+import { TestAuthModule } from './test-auth/test-auth.module';
+import { AuthModule } from '@thallesp/nestjs-better-auth';
+import { auth } from "./lib/auth";
 
 @Module({
 	imports: [
 		ConfigModule.forRoot(),
+		AuthModule.forRoot({ auth }),
 		PrismaModule,
 		UploadModule,
 		StudentUserModule,
@@ -31,6 +35,7 @@ import { StudentInfoModule } from "./student-info/student-info.module";
 			signOptions: { expiresIn: "1d" },
 		}),
 		StudentInfoModule,
+		TestAuthModule,
 	],
 
 	controllers: [AppController],
