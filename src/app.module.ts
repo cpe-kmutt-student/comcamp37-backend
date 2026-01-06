@@ -18,11 +18,13 @@ import { StudentInfoModule } from "./student-info/student-info.module";
 import { TestAuthModule } from "./test-auth/test-auth.module";
 import { AuthModule } from "@thallesp/nestjs-better-auth";
 import { auth } from "./lib/auth";
+import { BetterAuthModule } from "./better-auth/better-auth.module";
 
 @Module({
 	imports: [
 		ConfigModule.forRoot(),
-		AuthModule.forRoot({ auth }),
+		AuthModule.forRoot({ auth, disableTrustedOriginsCors: true, disableControllers: true }),
+		BetterAuthModule,
 		PrismaModule,
 		UploadModule,
 		StudentUserModule,
