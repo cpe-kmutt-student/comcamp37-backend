@@ -8,28 +8,25 @@ import { PrismaModule } from "./prisma/prisma.module";
 import { UploadService } from "./upload/upload.service";
 import { UploadModule } from "./upload/upload.module";
 import { StudentUserModule } from "./student-user/student-user.module";
-import { StudentAuthModule } from "./student-auth/student-auth.module";
-import { StudentGoogleModule } from "./student-google/student-google.module";
 import { StudentAuthMiddleware } from "./middleware/student-auth.middleware";
 import { DevModule } from "./dev/dev.module";
 import { JwtModule } from "@nestjs/jwt";
 import { config } from "./config/app.config";
 import { StudentInfoModule } from "./student-info/student-info.module";
 import { TestAuthModule } from "./test-auth/test-auth.module";
-import { AuthModule } from "@thallesp/nestjs-better-auth";
+import { AuthModule as BetterAuthModule } from "@thallesp/nestjs-better-auth";
 import { auth } from "./lib/auth";
-import { BetterAuthModule } from "./better-auth/better-auth.module";
+// import { BetterAuthModule } from "./better-auth/better-auth.module";
+import { AuthModule } from "./auth/auth.module";
 
 @Module({
 	imports: [
 		ConfigModule.forRoot(),
-		AuthModule.forRoot({ auth, disableTrustedOriginsCors: true, disableControllers: true }),
-		BetterAuthModule,
+		BetterAuthModule.forRoot({ auth, disableTrustedOriginsCors: true, disableControllers: true }),
+		AuthModule,
 		PrismaModule,
 		UploadModule,
 		StudentUserModule,
-		StudentGoogleModule,
-		StudentAuthModule,
 		DevModule,
 		JwtModule.register({
 			global: true,
@@ -38,6 +35,7 @@ import { BetterAuthModule } from "./better-auth/better-auth.module";
 		}),
 		StudentInfoModule,
 		TestAuthModule,
+		AuthModule,
 	],
 
 	controllers: [AppController],

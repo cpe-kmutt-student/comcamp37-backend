@@ -4,8 +4,8 @@ import { auth } from "../lib/auth";
 import type { Request, Response } from "express";
 import { OptionalAuth } from "@thallesp/nestjs-better-auth";
 
-@Controller("api/auth")
-export class BetterAuthController {
+@Controller("auth")
+export class AuthController {
 	private readonly authHandler = toNodeHandler(auth);
 
 	@All("*path")
