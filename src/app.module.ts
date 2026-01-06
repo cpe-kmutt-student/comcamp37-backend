@@ -9,14 +9,12 @@ import { UploadService } from "./upload/upload.service";
 import { UploadModule } from "./upload/upload.module";
 import { StudentUserModule } from "./student-user/student-user.module";
 import { StudentAuthMiddleware } from "./middleware/student-auth.middleware";
-import { DevModule } from "./dev/dev.module";
 import { JwtModule } from "@nestjs/jwt";
 import { config } from "./config/app.config";
 import { StudentInfoModule } from "./student-info/student-info.module";
 import { TestAuthModule } from "./test-auth/test-auth.module";
 import { AuthModule as BetterAuthModule } from "@thallesp/nestjs-better-auth";
 import { auth } from "./lib/auth";
-// import { BetterAuthModule } from "./better-auth/better-auth.module";
 import { AuthModule } from "./auth/auth.module";
 
 @Module({
@@ -27,7 +25,6 @@ import { AuthModule } from "./auth/auth.module";
 		PrismaModule,
 		UploadModule,
 		StudentUserModule,
-		DevModule,
 		JwtModule.register({
 			global: true,
 			secret: config.auth.jwtSecret,
