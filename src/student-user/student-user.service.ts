@@ -7,14 +7,14 @@ export class StudentUserService {
 	constructor(private readonly prisma: PrismaService) {}
 
 	async getMe(userId: string) {
-		return this.prisma.studentUsers.findUnique({
+		return this.prisma.user.findUnique({
 			where: {
-				std_user_id: userId,
+				id: userId,
 			},
 		});
 	}
 
-	async getDetails(userId: string) {
+	async getInfo(userId: string) {
 		return this.prisma.studentInfo.findUnique({
 			where: {
 				std_user_id: userId,

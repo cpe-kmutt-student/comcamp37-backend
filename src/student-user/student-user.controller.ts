@@ -15,7 +15,7 @@ export class StudentUserController {
 
 	@Post("/info")
 	getDetails(@Session() session: UserSession, @Req() req: Request) {
-		return this.StudentUserService.getDetails(session.user.id);
+		return this.StudentUserService.getInfo(session.user.id);
 	}
 
 	@Post("/status")
