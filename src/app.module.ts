@@ -14,6 +14,7 @@ import { StudentInfoModule } from "./student-info/student-info.module";
 import { AuthModule as BetterAuthModule } from "@thallesp/nestjs-better-auth";
 import { auth } from "./lib/auth";
 import { AuthModule } from "./auth/auth.module";
+import { StudentFileModule } from "./student-file/student-file.module";
 
 @Module({
 	imports: [
@@ -30,6 +31,7 @@ import { AuthModule } from "./auth/auth.module";
 		}),
 		StudentInfoModule,
 		AuthModule,
+		StudentFileModule,
 	],
 
 	controllers: [AppController],
