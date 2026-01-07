@@ -11,7 +11,6 @@ import { StudentUserModule } from "./student-user/student-user.module";
 import { JwtModule } from "@nestjs/jwt";
 import { config } from "./config/app.config";
 import { StudentInfoModule } from "./student-info/student-info.module";
-import { TestAuthModule } from "./test-auth/test-auth.module";
 import { AuthModule as BetterAuthModule } from "@thallesp/nestjs-better-auth";
 import { auth } from "./lib/auth";
 import { AuthModule } from "./auth/auth.module";
@@ -30,7 +29,6 @@ import { AuthModule } from "./auth/auth.module";
 			signOptions: { expiresIn: "1d" },
 		}),
 		StudentInfoModule,
-		TestAuthModule,
 		AuthModule,
 	],
 
