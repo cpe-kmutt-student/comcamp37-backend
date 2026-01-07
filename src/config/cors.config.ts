@@ -1,7 +1,7 @@
-import type { CorsOptions } from "cors";
+import type { CorsOptions } from "@nestjs/common/interfaces/external/cors-options.interface";
 import { config } from "./app.config";
 
 export const corsConfig: CorsOptions = {
-	origin: [...config.app.allowOrigins, config.app.frontendUrl].filter(Boolean),
+	origin: config.app.allowOrigins,
 	credentials: true,
 };
