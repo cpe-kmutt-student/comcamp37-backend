@@ -14,20 +14,20 @@ class PrismaSeed {
 	}
 
 	async createAdminRole() {
-		const cRole = await prisma.staffRoles.createMany({
-			data: [
-				{
-					stf_role_name: "Admin",
-					stf_role_weight: 0,
-				},
-				{
-					stf_role_name: "Staff",
-					stf_role_weight: 1,
-				},
-			],
-		});
+		// const cRole = await prisma.staffRoles.createMany({
+		// 	data: [
+		// 		{
+		// 			stf_role_name: "Admin",
+		// 			stf_role_weight: 0,
+		// 		},
+		// 		{
+		// 			stf_role_name: "Staff",
+		// 			stf_role_weight: 1,
+		// 		},
+		// 	],
+		// });
 
-		console.log(cRole);
+		// console.log(cRole);
 	}
 
 	async disconnect() {
