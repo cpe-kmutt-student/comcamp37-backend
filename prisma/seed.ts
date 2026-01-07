@@ -26,7 +26,6 @@ class PrismaSeed {
 		// 		},
 		// 	],
 		// });
-
 		// console.log(cRole);
 	}
 
