@@ -25,7 +25,9 @@
 
 <h3>DB Migration</h3>
 <ul>
+  <li>Run Generate : <code>pnpm exec prisma generate</code></li>
   <li>Run Migration : <code>pnpm exec prisma migrate dev</code></li>
+  <li>Reset and Re-run Migration : <code>pnpm exec prisma migrate reset</code></li>
 </ul>
 
 

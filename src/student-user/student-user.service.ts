@@ -1,47 +1,47 @@
 import { Injectable } from "@nestjs/common";
+import type { UserSession } from "@thallesp/nestjs-better-auth";
 import { PrismaService } from "src/prisma/prisma.service";
-import { StudentUserId } from "src/types/Student.type";
 
 @Injectable()
 export class StudentUserService {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async getMe(user: StudentUserId) {
-		return this.prisma.studentUsers.findUnique({
+	async getMe(userId: string) {
+		return this.prisma.user.findUnique({
 			where: {
-				std_user_id: user.std_user_id,
+				id: userId,
 			},
 		});
 	}
 
-	async getDetails(user: StudentUserId) {
+	async getInfo(userId: string) {
 		return this.prisma.studentInfo.findUnique({
 			where: {
-				std_user_id: user.std_user_id,
+				std_user_id: userId,
 			},
 		});
 	}
 
-	async getStatus(user: StudentUserId) {
+	async getStatus(userId: string) {
 		return this.prisma.studentStatus.findUnique({
 			where: {
-				std_user_id: user.std_user_id,
+				std_user_id: userId,
 			},
 		});
 	}
 
-	async getQuestions(user: StudentUserId) {
+	async getQuestions(userId: string) {
 		return this.prisma.studentQuestions.findUnique({
 			where: {
-				std_user_id: user.std_user_id,
+				std_user_id: userId,
 			},
 		});
 	}
 
-	async getFiles(user: StudentUserId) {
+	async getFiles(userId: string) {
 		return this.prisma.studentFiles.findUnique({
 			where: {
-				std_user_id: user.std_user_id,
+				std_user_id: userId,
 			},
 		});
 	}
