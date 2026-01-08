@@ -88,5 +88,17 @@ S3_SECRET_KEY             :: S3 Secret Access Key
 S3_BUCKET                 :: S3 Bucket Name
 ```
 
+<h3>Connect with Frontend (Development)</h3>
+<p>If you don't want to deploy on your own machine, you can use this proxy server for simulate server : <a href="https://github.com/imjustnon/cc37-dev-proxy">Clone this repository</a></p>
+<p>*** <strong>Caution:</strong> Don't change the port cause i have set the Google Callback URL like this ***</p>
+<p>*** <strong>Caution:</strong> Dont forget to add <code>/auth</code> ***</p>
+
+```
+BETTER_AUTH_BASE_PATH=http://localhost:3030/auth
+```
+
+
+
+
 <h3>Cr.</h3>
 <p>Made with 🧡 by ComCamp 37 Technic Team</p>
