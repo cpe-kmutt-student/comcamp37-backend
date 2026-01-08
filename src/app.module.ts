@@ -1,19 +1,18 @@
 import { MiddlewareConsumer, Module, RequestMethod } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { JwtModule } from "@nestjs/jwt";
+import { AuthModule as BetterAuthModule } from "@thallesp/nestjs-better-auth";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { AuthModule } from "./auth/auth.module";
+import { config } from "./config/app.config";
+import { auth } from "./lib/auth";
+import { PrismaModule } from "./prisma/prisma.module";
 // import { UsersModule } from "./users/users.module";
 import { PrismaService } from "./prisma/prisma.service";
-import { ConfigModule } from "@nestjs/config";
-import { PrismaModule } from "./prisma/prisma.module";
-import { UploadService } from "./upload/upload.service";
-import { UploadModule } from "./upload/upload.module";
-import { StudentUserModule } from "./student-user/student-user.module";
-import { JwtModule } from "@nestjs/jwt";
-import { config } from "./config/app.config";
+import { StudentFileModule } from "./student-file/student-file.module";
 import { StudentInfoModule } from "./student-info/student-info.module";
-import { AuthModule as BetterAuthModule } from "@thallesp/nestjs-better-auth";
-import { auth } from "./lib/auth";
-import { AuthModule } from "./auth/auth.module";
+import { StudentUserModule } from "./student-user/student-user.module";
 
 @Module({
 	imports: [
@@ -21,7 +20,6 @@ import { AuthModule } from "./auth/auth.module";
 		BetterAuthModule.forRoot({ auth, disableTrustedOriginsCors: true, disableControllers: true }),
 		AuthModule,
 		PrismaModule,
-		UploadModule,
 		StudentUserModule,
 		JwtModule.register({
 			global: true,
@@ -30,10 +28,11 @@ import { AuthModule } from "./auth/auth.module";
 		}),
 		StudentInfoModule,
 		AuthModule,
+		StudentFileModule,
 	],
 
 	controllers: [AppController],
-	providers: [AppService, PrismaService, UploadService],
+	providers: [AppService, PrismaService],
 })
 export class AppModule {
 	// configure(consumer: MiddlewareConsumer) {

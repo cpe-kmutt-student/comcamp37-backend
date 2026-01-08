@@ -82,9 +82,9 @@ model StudentStatus {
 
 
 enum UserRoles {
-  USER
-  ADMIN
-  STAFF
+  user
+  admin 
+  staff
 }
 
 model User {
@@ -98,7 +98,7 @@ model User {
   sessions                                Session[]
   accounts                                Account[]
 
-  role                                    UserRoles                 @default(USER)
+  role                                    UserRoles                 @default(user)
   banned                                  Boolean?                  @default(false)
   banReason                               String?
   banExpires                              DateTime?
