@@ -54,7 +54,8 @@ export class StudentStatusService {
 					studentStatus?.stf_info_checked ||
 					studentStatus?.stf_q_checked ||
 					studentStatus?.stf_q_result ||
-					studentStatus?.stf_q_result_detail,
+					studentStatus?.stf_q_result_detail ||
+					null,
 			};
 		} catch (e) {
 			throw new InternalServerErrorException();
