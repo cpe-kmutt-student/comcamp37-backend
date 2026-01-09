@@ -1,4 +1,4 @@
-import { Body, Controller, Get } from "@nestjs/common";
+import { Body, Controller, Get, Param } from "@nestjs/common";
 import type { UserSession } from "@thallesp/nestjs-better-auth";
 import { Session } from "@thallesp/nestjs-better-auth";
 import { StudentStatusDto } from "./dto/student-status.dto";
@@ -13,8 +13,8 @@ export class StudentStatusController {
 		return this.studentStatusService.getAllStatus(session.user.id);
 	}
 
-	@Get(":status")
-	getByStatus(@Session() session: UserSession, @Body() studentStatusDto: StudentStatusDto) {
-		return this.studentStatusService.getStatusByStatus(session.user.id, studentStatusDto);
+	@Get("/:status")
+	getByStatus(@Session() session: UserSession, @Param() studentStatusDto: StudentStatusDto) {
+		return this.studentStatusService.getStatusByStatus(session.user.id, studentStatusDto.status);
 	}
 }
