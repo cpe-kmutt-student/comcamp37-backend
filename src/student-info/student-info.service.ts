@@ -7,25 +7,26 @@ import { StudentInfoDto } from "./dto/student-info.dto";
 export class StudentInfoService {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async updateStudentInfo(studentInfoDto: StudentInfoDto, session: UserSession) {
+	async updateStudentInfo(studentInfoDto: StudentInfoDto, userId: string) {
 		try {
 			const studentInfo = await this.prisma.studentInfo.findUnique({
 				where: {
-					std_user_id: session.user.id,
+					std_user_id: userId,
 				},
 			});
 
 			if (!studentInfo) {
 				await this.prisma.studentInfo.create({
 					data: {
-						std_user_id: session.user.id,
+						std_user_id: userId,
 					},
 				});
 			}
 
-			const updateInfo = await this.prisma.studentInfo.update({
+			// update student info
+			await this.prisma.studentInfo.update({
 				where: {
-					std_user_id: session.user.id,
+					std_user_id: userId,
 				},
 				data: {
 					std_user_nick_name: encodeURI(studentInfoDto.nickname),
@@ -57,7 +58,40 @@ export class StudentInfoService {
 				},
 			});
 
-			return new HttpException("OK", HttpStatus.OK);
+			await this.updateStudentStatus(userId);
+
+			return {
+				status: "OK",
+			};
+		} catch (e) {
+			throw new InternalServerErrorException();
+		}
+	}
+
+	async updateStudentStatus(userId: string) {
+		try {
+			const studentStatus = await this.prisma.studentStatus.findUnique({
+				where: {
+					std_user_id: userId,
+				},
+			});
+
+			if (!studentStatus) {
+				await this.prisma.studentStatus.create({
+					data: {
+						std_user_id: userId,
+					},
+				});
+			}
+
+			await this.prisma.studentStatus.update({
+				where: {
+					std_user_id: userId,
+				},
+				data: {
+					std_status_info_done: true,
+				},
+			});
 		} catch (e) {
 			throw new InternalServerErrorException();
 		}
