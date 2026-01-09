@@ -29,7 +29,7 @@ export class StudentInfoService {
 			}
 
 			// update student info
-			await this.prisma.studentInfo.update({
+			const updateStudentInfo = await this.prisma.studentInfo.update({
 				where: {
 					std_user_id: userId,
 				},
@@ -65,9 +65,7 @@ export class StudentInfoService {
 
 			await this.statusUpdateService.update(userId, StudentStatusType.INFO_DONE, true);
 
-			return {
-				status: "OK",
-			};
+			return updateStudentInfo;
 		} catch (e) {
 			throw new InternalServerErrorException();
 		}
