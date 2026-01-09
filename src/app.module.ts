@@ -12,6 +12,7 @@ import { PrismaModule } from "./prisma/prisma.module";
 import { PrismaService } from "./prisma/prisma.service";
 import { StudentFileModule } from "./student-file/student-file.module";
 import { StudentInfoModule } from "./student-info/student-info.module";
+import { StudentStatusModule } from "./student-status/student-status.module";
 import { StudentUserModule } from "./student-user/student-user.module";
 
 @Module({
@@ -29,6 +30,7 @@ import { StudentUserModule } from "./student-user/student-user.module";
 		StudentInfoModule,
 		AuthModule,
 		StudentFileModule,
+		StudentStatusModule,
 	],
 
 	controllers: [AppController],
