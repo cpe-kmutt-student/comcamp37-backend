@@ -1,9 +1,12 @@
 import { Module } from "@nestjs/common";
+import { PrismaService } from "src/prisma/prisma.service";
+import { S3Module } from "src/s3/s3.module";
+import { StatusUpdateModule } from "src/status-update/status-update.module";
 import { StudentFileController } from "./student-file.controller";
 import { StudentFileService } from "./student-file.service";
-import { PrismaService } from "src/prisma/prisma.service";
 
 @Module({
+	imports: [StatusUpdateModule, S3Module],
 	controllers: [StudentFileController],
 	providers: [StudentFileService],
 })

@@ -75,7 +75,8 @@ model StudentStatus {
   std_status_question_done                Boolean?                  @default(false)
   stf_info_checked                        Boolean?                  @default(false)
   stf_q_checked                           Boolean?                  @default(false)
-  std_q_result                            Float?
+  stf_q_result                            Float?
+  stf_q_result_detail                     String?
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
 }

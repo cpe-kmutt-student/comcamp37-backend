@@ -1,10 +1,10 @@
 import { Body, Controller, Post, Req, UseGuards } from "@nestjs/common";
+import { ApiBody, ApiResponse, ApiTags } from "@nestjs/swagger";
+import type { UserSession } from "@thallesp/nestjs-better-auth";
+import { Session } from "@thallesp/nestjs-better-auth";
+import type { Request } from "express";
 import { StudentInfoDto } from "./dto/student-info.dto";
 import { StudentInfoService } from "./student-info.service";
-import type { Request } from "express";
-import { Session } from "@thallesp/nestjs-better-auth";
-import type { UserSession } from "@thallesp/nestjs-better-auth";
-import { ApiBody, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 @Controller("student/info")
 export class StudentInfoController {
@@ -12,6 +12,6 @@ export class StudentInfoController {
 
 	@Post("/update")
 	updateStudentInfo(@Session() session: UserSession, @Body() studentInfoDto: StudentInfoDto, @Req() req: Request) {
-		return this.studentInfoService.updateStudentInfo(studentInfoDto, session);
+		return this.studentInfoService.updateStudentInfo(studentInfoDto, session.user.id);
 	}
 }

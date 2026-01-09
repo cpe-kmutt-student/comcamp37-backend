@@ -3,12 +3,19 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { config } from "src/config/app.config";
 import { PrismaService } from "src/prisma/prisma.service";
-import { s3Client } from "src/s3/s3.client";
+import { S3Service } from "src/s3/s3.service";
+// import { s3Client } from "src/s3/s3.client";
+import { StatusUpdateService } from "src/status-update/status-update.service";
+import { StudentStatusType } from "src/student-status/dto/student-status.dto";
 import { StudentFileDto, StudentFileType } from "./dto/student-file.dto";
 
 @Injectable()
 export class StudentFileService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly statusUpdateService: StatusUpdateService,
+		private readonly s3Service: S3Service,
+	) {}
 
 	async getAllFiles(userId: string) {
 		try {
@@ -35,7 +42,7 @@ export class StudentFileService {
 	async uploadFile(userId: string, studentFileDto: StudentFileDto, file: Express.Multer.File) {
 		const key = `${Date.now()}-${encodeURI(file.originalname)}`;
 		try {
-			await s3Client
+			await this.s3Service
 				.send(
 					new PutObjectCommand({
 						Bucket: config.s3.bucket,
@@ -60,7 +67,7 @@ export class StudentFileService {
 				});
 			}
 
-			const newStudentFile = await this.prisma.studentFiles.update({
+			const studentFileUpdate = await this.prisma.studentFiles.update({
 				where: {
 					std_user_id: userId,
 				},
@@ -73,11 +80,16 @@ export class StudentFileService {
 				},
 			});
 
+			// If all field have signed then update status true
+			if (!!studentFileUpdate.std_file_face && !!studentFileUpdate.std_file_national_id && !!studentFileUpdate.std_file_parent_permission && !!studentFileUpdate.std_file_pp_1 && !!studentFileUpdate.std_file_pp_7) {
+				await this.statusUpdateService.update(userId, StudentStatusType.FILE_DONE, true);
+			}
+
 			return {
 				file_type: studentFileDto.type,
 				file_key: key,
 				file_url: await this.signedUrl(key),
-				updated_at: newStudentFile.updated_at,
+				updated_at: studentFileUpdate.updated_at,
 			};
 		} catch (e) {
 			throw new InternalServerErrorException();
@@ -112,7 +124,7 @@ export class StudentFileService {
 	async signedUrl(key: string | null | undefined): Promise<string | null> {
 		if (!key) return null;
 		return await getSignedUrl(
-			s3Client,
+			this.s3Service,
 			new GetObjectCommand({
 				Bucket: config.s3.bucket,
 				Key: key,
