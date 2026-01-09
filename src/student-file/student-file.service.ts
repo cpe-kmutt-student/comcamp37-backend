@@ -81,8 +81,8 @@ export class StudentFileService {
 			});
 
 			// If all field have signed then update status true
-			if (!!studentFileUpdate.std_file_face && !!studentFileUpdate.std_file_national_id && !!studentFileUpdate.std_file_parent_permission && !!studentFileUpdate.std_file_pp_1 && studentFileUpdate.std_file_pp_7) {
-				await this.statusUpdateService.update(userId, StudentStatusType.INFO_DONE, true);
+			if (!!studentFileUpdate.std_file_face && !!studentFileUpdate.std_file_national_id && !!studentFileUpdate.std_file_parent_permission && !!studentFileUpdate.std_file_pp_1 && !!studentFileUpdate.std_file_pp_7) {
+				await this.statusUpdateService.update(userId, StudentStatusType.FILE_DONE, true);
 			}
 
 			return {
