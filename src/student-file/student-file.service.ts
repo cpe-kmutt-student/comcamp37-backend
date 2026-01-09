@@ -3,7 +3,8 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { config } from "src/config/app.config";
 import { PrismaService } from "src/prisma/prisma.service";
-import { s3Client } from "src/s3/s3.client";
+import { S3Service } from "src/s3/s3.service";
+// import { s3Client } from "src/s3/s3.client";
 import { StatusUpdateService } from "src/status-update/status-update.service";
 import { StudentStatusType } from "src/student-status/dto/student-status.dto";
 import { StudentFileDto, StudentFileType } from "./dto/student-file.dto";
@@ -13,6 +14,7 @@ export class StudentFileService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly statusUpdateService: StatusUpdateService,
+		private readonly s3Service: S3Service,
 	) {}
 
 	async getAllFiles(userId: string) {
@@ -40,7 +42,7 @@ export class StudentFileService {
 	async uploadFile(userId: string, studentFileDto: StudentFileDto, file: Express.Multer.File) {
 		const key = `${Date.now()}-${encodeURI(file.originalname)}`;
 		try {
-			await s3Client
+			await this.s3Service
 				.send(
 					new PutObjectCommand({
 						Bucket: config.s3.bucket,
@@ -122,7 +124,7 @@ export class StudentFileService {
 	async signedUrl(key: string | null | undefined): Promise<string | null> {
 		if (!key) return null;
 		return await getSignedUrl(
-			s3Client,
+			this.s3Service,
 			new GetObjectCommand({
 				Bucket: config.s3.bucket,
 				Key: key,
