@@ -10,6 +10,7 @@ import { auth } from "./lib/auth";
 import { PrismaModule } from "./prisma/prisma.module";
 // import { UsersModule } from "./users/users.module";
 import { PrismaService } from "./prisma/prisma.service";
+import { StatusUpdateModule } from "./status-update/status-update.module";
 import { StudentFileModule } from "./student-file/student-file.module";
 import { StudentInfoModule } from "./student-info/student-info.module";
 import { StudentStatusModule } from "./student-status/student-status.module";
