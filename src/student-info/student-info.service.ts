@@ -1,11 +1,16 @@
 import { HttpException, HttpStatus, Injectable, InternalServerErrorException } from "@nestjs/common";
 import type { UserSession } from "@thallesp/nestjs-better-auth";
 import { PrismaService } from "src/prisma/prisma.service";
+import { StatusUpdateService } from "src/status-update/status-update.service";
+import { StudentStatusType } from "src/student-status/dto/student-status.dto";
 import { StudentInfoDto } from "./dto/student-info.dto";
 
 @Injectable()
 export class StudentInfoService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly statusUpdateService: StatusUpdateService,
+	) {}
 
 	async updateStudentInfo(studentInfoDto: StudentInfoDto, userId: string) {
 		try {
@@ -58,40 +63,11 @@ export class StudentInfoService {
 				},
 			});
 
-			await this.updateStudentStatus(userId);
+			await this.statusUpdateService.update(userId, StudentStatusType.INFO_DONE, true);
 
 			return {
 				status: "OK",
 			};
-		} catch (e) {
-			throw new InternalServerErrorException();
-		}
-	}
-
-	async updateStudentStatus(userId: string) {
-		try {
-			const studentStatus = await this.prisma.studentStatus.findUnique({
-				where: {
-					std_user_id: userId,
-				},
-			});
-
-			if (!studentStatus) {
-				await this.prisma.studentStatus.create({
-					data: {
-						std_user_id: userId,
-					},
-				});
-			}
-
-			await this.prisma.studentStatus.update({
-				where: {
-					std_user_id: userId,
-				},
-				data: {
-					std_status_info_done: true,
-				},
-			});
 		} catch (e) {
 			throw new InternalServerErrorException();
 		}
