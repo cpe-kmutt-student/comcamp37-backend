@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post, Session, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import type { UserSession } from "@thallesp/nestjs-better-auth";
+import { Session } from "@thallesp/nestjs-better-auth";
 import { StudentFileDto } from "./dto/student-file.dto";
 import { StudentFileService } from "./student-file.service";
 
