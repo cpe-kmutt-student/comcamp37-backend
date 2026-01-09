@@ -10,6 +10,7 @@ import { auth } from "./lib/auth";
 import { PrismaModule } from "./prisma/prisma.module";
 // import { UsersModule } from "./users/users.module";
 import { PrismaService } from "./prisma/prisma.service";
+import { S3Module } from "./s3/s3.module";
 import { StatusUpdateModule } from "./status-update/status-update.module";
 import { StudentFileModule } from "./student-file/student-file.module";
 import { StudentInfoModule } from "./student-info/student-info.module";
@@ -32,6 +33,8 @@ import { StudentUserModule } from "./student-user/student-user.module";
 		AuthModule,
 		StudentFileModule,
 		StudentStatusModule,
+		StatusUpdateModule,
+		S3Module,
 	],
 
 	controllers: [AppController],
