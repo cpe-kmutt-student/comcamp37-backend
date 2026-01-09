@@ -1,6 +1,8 @@
+import { join } from "node:path";
 import { MiddlewareConsumer, Module, RequestMethod } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
+import { ServeStaticModule } from "@nestjs/serve-static";
 import { AuthModule as BetterAuthModule } from "@thallesp/nestjs-better-auth";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -35,6 +37,10 @@ import { StudentUserModule } from "./student-user/student-user.module";
 		StudentStatusModule,
 		StatusUpdateModule,
 		S3Module,
+		ServeStaticModule.forRoot({
+			rootPath: join(process.cwd(), "public"),
+			exclude: ["/api/(.*)"],
+		}),
 	],
 
 	controllers: [AppController],
