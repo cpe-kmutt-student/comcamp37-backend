@@ -1,4 +1,4 @@
-import { IsString, IsInt, Min, MaxLength, Max, Length, IsEmail, IsBoolean } from "class-validator";
+import { IsBoolean, IsEmail, IsInt, IsString, Length, Max, MaxLength, Min } from "class-validator";
 
 export class StudentInfoDto {
 	@IsString()
