@@ -16,6 +16,7 @@ import { S3Module } from "./s3/s3.module";
 import { StatusUpdateModule } from "./status-update/status-update.module";
 import { StudentFileModule } from "./student-file/student-file.module";
 import { StudentInfoModule } from "./student-info/student-info.module";
+import { StudentQuestionModule } from "./student-question/student-question.module";
 import { StudentStatusModule } from "./student-status/student-status.module";
 import { StudentUserModule } from "./student-user/student-user.module";
 
@@ -39,8 +40,9 @@ import { StudentUserModule } from "./student-user/student-user.module";
 		S3Module,
 		ServeStaticModule.forRoot({
 			rootPath: join(process.cwd(), "public"),
-			exclude: ["/api/(.*)"],
+			exclude: ["/api/{*path}", "/student/{*path}", "/auth/{*path}"],
 		}),
+		StudentQuestionModule,
 	],
 
 	controllers: [AppController],
