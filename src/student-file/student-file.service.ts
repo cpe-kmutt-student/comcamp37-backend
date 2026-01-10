@@ -14,7 +14,7 @@ export class StudentFileService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly statusUpdateService: StatusUpdateService,
-		private readonly s3Service: S3Service,
+		private readonly s3: S3Service,
 	) {}
 
 	async getAllFiles(userId: string) {
@@ -42,7 +42,7 @@ export class StudentFileService {
 	async uploadFile(userId: string, studentFileDto: StudentFileDto, file: Express.Multer.File) {
 		const key = `${Date.now()}-${encodeURI(file.originalname)}`;
 		try {
-			await this.s3Service
+			await this.s3
 				.send(
 					new PutObjectCommand({
 						Bucket: config.s3.bucket,
@@ -124,7 +124,7 @@ export class StudentFileService {
 	async signedUrl(key: string | null | undefined): Promise<string | null> {
 		if (!key) return null;
 		return await getSignedUrl(
-			this.s3Service,
+			this.s3,
 			new GetObjectCommand({
 				Bucket: config.s3.bucket,
 				Key: key,
