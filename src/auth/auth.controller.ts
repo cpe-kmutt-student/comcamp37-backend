@@ -4,7 +4,7 @@ import { toNodeHandler } from "better-auth/node";
 import type { Request, Response } from "express";
 import { auth } from "../lib/auth";
 
-@Controller("auth")
+@Controller("/api/auth")
 export class AuthController {
 	private readonly authHandler = toNodeHandler(auth);
 
