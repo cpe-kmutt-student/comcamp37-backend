@@ -13,6 +13,7 @@ import { PrismaModule } from "./prisma/prisma.module";
 // import { UsersModule } from "./users/users.module";
 import { PrismaService } from "./prisma/prisma.service";
 import { S3Module } from "./s3/s3.module";
+import { StaffStudentUserModule } from "./staff-student-user/staff-student-user.module";
 import { StatusUpdateModule } from "./status-update/status-update.module";
 import { StudentFileModule } from "./student-file/student-file.module";
 import { StudentInfoModule } from "./student-info/student-info.module";
@@ -43,6 +44,7 @@ import { StudentUserModule } from "./student-user/student-user.module";
 			exclude: ["/api/{*path}", "/docs/{*path}", "/{*path}"],
 		}),
 		StudentQuestionModule,
+		StaffStudentUserModule,
 	],
 
 	controllers: [AppController],
