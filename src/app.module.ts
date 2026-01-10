@@ -40,7 +40,7 @@ import { StudentUserModule } from "./student-user/student-user.module";
 		S3Module,
 		ServeStaticModule.forRoot({
 			rootPath: join(process.cwd(), "public"),
-			exclude: ["/api/{*path}", "/student/{*path}", "/auth/{*path}"],
+			exclude: ["/api/{*path}", "/docs/{*path}"],
 		}),
 		StudentQuestionModule,
 	],

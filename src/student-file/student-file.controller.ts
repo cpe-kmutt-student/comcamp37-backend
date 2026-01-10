@@ -5,7 +5,7 @@ import { Session } from "@thallesp/nestjs-better-auth";
 import { StudentFileDto } from "./dto/student-file.dto";
 import { StudentFileService } from "./student-file.service";
 
-@Controller("student/file")
+@Controller("/api/student/file")
 export class StudentFileController {
 	constructor(private readonly studentFileService: StudentFileService) {}
 

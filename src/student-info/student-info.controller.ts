@@ -6,7 +6,7 @@ import type { Request } from "express";
 import { StudentInfoDto } from "./dto/student-info.dto";
 import { StudentInfoService } from "./student-info.service";
 
-@Controller("student/info")
+@Controller("/api/student/info")
 export class StudentInfoController {
 	constructor(private readonly studentInfoService: StudentInfoService) {}
 

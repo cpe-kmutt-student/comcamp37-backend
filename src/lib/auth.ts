@@ -1,15 +1,15 @@
+import { PrismaPg } from "@prisma/adapter-pg";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { config } from "../config/app.config";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../../generated/prisma/client";
 import { admin, username } from "better-auth/plugins";
+import { PrismaClient } from "../../generated/prisma/client";
+import { config } from "../config/app.config";
 
 const pool = new PrismaPg({ connectionString: config.db.url });
 const prisma = new PrismaClient({ adapter: pool });
 
 export const auth = betterAuth({
-	basePath: "/auth",
+	basePath: "/api/auth",
 	trustedOrigins: config.app.allowOrigins,
 	database: prismaAdapter(prisma, {
 		provider: "postgresql",

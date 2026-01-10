@@ -4,7 +4,7 @@ import { Session } from "@thallesp/nestjs-better-auth";
 import type { Request, Response } from "express";
 import { StudentUserService } from "./student-user.service";
 
-@Controller("student/user")
+@Controller("/api/student/user")
 export class StudentUserController {
 	constructor(private readonly StudentUserService: StudentUserService) {}
 
