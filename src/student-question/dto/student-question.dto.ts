@@ -7,3 +7,8 @@ export class StudentAnswerDto {
 	@IsString()
 	readonly answer: string;
 }
+
+export class StudentAnswerBySectionDto {
+	@IsString()
+	readonly section: string;
+}
