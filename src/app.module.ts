@@ -13,6 +13,7 @@ import { PrismaModule } from "./prisma/prisma.module";
 // import { UsersModule } from "./users/users.module";
 import { PrismaService } from "./prisma/prisma.service";
 import { S3Module } from "./s3/s3.module";
+import { SendMailModule } from "./send-mail/send-mail.module";
 import { StaffStudentQuestionModule } from "./staff-student-question/staff-student-question.module";
 import { StaffStudentUserModule } from "./staff-student-user/staff-student-user.module";
 import { StatusUpdateModule } from "./status-update/status-update.module";
@@ -47,6 +48,7 @@ import { StudentUserModule } from "./student-user/student-user.module";
 		StudentQuestionModule,
 		StaffStudentUserModule,
 		StaffStudentQuestionModule,
+		SendMailModule,
 	],
 
 	controllers: [AppController],
