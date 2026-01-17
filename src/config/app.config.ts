@@ -24,4 +24,9 @@ export const config = {
 		googleClientSecret: process.env.AUTH_GOOGLE_CLIENT_SECRET || "",
 		googleCallbackUrl: process.env.AUTH_GOOGLE_CALLBACK_URL || "http://localhost:3030/student/google/callback",
 	},
+	mail: {
+		resend_key: process.env.RESEND_API_KEY || "",
+		resend_name: process.env.RESEND_API_NAME || "",
+		resend_domain: process.env.RESEND_API_DOMAIN || "",
+	},
 };
