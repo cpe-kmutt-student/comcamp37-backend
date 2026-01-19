@@ -18,7 +18,8 @@ model StudentInfo {
   std_user_last_name                      String?
   std_user_nick_name                      String?
   std_info_age                            Int?
-  std_birthdate                           String?
+  std_info_birthdate                      String?
+  std_info_gender                         String?
   std_info_religion                       String?
   std_info_phone_number                   String?
   std_info_education_level                String?
