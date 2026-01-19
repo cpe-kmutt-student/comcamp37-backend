@@ -13,32 +13,34 @@ datasource db {
 model StudentInfo {
   std_user_id                             String                    @id
   std_user                                User                      @relation(fields: [std_user_id], references: [id])
-  std_user_nick_name                      String?
+  std_user_prefix                         String?
   std_user_first_name                     String?
   std_user_last_name                      String?
+  std_user_nick_name                      String?
   std_info_age                            Int?
-  std_info_gender                         String?
+  std_birthdate                           String?
   std_info_religion                       String?
-  std_info_blood_group                    String?
+  std_info_phone_number                   String?
   std_info_education_level                String?
+  std_info_education_institute            String?
   std_info_education_plan                 String?
-  std_info_phone                          String?
-  std_info_alternative_email              String?
+  std_info_parent_fullname                String?
+  std_info_parent_relation                String?
+  std_info_parent_phone_number            String?
+  std_info_have_participated              Boolean?
+  std_info_have_laptop                    Boolean?
+  std_info_can_participate_every_day      Boolean?
   std_info_medical_insurance              String?
   std_info_chronic_disease                String?
   std_info_drug_allergy                   String?
   std_info_food_allergy                   String?
+  std_info_blood_group                    String?
   std_info_address                        String?
-  std_info_home_phone                     String?
-  std_info_have_participated              Boolean?
   std_info_shirt_size                     String?
-  std_info_have_laptop                    Boolean?
   std_info_travel_plan                    String?
-  std_info_parent_name                    String?
-  std_info_parent_relation                String?
-  std_info_parent_phone                   String?
-  std_info_food_prefer                    String?
-  std_info_can_participate_every_day      Boolean?
+  std_info_laptop_os                      String?
+  std_info_have_tablet                    Boolean?
+  std_info_have_mouse                     Boolean?
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
 }
@@ -51,6 +53,7 @@ model StudentFiles {
   std_file_parent_permission              String?
   std_file_pp_1                           String?
   std_file_pp_7                           String?
+  std_file_slip                           String?
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
 }
