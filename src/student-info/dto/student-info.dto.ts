@@ -35,10 +35,6 @@ export class StudentInfoDto {
 	readonly phone_number: string;
 
 	@IsString()
-	@IsEmail()
-	readonly alternative_email: string;
-
-	@IsString()
 	readonly medical_insurance: string;
 
 	@IsString()
@@ -52,10 +48,6 @@ export class StudentInfoDto {
 
 	@IsString()
 	readonly address: string;
-
-	@IsString()
-	@Length(10, 10)
-	readonly home_phone_number: string;
 
 	@IsBoolean()
 	readonly have_participated: boolean;
@@ -77,10 +69,7 @@ export class StudentInfoDto {
 
 	@IsString()
 	@Length(10, 10)
-	readonly parent_phone: string;
-
-	@IsString()
-	readonly food_prefer: string;
+	readonly parent_phone_number: string;
 
 	@IsBoolean()
 	readonly can_participate_every_day: boolean;
