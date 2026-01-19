@@ -49,11 +49,7 @@ export class StaffStudentInfoEditDto {
 	@IsString()
 	@IsOptional()
 	@Length(9, 10)
-	readonly phone?: string;
-
-	@IsString()
-	@IsOptional()
-	readonly alternative_email?: string;
+	readonly phone_number?: string;
 
 	@IsString()
 	@IsOptional()
@@ -75,11 +71,6 @@ export class StaffStudentInfoEditDto {
 	@IsOptional()
 	readonly address?: string;
 
-	@IsString()
-	@IsOptional()
-	@Length(9, 10)
-	readonly home_phone?: string;
-
 	@IsBoolean()
 	@IsOptional()
 	readonly have_participated?: boolean;
@@ -98,7 +89,7 @@ export class StaffStudentInfoEditDto {
 
 	@IsString()
 	@IsOptional()
-	readonly parent_name?: string;
+	readonly parent_fullname?: string;
 
 	@IsString()
 	@IsOptional()
@@ -106,11 +97,7 @@ export class StaffStudentInfoEditDto {
 
 	@IsString()
 	@IsOptional()
-	readonly parent_phone?: string;
-
-	@IsString()
-	@IsOptional()
-	readonly food_prefer?: string;
+	readonly parent_phone_number?: string;
 
 	@IsString()
 	@IsOptional()
