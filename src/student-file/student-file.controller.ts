@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Get, MaxFileSizeValidator, Param, ParseFilePipe, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import type { UserSession } from "@thallesp/nestjs-better-auth";
 import { Session } from "@thallesp/nestjs-better-auth";
@@ -11,7 +11,16 @@ export class StudentFileController {
 
 	@Post("/upload")
 	@UseInterceptors(FileInterceptor("file"))
-	async fileUpload(@Session() session: UserSession, @Body() studentFileDto: StudentFileDto, @UploadedFile() file: Express.Multer.File) {
+	async fileUpload(
+		@Session() session: UserSession,
+		@Body() studentFileDto: StudentFileDto,
+		@UploadedFile(
+			new ParseFilePipe({
+				validators: [new MaxFileSizeValidator({ maxSize: 3 * 1024 * 1024 })],
+			}),
+		)
+		file: Express.Multer.File,
+	) {
 		return await this.studentFileService.uploadFile(session.user.id, studentFileDto, file);
 	}
 
