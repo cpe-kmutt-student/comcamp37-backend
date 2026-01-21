@@ -8,6 +8,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { config } from "./config/app.config";
+import { EmailModule } from "./email/email.module";
 import { auth } from "./lib/auth";
 import { PrismaModule } from "./prisma/prisma.module";
 // import { UsersModule } from "./users/users.module";
@@ -49,6 +50,7 @@ import { StudentUserModule } from "./student-user/student-user.module";
 		StaffStudentUserModule,
 		StaffStudentQuestionModule,
 		SendMailModule,
+		EmailModule,
 	],
 
 	controllers: [AppController],
