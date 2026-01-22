@@ -87,6 +87,10 @@ export class StudentFileService {
 			if (!!studentFileUpdate.std_file_face && !!studentFileUpdate.std_file_national_id && !!studentFileUpdate.std_file_parent_permission && !!studentFileUpdate.std_file_pp_1 && !!studentFileUpdate.std_file_pp_7) {
 				await this.statusUpdateService.update(userId, StudentStatusType.FILE_DONE, true);
 			}
+			// update for slip only
+			if (studentFileUpdate.std_file_slip) {
+				await this.statusUpdateService.update(userId, StudentStatusType.PAYMENT_SUCCESS, true);
+			}
 
 			return {
 				file_type: studentFileDto.type,

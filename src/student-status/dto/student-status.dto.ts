@@ -9,6 +9,7 @@ export enum StudentStatusType {
 	QUESTION_CHECKED = "question_checked",
 	QUESTION_RESULT = "question_result",
 	QUESTION_RESULT_DETAIL = "question_result_detail",
+	PAYMENT_SUCCESS = "payment_success",
 }
 
 export class StudentStatusDto {

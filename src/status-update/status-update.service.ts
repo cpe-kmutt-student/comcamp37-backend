@@ -34,6 +34,7 @@ export class StatusUpdateService {
 					stf_q_checked: status === StudentStatusType.QUESTION_CHECKED ? Boolean(value) : undefined,
 					stf_q_result: status === StudentStatusType.QUESTION_RESULT ? Number(value) : undefined,
 					stf_q_result_detail: status === StudentStatusType.QUESTION_RESULT_DETAIL ? String(value) : undefined,
+					std_status_paid: status === StudentStatusType.PAYMENT_SUCCESS ? Boolean(value) : undefined,
 				},
 			});
 		} catch (e) {
