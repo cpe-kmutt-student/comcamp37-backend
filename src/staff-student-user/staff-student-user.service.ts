@@ -58,9 +58,9 @@ export class StaffStudentUserService {
 					},
 				},
 				data: {
-					std_user_nick_name: staffStudentInfoEditDto.nick_name,
-					std_user_first_name: staffStudentInfoEditDto.first_name,
-					std_user_last_name: staffStudentInfoEditDto.last_name,
+					std_info_nick_name: staffStudentInfoEditDto.nick_name,
+					std_info_first_name: staffStudentInfoEditDto.first_name,
+					std_info_last_name: staffStudentInfoEditDto.last_name,
 					std_info_age: staffStudentInfoEditDto.age,
 					std_info_gender: staffStudentInfoEditDto.gender,
 					std_info_religion: staffStudentInfoEditDto.religion,
