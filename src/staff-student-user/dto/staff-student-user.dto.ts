@@ -12,94 +12,119 @@ export class StaffStudentInfoEditDto {
 
 	@IsString()
 	@IsOptional()
-	readonly nick_name?: string;
+	readonly prefix: string;
 
 	@IsString()
 	@IsOptional()
-	readonly first_name?: string;
+	readonly first_name: string;
 
 	@IsString()
 	@IsOptional()
-	readonly last_name?: string;
+	readonly last_name: string;
+
+	@IsString()
+	@IsOptional()
+	readonly nick_name: string;
 
 	@IsNumber()
+	@Max(20)
+	@Min(14)
 	@IsOptional()
-	readonly age?: number;
+	readonly age: number;
 
 	@IsString()
 	@IsOptional()
-	readonly gender?: string;
+	readonly birthdate: string;
 
 	@IsString()
 	@IsOptional()
-	readonly religion?: string;
+	readonly gender: string;
 
 	@IsString()
 	@IsOptional()
-	readonly blood_group?: string;
+	readonly religion: string;
+
+	@IsNumberString()
+	@IsOptional()
+	readonly phone_number: string;
 
 	@IsString()
 	@IsOptional()
-	readonly education_level?: string;
+	readonly education_level: string;
 
 	@IsString()
 	@IsOptional()
-	readonly education_plan?: string;
+	readonly education_institute: string;
 
 	@IsString()
 	@IsOptional()
-	@Length(9, 10)
-	readonly phone_number?: string;
+	readonly education_plan: string;
 
 	@IsString()
 	@IsOptional()
-	readonly medical_insurance?: string;
+	readonly parent_fullname: string;
 
 	@IsString()
 	@IsOptional()
-	readonly chronic_disease?: string;
+	readonly parent_relation: string;
 
 	@IsString()
 	@IsOptional()
-	readonly drug_allergy?: string;
-
-	@IsString()
-	@IsOptional()
-	readonly food_allergy?: string;
-
-	@IsString()
-	@IsOptional()
-	readonly address?: string;
+	readonly parent_phone_number: string;
 
 	@IsBoolean()
 	@IsOptional()
-	readonly have_participated?: boolean;
-
-	@IsString()
-	@IsOptional()
-	readonly shirt_size?: string;
+	readonly have_participated: boolean;
 
 	@IsBoolean()
 	@IsOptional()
-	readonly have_laptop?: boolean;
+	readonly have_laptop: boolean;
+
+	@IsBoolean()
+	@IsOptional()
+	readonly can_participate_every_day: boolean;
 
 	@IsString()
 	@IsOptional()
-	readonly travel_plan?: string;
+	readonly medical_insurance: string;
 
 	@IsString()
 	@IsOptional()
-	readonly parent_fullname?: string;
+	readonly chronic_disease: string;
 
 	@IsString()
 	@IsOptional()
-	readonly parent_relation?: string;
+	readonly drug_allergy: string;
 
 	@IsString()
 	@IsOptional()
-	readonly parent_phone_number?: string;
+	readonly food_allergy: string;
 
 	@IsString()
 	@IsOptional()
-	readonly can_participate_every_day?: boolean;
+	readonly blood_group: string;
+
+	@IsString()
+	@IsOptional()
+	readonly address: string;
+
+	@IsString()
+	@IsOptional()
+	readonly shirt_size: string;
+
+	@IsString()
+	@IsOptional()
+	readonly travel_plan: string;
+
+	@IsString()
+	@IsOptional()
+	readonly laptop_os: string;
+
+	@IsBoolean()
+	@IsOptional()
+	readonly have_tablet: boolean;
+
+	@IsBoolean()
+	@IsOptional()
+	readonly have_mouse: boolean;
 }
