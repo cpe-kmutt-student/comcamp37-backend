@@ -32,6 +32,7 @@ export class StudentFileService {
 				std_file_parent_permission: await this.signedUrl(studentUploadFile?.std_file_parent_permission),
 				std_file_pp_1: await this.signedUrl(studentUploadFile?.std_file_pp_1),
 				std_file_pp_7: await this.signedUrl(studentUploadFile?.std_file_pp_7),
+				std_file_slip: await this.signedUrl(studentUploadFile?.std_file_slip),
 				updated_at: studentUploadFile?.updated_at,
 			};
 		} catch (e) {
@@ -77,6 +78,7 @@ export class StudentFileService {
 					std_file_parent_permission: studentFileDto.type === StudentFileType.PARENT_PERMISSION ? key : undefined,
 					std_file_pp_1: studentFileDto.type === StudentFileType.PP_1 ? key : undefined,
 					std_file_pp_7: studentFileDto.type === StudentFileType.PP_7 ? key : undefined,
+					std_file_slip: studentFileDto.type === StudentFileType.SLIP ? key : undefined,
 				},
 			});
 
@@ -108,6 +110,7 @@ export class StudentFileService {
 					std_file_parent_permission: type === StudentFileType.PARENT_PERMISSION,
 					std_file_pp_1: type === StudentFileType.PP_1,
 					std_file_pp_7: type === StudentFileType.PP_7,
+					std_file_slip: type === StudentFileType.SLIP,
 				},
 			});
 

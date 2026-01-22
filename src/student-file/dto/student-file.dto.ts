@@ -6,6 +6,7 @@ export enum StudentFileType {
 	PARENT_PERMISSION = "parent_permission",
 	PP_1 = "pp_1",
 	PP_7 = "pp_7",
+	SLIP = "slip",
 }
 
 export class StudentFileDto {
