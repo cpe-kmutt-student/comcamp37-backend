@@ -13,10 +13,10 @@ datasource db {
 model StudentInfo {
   std_user_id                             String                    @id
   std_user                                User                      @relation(fields: [std_user_id], references: [id])
-  std_user_prefix                         String?
-  std_user_first_name                     String?
-  std_user_last_name                      String?
-  std_user_nick_name                      String?
+  std_info_prefix                         String?
+  std_info_first_name                     String?
+  std_info_last_name                      String?
+  std_info_nick_name                      String?
   std_info_age                            Int?
   std_info_birthdate                      String?
   std_info_gender                         String?
