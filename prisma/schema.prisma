@@ -77,6 +77,7 @@ model StudentStatus {
   std_status_file_done                    Boolean?                  @default(false)
   std_status_info_done                    Boolean?                  @default(false)
   std_status_question_done                Boolean?                  @default(false)
+  std_status_paid                         Boolean?                  @default(false)
   stf_info_checked                        Boolean?                  @default(false)
   stf_q_checked                           Boolean?                  @default(false)
   stf_q_result                            Float?
