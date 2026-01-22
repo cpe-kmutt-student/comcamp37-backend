@@ -83,6 +83,7 @@ export class StudentFileService {
 			});
 
 			// If all field have signed then update status true
+			// *** prevent slip ****
 			if (!!studentFileUpdate.std_file_face && !!studentFileUpdate.std_file_national_id && !!studentFileUpdate.std_file_parent_permission && !!studentFileUpdate.std_file_pp_1 && !!studentFileUpdate.std_file_pp_7) {
 				await this.statusUpdateService.update(userId, StudentStatusType.FILE_DONE, true);
 			}
@@ -116,8 +117,8 @@ export class StudentFileService {
 
 			return {
 				file_type: type,
-				file_key: studentFile?.std_file_face || studentFile?.std_file_national_id || studentFile?.std_file_parent_permission || studentFile?.std_file_pp_1 || studentFile?.std_file_pp_7,
-				file_url: await this.signedUrl(studentFile?.std_file_face || studentFile?.std_file_national_id || studentFile?.std_file_parent_permission || studentFile?.std_file_pp_1 || studentFile?.std_file_pp_7),
+				file_key: studentFile?.std_file_face || studentFile?.std_file_national_id || studentFile?.std_file_parent_permission || studentFile?.std_file_pp_1 || studentFile?.std_file_pp_7 || studentFile?.std_file_slip,
+				file_url: await this.signedUrl(studentFile?.std_file_face || studentFile?.std_file_national_id || studentFile?.std_file_parent_permission || studentFile?.std_file_pp_1 || studentFile?.std_file_pp_7 || studentFile?.std_file_slip),
 			};
 		} catch (e) {
 			throw new InternalServerErrorException();
