@@ -11,8 +11,8 @@ datasource db {
 
 
 model StudentInfo {
-  std_user_id                             String                    @id
-  std_user                                User                      @relation(fields: [std_user_id], references: [id])
+  std_application_id                      String                    @id
+  std_application                         StudentApplication        @relation(fields: [std_application_id], references: [std_application_id])
   std_info_prefix                         String?
   std_info_first_name                     String?
   std_info_last_name                      String?
@@ -42,47 +42,138 @@ model StudentInfo {
   std_info_laptop_os                      String?
   std_info_have_tablet                    Boolean?
   std_info_have_mouse                     Boolean?
-  std_info_note                           String?                   @db.Text
+  stf_std_info_note                       String?                   @db.Text
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
 }
 
-model StudentFiles {
-  std_user_id                             String                    @id
-  std_user                                User                      @relation(fields: [std_user_id], references: [id])
-  std_file_face                           String?
-  std_file_national_id                    String?
-  std_file_parent_permission              String?
-  std_file_pp_1                           String?
-  std_file_pp_7                           String?
-  std_file_slip                           String?
+enum FileType {
+  file_face
+  file_national_id
+  file_parent_permission
+  file_pp_1
+  file_pp_7
+  file_slip
+}
+
+model StudentFile {
+  std_application_id                      String                    @id
+  std_application                         StudentApplication        @relation(fields: [std_application_id], references: [std_application_id])
+  
+  std_file_id                             Int                       @unique @default(autoincrement())
+  std_file_originalname                   String
+  std_file_mimetype                       String
+  std_file_encoding                       String
+  std_file_key                            String                    @unique
+  std_file_type                           FileType
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
 }
 
-model StudentQuestions {
-  std_user_id                             String                    @id
-  std_user                                User                      @relation(fields: [std_user_id], references: [id])
-  std_q_1                                 String?                   @db.Text
-  std_q_2                                 String?                   @db.Text
-  std_q_3                                 String?                   @db.Text
-  std_q_4                                 String?                   @db.Text
-  std_q_5                                 String?                   @db.Text
+model StaffRegisQuestionScore {
+  id                                      Int                         @id @default(autoincrement())
+
+  std_regis_answer_id                     Int                        
+  std_regis_answer                        StudentRegisQuestionAnswer  @relation(fields: [std_regis_answer_id], references: [std_regis_answer_id])
+  
+  stf_count                               Int                         @db.Integer()
+  stf_score                               Float
+
+  stf_user_id                             String
+  stf_user                                User                        @relation(fields: [stf_user_id], references: [id])
+
+  created_at                              DateTime                    @default(now())
+  updated_at                              DateTime                    @updatedAt
+}
+
+model StudentRegisQuestionAnswer {
+  std_application_id                      String                    
+  std_application                         StudentApplication        @relation(fields: [std_application_id], references: [std_application_id])
+  
+  std_regis_answer_id                     Int                       @id @default(autoincrement())
+  std_regis_answer_section                String                    
+  std_regis_answer                        String                    @db.Text
+
+  stf_regis_question_score                StaffRegisQuestionScore[]
+  
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
 }
 
-model StudentStatus {
-  std_user_id                             String                    @id
-  std_user                                User                      @relation(fields: [std_user_id], references: [id])
-  std_status_file_done                    Boolean?                  @default(false)
+model StaffAcademicQuestionScore {
+  id                                      Int                           @id @default(autoincrement())
+
+  std_academic_answer_id                  Int                           
+  std_academic_answer                     StudentAcademicQuestionAnswer @relation(fields: [std_academic_answer_id], references: [std_academic_answer_id])
+
+  stf_count                               Int                           @db.Integer()
+  stf_score                               Float
+
+  stf_user_id                             String
+  stf_user                                User                          @relation(fields: [stf_user_id], references: [id])
+
+  created_at                              DateTime                       @default(now())
+  updated_at                              DateTime                      @updatedAt
+}
+
+model StudentAcademicQuestionAnswer {
+  std_application_id                      String                    
+  std_application                         StudentApplication        @relation(fields: [std_application_id], references: [std_application_id])
+  
+  std_academic_answer_id                  Int                       @id @default(autoincrement())
+  std_academic_answer_section             String
+  std_academic_answer                     String
+
+  std_academic_question_score             StaffAcademicQuestionScore[]
+
+  created_at                              DateTime                  @default(now())
+  updated_at                              DateTime                  @updatedAt
+}
+
+// model StudentScore {
+//   std_application_id                      String                    @id
+//   std_application                         StudentApplication        @relation(fields: [std_application_id], references: [std_application_id])
+//   created_at                              DateTime                  @default(now())
+//   updated_at                              DateTime                  @updatedAt
+// }
+
+model ApplicationStatus {
+  std_application_id                      String                    @id
+  std_application                         StudentApplication        @relation(fields: [std_application_id], references: [std_application_id])
+  
   std_status_info_done                    Boolean?                  @default(false)
-  std_status_question_done                Boolean?                  @default(false)
+  std_status_file_done                    Boolean?                  @default(false)
+  std_status_regis_question_done          Boolean?                  @default(false)
+  std_status_acdemic_question_done        Boolean?                  @default(false)
   std_status_paid                         Boolean?                  @default(false)
+  
   stf_info_checked                        Boolean?                  @default(false)
   stf_q_checked                           Boolean?                  @default(false)
   stf_q_result                            Float?
   stf_q_result_detail                     String?
+  created_at                              DateTime                  @default(now())
+  updated_at                              DateTime                  @updatedAt
+}
+
+
+
+model StudentApplication {
+  std_application_id                      String                    @id @default(uuid())
+  std_application_submit                  Boolean?                  @default(false)
+  std_application_confirm                 Boolean?                  @default(false)
+  std_application_abort_reason            String?
+  std_application_pass                    Boolean?                  @default(false)
+
+
+  std_user_id                             String                    @unique
+  std_user                                User                      @relation(fields: [std_user_id], references: [id])
+
+  std_info                                StudentInfo?
+  std_file                                StudentFile[]
+  std_regis_question                      StudentRegisQuestionAnswer[]
+  std_academic_question                   StudentAcademicQuestionAnswer[]
+  std_status                              ApplicationStatus?
+
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
 }
@@ -113,10 +204,10 @@ model User {
   username                                String?
   displayUsername                         String?
 
-  user_info                                StudentInfo?
-  user_file                                StudentFiles?
-  user_question                            StudentQuestions?
-  user_status                              StudentStatus?
+  std_application                         StudentApplication?
+
+  stf_regis_question_score                StaffRegisQuestionScore[]
+  stf_academic_question_score             StaffAcademicQuestionScore[]
 
   @@unique([email])
   @@map("user")
