@@ -124,7 +124,7 @@ model StudentAcademicQuestionAnswer {
   std_academic_answer_section             String
   std_academic_answer                     String
 
-  std_academic_question_score             StaffAcademicQuestionScore[]
+  stf_academic_question_score             StaffAcademicQuestionScore[]
 
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt

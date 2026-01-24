@@ -1,6 +1,6 @@
 import { PrismaPg } from "@prisma/adapter-pg";
-import bcrypt from "bcrypt";
 import { config } from "src/config/app.config";
+import { auth } from "src/lib/auth";
 import { PrismaClient, UserRoles } from "../generated/prisma/client";
 
 /* ======================
@@ -12,193 +12,96 @@ const adapter = new PrismaPg({
 
 const prisma = new PrismaClient({ adapter });
 
-async function hash(password: string) {
-	console.log("🔐 Hashing password");
-	return bcrypt.hash(password, 10);
+/* ======================
+ * HELPERS
+ * ====================== */
+async function createUser({ email, username, password, name, role }: { email: string; username: string; password: string; name: string; role: UserRoles }) {
+	console.log(`👤 Creating user: ${username}`);
+
+	const result = await auth.api.signUpEmail({
+		body: { email, username, password, name },
+	});
+
+	if (!result?.user) {
+		throw new Error(`Failed to create user: ${username}`);
+	}
+
+	await prisma.user.update({
+		where: { id: result.user.id },
+		data: { role },
+	});
+
+	console.log(`✅ User created: ${username}`);
+	console.log(`   password: ${password}`);
+
+	return result.user;
 }
 
 /* ======================
  * SEED
  * ====================== */
 async function main() {
-	console.log("🚀 Prisma seed started");
+	console.log("🚀 Seed started (ONE application per user)");
 
 	/* ======================
-	 * ADMIN
+	 * USERS
 	 * ====================== */
-	console.log("👤 Creating admin user");
-
-	const adminPlain = "Admin1234!";
-	const adminHash = await hash(adminPlain);
-
-	const admin = await prisma.user.upsert({
-		where: { email: "admin@example.com" },
-		update: {},
-		create: {
-			id: "admin-1",
-			name: "Admin User",
-			email: "admin@example.com",
-			username: "admin",
-			displayUsername: "Admin",
-			role: UserRoles.admin,
-			emailVerified: true,
-			accounts: {
-				create: {
-					id: "admin-account-1",
-					providerId: "credentials",
-					accountId: "admin",
-					password: adminHash,
-				},
-			},
-		},
+	const admin = await createUser({
+		email: "admin@example.com",
+		username: "admin",
+		password: "Admin1234!",
+		name: "Admin User",
+		role: UserRoles.admin,
 	});
 
-	console.log("✅ Admin created:", admin.username, adminPlain);
-
-	/* ======================
-	 * STAFF #1
-	 * ====================== */
-	console.log("👤 Creating staff #1");
-
-	const staffPlain = "Staff1234!";
-	const staffHash = await hash(staffPlain);
-
-	const staff = await prisma.user.upsert({
-		where: { email: "staff@example.com" },
-		update: {},
-		create: {
-			id: "staff-1",
-			name: "Staff One",
-			email: "staff@example.com",
-			username: "staff",
-			displayUsername: "Staff",
-			role: UserRoles.staff,
-			emailVerified: true,
-			accounts: {
-				create: {
-					id: "staff-account-1",
-					providerId: "credentials",
-					accountId: "staff",
-					password: staffHash,
-				},
-			},
-		},
+	const staff = await createUser({
+		email: "staff@example.com",
+		username: "staff",
+		password: "Staff1234!",
+		name: "Staff One",
+		role: UserRoles.staff,
 	});
 
-	console.log("✅ Staff #1 created:", staff.username, staffPlain);
-
-	/* ======================
-	 * STAFF #2
-	 * ====================== */
-	console.log("👤 Creating staff #2");
-
-	const staff2Plain = "Staff5678!";
-	const staff2Hash = await hash(staff2Plain);
-
-	const staff2 = await prisma.user.upsert({
-		where: { email: "staff2@example.com" },
-		update: {},
-		create: {
-			id: "staff-2",
-			name: "Staff Two",
-			email: "staff2@example.com",
-			username: "staff2",
-			displayUsername: "Staff Two",
-			role: UserRoles.staff,
-			emailVerified: true,
-			accounts: {
-				create: {
-					id: "staff2-account-1",
-					providerId: "credentials",
-					accountId: "staff2",
-					password: staff2Hash,
-				},
-			},
-		},
+	const staff2 = await createUser({
+		email: "staff2@example.com",
+		username: "staff2",
+		password: "Staff5678!",
+		name: "Staff Two",
+		role: UserRoles.staff,
 	});
 
-	console.log("✅ Staff #2 created:", staff2.username, staff2Plain);
-
-	/* ======================
-	 * STUDENT #1
-	 * ====================== */
-	console.log("👤 Creating student #1");
-
-	const studentPlain = "Student1234!";
-	const studentHash = await hash(studentPlain);
-
-	const student = await prisma.user.upsert({
-		where: { email: "student@example.com" },
-		update: {},
-		create: {
-			id: "user-1",
-			name: "Student One",
-			email: "student@example.com",
-			username: "student",
-			displayUsername: "Student",
-			role: UserRoles.user,
-			emailVerified: true,
-			accounts: {
-				create: {
-					id: "student-account-1",
-					providerId: "credentials",
-					accountId: "student",
-					password: studentHash,
-				},
-			},
-		},
+	const student = await createUser({
+		email: "student@example.com",
+		username: "student",
+		password: "Student1234!",
+		name: "Student One",
+		role: UserRoles.user,
 	});
 
-	console.log("✅ Student #1 created:", student.username, studentPlain);
-
-	/* ======================
-	 * STUDENT #2
-	 * ====================== */
-	console.log("👤 Creating student #2");
-
-	const student2Plain = "Student5678!";
-	const student2Hash = await hash(student2Plain);
-
-	const student2 = await prisma.user.upsert({
-		where: { email: "student2@example.com" },
-		update: {},
-		create: {
-			id: "user-2",
-			name: "Student Two",
-			email: "student2@example.com",
-			username: "student2",
-			displayUsername: "Student Two",
-			role: UserRoles.user,
-			emailVerified: true,
-			accounts: {
-				create: {
-					id: "student2-account-1",
-					providerId: "credentials",
-					accountId: "student2",
-					password: student2Hash,
-				},
-			},
-		},
+	const student2 = await createUser({
+		email: "student2@example.com",
+		username: "student2",
+		password: "Student5678!",
+		name: "Student Two",
+		role: UserRoles.user,
 	});
 
-	console.log("✅ Student #2 created:", student2.username, student2Plain);
-
 	/* ======================
-	 * APPLICATION #1
+	 * APPLICATION — student (PASS)
 	 * ====================== */
-	console.log("📝 Creating application #1");
+	console.log("📝 Creating application (student → PASS)");
 
 	const app1 = await prisma.studentApplication.create({
 		data: {
 			std_user_id: student.id,
 			std_application_submit: true,
 			std_application_confirm: true,
+			std_application_pass: true,
+
 			std_info: {
 				create: {
-					std_info_prefix: "Mr.",
 					std_info_first_name: "John",
 					std_info_last_name: "Doe",
-					std_info_nick_name: "JD",
 					std_info_age: 18,
 					std_info_gender: "male",
 					std_info_have_laptop: true,
@@ -207,34 +110,63 @@ async function main() {
 					std_info_address: "Bangkok",
 				},
 			},
+
 			std_status: {
 				create: {
 					std_status_info_done: true,
 					std_status_file_done: true,
 					std_status_regis_question_done: true,
+					std_status_acdemic_question_done: true,
+					std_status_paid: true,
+					stf_q_checked: true,
+					stf_q_result: 88,
+					stf_q_result_detail: "Excellent performance",
 				},
 			},
 		},
 	});
 
-	console.log("✅ Application #1:", app1.std_application_id);
+	const regis1 = await prisma.studentRegisQuestionAnswer.create({
+		data: {
+			std_application_id: app1.std_application_id,
+			std_regis_answer_section: "motivation",
+			std_regis_answer: "I want to become a software engineer.",
+		},
+	});
+
+	await prisma.staffRegisQuestionScore.createMany({
+		data: [
+			{
+				std_regis_answer_id: regis1.std_regis_answer_id,
+				stf_user_id: staff.id,
+				stf_count: 1,
+				stf_score: 4.5,
+			},
+			{
+				std_regis_answer_id: regis1.std_regis_answer_id,
+				stf_user_id: staff2.id,
+				stf_count: 2,
+				stf_score: 4.0,
+			},
+		],
+	});
 
 	/* ======================
-	 * APPLICATION #2
+	 * APPLICATION — student2 (INCOMPLETE)
 	 * ====================== */
-	console.log("📝 Creating application #2");
+	console.log("📝 Creating application (student2 → INCOMPLETE)");
 
 	const app2 = await prisma.studentApplication.create({
 		data: {
 			std_user_id: student2.id,
 			std_application_submit: true,
 			std_application_confirm: false,
+			std_application_pass: false,
+
 			std_info: {
 				create: {
-					std_info_prefix: "Ms.",
 					std_info_first_name: "Jane",
 					std_info_last_name: "Smith",
-					std_info_nick_name: "JS",
 					std_info_age: 17,
 					std_info_gender: "female",
 					std_info_have_laptop: false,
@@ -243,37 +175,17 @@ async function main() {
 					std_info_address: "Chiang Mai",
 				},
 			},
+
 			std_status: {
 				create: {
 					std_status_info_done: true,
 					std_status_file_done: false,
 					std_status_regis_question_done: true,
+					std_status_acdemic_question_done: false,
+					std_status_paid: false,
+					stf_q_checked: false,
 				},
 			},
-		},
-	});
-
-	console.log("✅ Application #2:", app2.std_application_id);
-
-	/* ======================
-	 * ANSWERS + SCORES
-	 * ====================== */
-	console.log("📋 Creating answers & scores");
-
-	const regis1 = await prisma.studentRegisQuestionAnswer.create({
-		data: {
-			std_application_id: app1.std_application_id,
-			std_regis_answer_section: "motivation",
-			std_regis_answer: "I love programming",
-		},
-	});
-
-	await prisma.staffRegisQuestionScore.create({
-		data: {
-			std_regis_answer_id: regis1.std_regis_answer_id,
-			stf_count: 1,
-			stf_score: 4.5,
-			stf_user_id: staff.id,
 		},
 	});
 
@@ -281,20 +193,20 @@ async function main() {
 		data: {
 			std_application_id: app2.std_application_id,
 			std_regis_answer_section: "expectation",
-			std_regis_answer: "I want teamwork experience",
+			std_regis_answer: "I want to try something new.",
 		},
 	});
 
 	await prisma.staffRegisQuestionScore.create({
 		data: {
 			std_regis_answer_id: regis2.std_regis_answer_id,
+			stf_user_id: staff.id,
 			stf_count: 1,
-			stf_score: 3.5,
-			stf_user_id: staff2.id,
+			stf_score: 2.5,
 		},
 	});
 
-	console.log("🎉 Prisma seed completed successfully");
+	console.log("🎉 Seed completed successfully (no duplicate applications)");
 }
 
 /* ======================
