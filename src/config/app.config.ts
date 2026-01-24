@@ -29,4 +29,4 @@ export const config = {
 		resend_name: process.env.RESEND_API_NAME || "",
 		resend_domain: process.env.RESEND_API_DOMAIN || "",
 	},
-};
+} as const;

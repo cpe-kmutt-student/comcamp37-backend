@@ -1,6 +1,5 @@
 import { join } from "node:path";
 import { MiddlewareConsumer, Module, RequestMethod } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { AuthModule as BetterAuthModule } from "@thallesp/nestjs-better-auth";
@@ -8,6 +7,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { config } from "./config/app.config";
+import { ConfigModule } from "./config/config.module";
 import { EmailModule } from "./email/email.module";
 import { auth } from "./lib/auth";
 import { PrismaModule } from "./prisma/prisma.module";
@@ -26,7 +26,6 @@ import { StudentUserModule } from "./student-user/student-user.module";
 
 @Module({
 	imports: [
-		ConfigModule.forRoot(),
 		BetterAuthModule.forRoot({ auth, disableTrustedOriginsCors: true, disableControllers: true }),
 		AuthModule,
 		PrismaModule,
@@ -51,6 +50,7 @@ import { StudentUserModule } from "./student-user/student-user.module";
 		StaffStudentQuestionModule,
 		SendMailModule,
 		EmailModule,
+		ConfigModule,
 	],
 
 	controllers: [AppController],
