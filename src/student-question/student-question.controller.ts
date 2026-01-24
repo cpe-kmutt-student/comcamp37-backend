@@ -20,6 +20,6 @@ export class StudentQuestionController {
 
 	@Get("/")
 	getAll(@Session() session: UserSession) {
-		// return this.studentQuestionService.getAll(session.user.id);
+		return this.studentQuestionService.getAll(session.user.id);
 	}
 }
