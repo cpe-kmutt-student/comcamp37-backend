@@ -42,6 +42,7 @@ model StudentInfo {
   std_info_laptop_os                      String?
   std_info_have_tablet                    Boolean?
   std_info_have_mouse                     Boolean?
+  std_info_note                           String?                   @db.Text
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
 }
@@ -62,11 +63,11 @@ model StudentFiles {
 model StudentQuestions {
   std_user_id                             String                    @id
   std_user                                User                      @relation(fields: [std_user_id], references: [id])
-  std_q_1                                 String?
-  std_q_2                                 String?
-  std_q_3                                 String?
-  std_q_4                                 String?
-  std_q_5                                 String?
+  std_q_1                                 String?                   @db.Text
+  std_q_2                                 String?                   @db.Text
+  std_q_3                                 String?                   @db.Text
+  std_q_4                                 String?                   @db.Text
+  std_q_5                                 String?                   @db.Text
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
 }
@@ -115,7 +116,7 @@ model User {
   user_info                                StudentInfo?
   user_file                                StudentFiles?
   user_question                            StudentQuestions?
-  user_status                              StudentStatus?    
+  user_status                              StudentStatus?
 
   @@unique([email])
   @@map("user")
