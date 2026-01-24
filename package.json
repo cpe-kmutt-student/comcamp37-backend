@@ -19,7 +19,9 @@
 		"test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
 		"test:e2e": "jest --config ./test/jest-e2e.json",
 		"prepare": "husky",
-		"check": "biome check --write"
+		"check": "biome check --write",
+		"migrate": "pnpm exec prisma migrate dev && pnpm exec prisma generate",
+		"studio": "pnpm exec prisma studio"
 	},
 	"dependencies": {
 		"@aws-sdk/client-s3": "^3.957.0",
