@@ -61,7 +61,7 @@
 </ul>
 
 <h3>DB-Diagram (Prototype)</h3>
-<img src="./docs/CC37-DB-Diagram-2.png" alt="ER-Diagram" />
+<img src="./docs/CC37_V2.png" alt="ER-Diagram" />
 
 <h3>API Flow Design (Prototype)</h3>
 <a href="https://www.figma.com/board/ZO9E1iaCZasX5wwyK0D6g9/CC37-Backend-Routing-Flow?node-id=0-1&t=meCqyS4DR1seJfqG-1"><p>Open on Figma</p></a>
