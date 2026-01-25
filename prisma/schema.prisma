@@ -13,6 +13,7 @@ datasource db {
 model StudentInfo {
   std_application_id                      String                    @id
   std_application                         StudentApplication        @relation(fields: [std_application_id], references: [std_application_id])
+  
   std_info_prefix                         String?
   std_info_first_name                     String?
   std_info_last_name                      String?
