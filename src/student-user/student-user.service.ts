@@ -12,33 +12,6 @@ export class StudentUserService {
 				id: userId,
 				role: "user",
 			},
-			include: {
-				std_application: {
-					include: {
-						std_file: true,
-						std_info: true,
-						std_regis_question: {
-							include: {
-								stf_regis_question_score: {
-									include: {
-										stf_user: true,
-									},
-								},
-							},
-						},
-						std_academic_question: {
-							include: {
-								stf_academic_question_score: {
-									include: {
-										stf_user: true,
-									},
-								},
-							},
-						},
-						std_status: true,
-					},
-				},
-			},
 		});
 	}
 }
