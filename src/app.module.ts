@@ -5,6 +5,7 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { AuthModule as BetterAuthModule } from "@thallesp/nestjs-better-auth";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { ApplicationStatusModule } from "./application-status/application-status.module";
 import { AuthModule } from "./auth/auth.module";
 import { config } from "./config/app.config";
 import { ConfigModule } from "./config/config.module";
@@ -53,6 +54,7 @@ import { StudentUserModule } from "./student-user/student-user.module";
 		EmailModule,
 		ConfigModule,
 		StudentApplicationModule,
+		ApplicationStatusModule,
 	],
 
 	controllers: [AppController],
