@@ -14,28 +14,24 @@ export class StudentInfoService {
 
 	async getFilledHistory(userId: string) {
 		try {
-			const studentApplication = await this.prisma.studentApplication.findUnique({
-				where: {
-					std_user_id: userId,
-					std_user: {
-						role: "user",
-					},
-				},
-			});
-
-			if (!studentApplication) throw new NotFoundException();
-
-			const studentInfo = await this.prisma.studentInfo.findUnique({
-				where: {
-					std_application_id: studentApplication.std_application_id,
-				},
-			});
-
-			if (!studentApplication) throw new NotFoundException();
-
-			return studentInfo;
+			// const studentApplication = await this.prisma.studentApplication.findUnique({
+			// 	where: {
+			// 		std_user_id: userId,
+			// 		std_user: {
+			// 			role: "user",
+			// 		},
+			// 	},
+			// });
+			// if (!studentApplication) throw new NotFoundException();
+			// const studentInfo = await this.prisma.studentInfo.findUnique({
+			// 	where: {
+			// 		std_application_id: studentApplication.std_application_id,
+			// 	},
+			// });
+			// if (!studentApplication) throw new NotFoundException();
+			// return studentInfo;
 		} catch (e) {
-			throw new InternalServerErrorException();
+			// throw new InternalServerErrorException();
 		}
 	}
 
@@ -73,46 +69,46 @@ export class StudentInfoService {
 				std_info_have_mouse: studentInfoDto.have_mouse,
 			};
 
-			const studentApplication = await this.prisma.studentApplication.upsert({
-				where: {
-					std_user_id: userId,
-					std_user: {
-						role: "user",
-					},
-				},
-				create: {
-					std_user_id: userId,
-					...studentInfoPlate,
-				},
-				update: {
-					...studentInfoPlate,
-				},
-			});
+			// const studentApplication = await this.prisma.studentApplication.upsert({
+			// 	where: {
+			// 		std_user_id: userId,
+			// 		std_user: {
+			// 			role: "user",
+			// 		},
+			// 	},
+			// 	create: {
+			// 		std_user_id: userId,
+			// 		...studentInfoPlate,
+			// 	},
+			// 	update: {
+			// 		...studentInfoPlate,
+			// 	},
+			// });
 
-			if (!studentApplication || !studentApplication.std_info) {
-				await this.prisma.studentApplication.create({
-					data: {
-						std_user_id: userId,
-					},
-				});
-			}
+			// if (!studentApplication || !studentApplication.std_info) {
+			// 	await this.prisma.studentApplication.create({
+			// 		data: {
+			// 			std_user_id: userId,
+			// 		},
+			// 	});
+			// }
 
-			if (!studentApplication.std_info) {
-				await this.prisma.studentInfo.create({
-					data: {
-						std_application_id: studentApplication.std_application_id,
-					},
-				});
-			}
+			// if (!studentApplication.std_info) {
+			// 	await this.prisma.studentInfo.create({
+			// 		data: {
+			// 			std_application_id: studentApplication.std_application_id,
+			// 		},
+			// 	});
+			// }
 
-			await this.prisma.studentInfo.update({
-				where: {
-					std_application_id: studentApplication.std_application_id,
-				},
-				data: {},
-			});
+			// await this.prisma.studentInfo.update({
+			// 	where: {
+			// 		std_application_id: studentApplication.std_application_id,
+			// 	},
+			// 	data: {},
+			// });
 
-			await this.prisma.applicationStatus.up;
+			// await this.prisma.applicationStatus.up;
 		} catch (e) {
 			throw new InternalServerErrorException();
 		}
