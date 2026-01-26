@@ -43,7 +43,6 @@ model StudentInfo {
   std_info_laptop_os                      String?
   std_info_have_tablet                    Boolean?
   std_info_have_mouse                     Boolean?
-  stf_std_info_note                       String?                   @db.Text
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
 }
@@ -146,12 +145,16 @@ model ApplicationStatus {
   std_status_file_done                    Boolean?                  @default(false)
   std_status_regis_question_done          Boolean?                  @default(false)
   std_status_acdemic_question_done        Boolean?                  @default(false)
-  std_status_paid                         Boolean?                  @default(false)
+  std_status_payment_done                 Boolean?                  @default(false)
   
   stf_info_checked                        Boolean?                  @default(false)
-  stf_q_checked                           Boolean?                  @default(false)
-  stf_q_result                            Float?
-  stf_q_result_detail                     String?
+  stf_regis_question_checked              Boolean?                  @default(false)
+  stf_academic_question_checked           Boolean?                  @default(false)
+  
+  std_info_note                           String?                   @db.Text
+  
+  stf_question_result                     Float?
+  stf_question_result_detail              String?
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
 }
