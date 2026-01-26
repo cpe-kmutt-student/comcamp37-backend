@@ -10,7 +10,7 @@ datasource db {
 }
 
 
-model StudentInfo {
+model ApplicationInfo {
   std_application_id                      String                    @id
   std_application                         StudentApplication        @relation(fields: [std_application_id], references: [std_application_id])
   
@@ -56,7 +56,7 @@ enum FileType {
   file_slip
 }
 
-model StudentFile {
+model ApplicationFile {
   std_application_id                      String                    @id
   std_application                         StudentApplication        @relation(fields: [std_application_id], references: [std_application_id])
   
@@ -70,11 +70,11 @@ model StudentFile {
   updated_at                              DateTime                  @updatedAt
 }
 
-model StaffRegisQuestionScore {
+model ApplicationRegisQuestionScore {
   id                                      Int                         @id @default(autoincrement())
 
   std_regis_answer_id                     Int                        
-  std_regis_answer                        StudentRegisQuestionAnswer  @relation(fields: [std_regis_answer_id], references: [std_regis_answer_id])
+  std_regis_answer                        ApplicationRegisQuestionAnswer  @relation(fields: [std_regis_answer_id], references: [std_regis_answer_id])
   
   stf_count                               Int                         @db.Integer()
   stf_score                               Float
@@ -86,7 +86,7 @@ model StaffRegisQuestionScore {
   updated_at                              DateTime                    @updatedAt
 }
 
-model StudentRegisQuestionAnswer {
+model ApplicationRegisQuestionAnswer {
   std_application_id                      String                    
   std_application                         StudentApplication        @relation(fields: [std_application_id], references: [std_application_id])
   
@@ -94,17 +94,17 @@ model StudentRegisQuestionAnswer {
   std_regis_answer_section                String                    
   std_regis_answer                        String                    @db.Text
 
-  stf_regis_question_score                StaffRegisQuestionScore[]
+  stf_regis_question_score                ApplicationRegisQuestionScore[]
   
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
 }
 
-model StaffAcademicQuestionScore {
+model ApplicationAcademicQuestionScore {
   id                                      Int                           @id @default(autoincrement())
 
   std_academic_answer_id                  Int                           
-  std_academic_answer                     StudentAcademicQuestionAnswer @relation(fields: [std_academic_answer_id], references: [std_academic_answer_id])
+  std_academic_answer                     ApplicationAcademicQuestionAnswer @relation(fields: [std_academic_answer_id], references: [std_academic_answer_id])
 
   stf_count                               Int                           @db.Integer()
   stf_score                               Float
@@ -116,7 +116,7 @@ model StaffAcademicQuestionScore {
   updated_at                              DateTime                      @updatedAt
 }
 
-model StudentAcademicQuestionAnswer {
+model ApplicationAcademicQuestionAnswer {
   std_application_id                      String                    
   std_application                         StudentApplication        @relation(fields: [std_application_id], references: [std_application_id])
   
@@ -124,7 +124,7 @@ model StudentAcademicQuestionAnswer {
   std_academic_answer_section             String
   std_academic_answer                     String
 
-  stf_academic_question_score             StaffAcademicQuestionScore[]
+  stf_academic_question_score             ApplicationAcademicQuestionScore[]
 
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
@@ -172,10 +172,10 @@ model StudentApplication {
   std_user_id                             String                    
   std_user                                User                      @relation(fields: [std_user_id], references: [id])
 
-  std_info                                StudentInfo?
-  std_file                                StudentFile[]
-  std_regis_question                      StudentRegisQuestionAnswer[]
-  std_academic_question                   StudentAcademicQuestionAnswer[]
+  std_info                                ApplicationInfo?
+  std_file                                ApplicationFile[]
+  std_regis_question                      ApplicationRegisQuestionAnswer[]
+  std_academic_question                   ApplicationAcademicQuestionAnswer[]
   std_status                              ApplicationStatus?
 
   created_at                              DateTime                  @default(now())
@@ -210,8 +210,8 @@ model User {
 
   std_application                         StudentApplication[]
 
-  stf_regis_question_score                StaffRegisQuestionScore[]
-  stf_academic_question_score             StaffAcademicQuestionScore[]
+  stf_regis_question_score                ApplicationRegisQuestionScore[]
+  stf_academic_question_score             ApplicationAcademicQuestionScore[]
 
   @@unique([email])
   @@map("user")

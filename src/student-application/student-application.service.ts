@@ -62,7 +62,7 @@ export class StudentApplicationService {
 				},
 			});
 
-			await this.prisma.studentInfo.create({
+			await this.prisma.applicationInfo.create({
 				data: {
 					std_application_id: studentApplication.std_application_id,
 				},
