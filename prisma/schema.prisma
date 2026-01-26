@@ -169,7 +169,7 @@ model StudentApplication {
   std_application_pass                    Boolean?                  @default(false)
 
 
-  std_user_id                             String                    @unique
+  std_user_id                             String                    
   std_user                                User                      @relation(fields: [std_user_id], references: [id])
 
   std_info                                StudentInfo?
@@ -208,7 +208,7 @@ model User {
   username                                String?
   displayUsername                         String?
 
-  std_application                         StudentApplication?
+  std_application                         StudentApplication[]
 
   stf_regis_question_score                StaffRegisQuestionScore[]
   stf_academic_question_score             StaffAcademicQuestionScore[]
