@@ -18,6 +18,7 @@ import { SendMailModule } from "./send-mail/send-mail.module";
 import { StaffStudentQuestionModule } from "./staff-student-question/staff-student-question.module";
 import { StaffStudentUserModule } from "./staff-student-user/staff-student-user.module";
 import { StatusUpdateModule } from "./status-update/status-update.module";
+import { StudentApplicationModule } from "./student-application/student-application.module";
 import { StudentFileModule } from "./student-file/student-file.module";
 import { StudentInfoModule } from "./student-info/student-info.module";
 import { StudentQuestionModule } from "./student-question/student-question.module";
@@ -51,6 +52,7 @@ import { StudentUserModule } from "./student-user/student-user.module";
 		SendMailModule,
 		EmailModule,
 		ConfigModule,
+		StudentApplicationModule,
 	],
 
 	controllers: [AppController],
