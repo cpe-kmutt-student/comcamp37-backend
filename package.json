@@ -68,6 +68,7 @@
 		"rxjs": "^7.8.1",
 		"systeminformation": "^5.29.0",
 		"typeorm": "^0.3.28",
+		"uuid": "^13.0.0",
 		"winston": "^3.19.0"
 	},
 	"devDependencies": {
@@ -92,6 +93,7 @@
 		"@types/passport-local": "^1.0.38",
 		"@types/react": "^19.2.8",
 		"@types/supertest": "^6.0.2",
+		"@types/uuid": "^11.0.0",
 		"dotenv": "^17.2.3",
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^10.0.1",
