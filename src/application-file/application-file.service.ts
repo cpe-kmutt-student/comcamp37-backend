@@ -2,7 +2,7 @@ import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { FileType } from "generated/prisma/enums";
-import { ConfigService } from "src/config/config.service";
+import { config } from "src/config/app.config";
 import { PrismaService } from "src/prisma/prisma.service";
 import { S3Service } from "src/s3/s3.service";
 import uuid from "uuid";
@@ -13,7 +13,6 @@ export class ApplicationFileService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly s3: S3Service,
-		private readonly config: ConfigService,
 	) {}
 
 	async getApplicationFiles(userId: string, appId: string) {
@@ -72,7 +71,7 @@ export class ApplicationFileService {
 			await this.s3
 				.send(
 					new PutObjectCommand({
-						Bucket: this.config.s3.bucket,
+						Bucket: config.s3.bucket,
 						Key: key,
 						Body: file.buffer,
 						ContentType: file.mimetype,
@@ -143,7 +142,7 @@ export class ApplicationFileService {
 		return await getSignedUrl(
 			this.s3,
 			new GetObjectCommand({
-				Bucket: this.config.s3.bucket,
+				Bucket: config.s3.bucket,
 				Key: key,
 			}),
 			{

@@ -10,7 +10,6 @@ import { ApplicationInfoModule } from "./application-info/application-info.modul
 import { ApplicationStatusModule } from "./application-status/application-status.module";
 import { AuthModule } from "./auth/auth.module";
 import { config } from "./config/app.config";
-import { ConfigModule } from "./config/config.module";
 import { EmailModule } from "./email/email.module";
 import { auth } from "./lib/auth";
 import { PrismaModule } from "./prisma/prisma.module";
@@ -54,7 +53,6 @@ import { StudentUserModule } from "./student-user/student-user.module";
 		StaffStudentQuestionModule,
 		SendMailModule,
 		EmailModule,
-		ConfigModule,
 		StudentApplicationModule,
 		ApplicationStatusModule,
 		ApplicationInfoModule,
