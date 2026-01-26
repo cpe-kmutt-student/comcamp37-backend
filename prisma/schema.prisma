@@ -57,15 +57,18 @@ enum FileType {
 }
 
 model ApplicationFile {
-  std_application_id                      String                    @id
+  std_application_id                      String                    
   std_application                         StudentApplication        @relation(fields: [std_application_id], references: [std_application_id])
   
-  std_file_id                             Int                       @unique @default(autoincrement())
-  std_file_originalname                   String
-  std_file_mimetype                       String
-  std_file_encoding                       String
-  std_file_key                            String                    @unique
+  std_file_originalname                   String?
+  std_file_mimetype                       String?
+  std_file_encoding                       String?
+  std_file_size                           Int?
+  std_file_key                            String                    @id
   std_file_type                           FileType
+  
+  std_file_disabled                       Boolean                   @default(false)
+
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
 }
@@ -187,6 +190,8 @@ enum UserRoles {
   user
   admin 
   staff
+  academic
+  regis
 }
 
 model User {
