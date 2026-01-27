@@ -15,12 +15,13 @@ import { S3Module } from "./core/s3/s3.module";
 import { auth } from "./lib/auth";
 import { ApplicationFileModule } from "./modules/application-file/application-file.module";
 import { ApplicationInfoModule } from "./modules/application-info/application-info.module";
+import { ApplicationQuestionModule } from "./modules/application-question/application-question.module";
 import { ApplicationStatusModule } from "./modules/application-status/application-status.module";
+import { StudentApplicationModule } from "./modules/student-application/student-application.module";
 import { SendMailModule } from "./send-mail/send-mail.module";
 import { StaffStudentQuestionModule } from "./staff-student-question/staff-student-question.module";
 import { StaffStudentUserModule } from "./staff-student-user/staff-student-user.module";
 import { StatusUpdateModule } from "./status-update/status-update.module";
-import { StudentApplicationModule } from "./student-application/student-application.module";
 import { StudentFileModule } from "./student-file/student-file.module";
 import { StudentInfoModule } from "./student-info/student-info.module";
 import { StudentQuestionModule } from "./student-question/student-question.module";
@@ -57,6 +58,7 @@ import { StudentUserModule } from "./student-user/student-user.module";
 		ApplicationStatusModule,
 		ApplicationInfoModule,
 		ApplicationFileModule,
+		ApplicationQuestionModule,
 	],
 
 	controllers: [AppController],
