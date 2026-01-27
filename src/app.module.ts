@@ -13,6 +13,7 @@ import { PrismaModule } from "./core/prisma/prisma.module";
 import { PrismaService } from "./core/prisma/prisma.service";
 import { S3Module } from "./core/s3/s3.module";
 import { auth } from "./lib/auth";
+import { ApplicationConfirmationModule } from "./modules/application-confirmation/application-confirmation.module";
 import { ApplicationFileModule } from "./modules/application-file/application-file.module";
 import { ApplicationInfoModule } from "./modules/application-info/application-info.module";
 import { ApplicationQuestionModule } from "./modules/application-question/application-question.module";
@@ -59,6 +60,7 @@ import { StudentUserModule } from "./student-user/student-user.module";
 		ApplicationInfoModule,
 		ApplicationFileModule,
 		ApplicationQuestionModule,
+		ApplicationConfirmationModule,
 	],
 
 	controllers: [AppController],
