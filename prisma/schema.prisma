@@ -171,6 +171,8 @@ model StudentApplication {
   std_application_abort_reason            String?
   std_application_pass                    Boolean?                  @default(false)
 
+  stf_application_allow_confirm           Boolean?                  @default(false)
+
 
   std_user_id                             String                    
   std_user                                User                      @relation(fields: [std_user_id], references: [id])
