@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "src/core/prisma/prisma.service";
 import { StudentStatusDto, StudentStatusType } from "./dto/student-status.dto";
 
 @Injectable()

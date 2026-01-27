@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import type { UserSession } from "@thallesp/nestjs-better-auth";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "src/core/prisma/prisma.service";
 import { StatusUpdateService } from "src/status-update/status-update.service";
 import { StudentStatusType } from "src/student-status/dto/student-status.dto";
 import { StudentInfoDto } from "./dto/student-info.dto";

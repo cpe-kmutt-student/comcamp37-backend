@@ -1,6 +1,6 @@
 import { NotFound } from "@aws-sdk/client-s3";
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "src/core/prisma/prisma.service";
 import { StudentStatusType } from "src/student-status/dto/student-status.dto";
 
 @Injectable()

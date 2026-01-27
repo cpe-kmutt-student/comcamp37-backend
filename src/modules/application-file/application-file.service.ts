@@ -3,8 +3,8 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { FileType } from "generated/prisma/enums";
 import { config } from "src/config/app.config";
-import { PrismaService } from "src/prisma/prisma.service";
-import { S3Service } from "src/s3/s3.service";
+import { PrismaService } from "src/core/prisma/prisma.service";
+import { S3Service } from "src/core/s3/s3.service";
 import uuid from "uuid";
 import { ApplicationFileDto } from "./dto/application-file.dto";
 

@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "src/core/prisma/prisma.service";
 import { StaffStudentInfoEditDto } from "./dto/staff-student-user.dto";
 
 @Injectable()

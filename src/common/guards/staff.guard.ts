@@ -3,7 +3,7 @@ import { CanActivate, ExecutionContext, Injectable, InternalServerErrorException
 import type { UserSession } from "@thallesp/nestjs-better-auth";
 import { Session } from "@thallesp/nestjs-better-auth";
 import { Observable } from "rxjs";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "src/core/prisma/prisma.service";
 
 @Injectable()
 export class StaffGuard implements CanActivate {

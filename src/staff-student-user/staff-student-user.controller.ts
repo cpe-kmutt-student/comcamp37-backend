@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import type { UserSession } from "@thallesp/nestjs-better-auth";
 import { Session } from "@thallesp/nestjs-better-auth";
-import { StaffGuard } from "src/staff/staff.guard";
+import { StaffGuard } from "src/common/guards/staff.guard";
 import { StaffStudentGetByIdDto, StaffStudentInfoEditDto } from "./dto/staff-student-user.dto";
 import { StaffStudentUserService } from "./staff-student-user.service";
 

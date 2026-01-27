@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
-import { StaffGuard } from "src/staff/staff.guard";
+import { StaffGuard } from "src/common/guards/staff.guard";
 import { StaffStudentQuestionCheckedDto, StaffStudentQuestionGetAnswerDto } from "./dto/staff-student-question.dto";
 import { StaffStudentQuestionService } from "./staff-student-question.service";
 
