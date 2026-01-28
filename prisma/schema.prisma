@@ -164,6 +164,12 @@ model ApplicationStatus {
 }
 
 
+enum ApplicationResult {
+  waiting_for_announcement
+  pass
+  reserve
+  fail
+}
 
 model StudentApplication {
   std_application_id                      String                    @id @default(uuid())
@@ -171,9 +177,10 @@ model StudentApplication {
   std_application_confirm                 Boolean?                  @default(false)
   std_application_abort_reason            String?
   std_application_pass                    Boolean?                  @default(false)
+  std_application_result                  ApplicationResult         @default(waiting_for_announcement)
 
   stf_application_allow_confirm           Boolean?                  @default(false)
-
+  
 
   std_user_id                             String                    
   std_user                                User                      @relation(fields: [std_user_id], references: [id])
