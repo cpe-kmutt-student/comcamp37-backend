@@ -1,12 +1,15 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { render } from "@react-email/render";
 import * as nodemailer from "nodemailer";
-import AnnouncementEmail from "./templates/Announcement";
+import AnnouncementEmail from "./templates/AnnouncementEmail";
+import ContentIssueEmail from "./templates/ContentIssueEmail";
+import RegistrationConfirmEmail from "./templates/RegistrationConfirmEmail";
+import TrackingEmail from "./templates/TrackingEmail";
 
 @Injectable()
 export class EmailService {
 	private transporter: nodemailer.Transporter;
-
+	private readonly logger = new Logger(EmailService.name);
 	constructor() {
 		this.transporter = nodemailer.createTransport({
 			host: process.env.MAIL_HOST,
@@ -19,52 +22,56 @@ export class EmailService {
 		});
 	}
 
-	async sendResultAnnouncement(email: string, name: string) {
+	async sendAnnouncement(email: string, name: string) {
 		try {
-			const htmlContent = await render(AnnouncementEmail({ name }));
-
-			const info = await this.transporter.sendMail({
-				from: process.env.MAIL_FROM,
-				to: email,
-				subject: "🚀 ประกาศผลการคัดเลือก ComCamp 37",
-				html: htmlContent,
-			});
-
-			console.log("Message sent: %s", info.messageId);
-			return { success: true, id: info.messageId };
+			const html = await render(AnnouncementEmail({ name }));
+			return await this.sendMail(email, "ประกาศผลการคัดเลือก ComCamp 37", html);
 		} catch (error) {
-			console.error(`Failed to send to ${email}:`, error);
-			return { success: false, error: error.message };
+			this.handleError("announcement", email, error);
 		}
 	}
+
+	async sendContentIssue(email: string, name: string, issueDetail: string, deadline: string) {
+		try {
+			const html = await render(ContentIssueEmail({ name, issueDetail, deadline }));
+			return await this.sendMail(email, "แจ้งเตือนปัญหาเนื้อหา", html);
+		} catch (error) {
+			this.handleError("content issue", email, error);
+		}
+	}
+
+	async sendRegistrationConfirm(email: string, name: string) {
+		try {
+			const html = await render(RegistrationConfirmEmail({ name }));
+			return await this.sendMail(email, "ยืนยันการสมัคร ComCamp 37", html);
+		} catch (error) {
+			this.handleError("registration confirm", email, error);
+		}
+	}
+
+	async sendTracking(email: string, name: string, orderId: string, trackingNumber: string, provider: string) {
+		try {
+			const html = await render(TrackingEmail({ name, orderId, trackingNumber, provider }));
+			return await this.sendMail(email, "พัสดุถูกจัดส่งแล้ว!", html);
+		} catch (error) {
+			this.handleError("tracking", email, error);
+		}
+	}
+
+	private async sendMail(to: string, subject: string, html: string) {
+		const info = await this.transporter.sendMail({
+			from: process.env.MAIL_FROM,
+			to: to,
+			subject: subject,
+			html: html,
+		});
+
+		this.logger.log(`Email sent to ${to} (MsgID: ${info.messageId})`);
+		return { success: true, messageId: info.messageId };
+	}
+
+	private handleError(type: string, email: string, error: any) {
+		this.logger.error(`Failed to send ${type} email to ${email}`, error.stack);
+		throw error;
+	}
 }
-
-/*import { Injectable } from '@nestjs/common';
-import { Resend } from 'resend';
-import { render } from '@react-email/render'; // Import render
-import { AnnouncementEmail } from './templates/Announcement';
-
-@Injectable()
-export class EmailService {
-  private resend = new Resend(process.env.RESEND_API_KEY);
-
-  async sendResultAnnouncement(email: string, name: string) {
-    try {
-      // 1. Render React Component เป็น HTML String
-      const htmlContent = await render(AnnouncementEmail({ name }));
-
-      // 2. ส่ง HTML ไปให้ Resend
-      const data = await this.resend.emails.send({
-        from: 'ComCamp 37 <onboarding@resend.dev>',
-        to: [email],
-        subject: '🚀 ประกาศผลการคัดเลือก ComCamp 37',
-        html: htmlContent, // ส่ง HTML ที่ได้จากการ Render
-      });
-
-      return { success: true, id: data.data?.id };
-    } catch (error) {
-      console.error(`Failed to send to ${email}:`, error);
-      return { success: false, error: error.message };
-    }
-  }
-}*/

@@ -21,7 +21,8 @@
 		"prepare": "husky",
 		"check": "biome check --write",
 		"migrate": "pnpm exec prisma migrate dev && pnpm exec prisma generate",
-		"studio": "pnpm exec prisma studio"
+		"studio": "pnpm exec prisma studio",
+		"email:dev": "email dev -d src/email/templates"
 	},
 	"dependencies": {
 		"@aws-sdk/client-s3": "^3.957.0",
@@ -82,6 +83,7 @@
 		"@nestjs/cli": "^11.0.0",
 		"@nestjs/schematics": "^11.0.0",
 		"@nestjs/testing": "^11.0.1",
+		"@react-email/preview-server": "^5.2.5",
 		"@types/body-parser": "^1.19.6",
 		"@types/cookie-parser": "^1.4.10",
 		"@types/cors": "^2.8.19",

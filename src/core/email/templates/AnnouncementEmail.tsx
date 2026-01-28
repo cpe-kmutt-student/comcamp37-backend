@@ -1,5 +1,7 @@
 import { Body, Button, Container, Font, Head, Heading, Html, Img, Link, Preview, Section, Tailwind, Text } from "@react-email/components";
 import * as React from "react";
+import { Footer } from "./layout/Footer";
+import { Header } from "./layout/Header";
 
 interface AnnouncementEmailProps {
 	name: string;
@@ -7,8 +9,6 @@ interface AnnouncementEmailProps {
 
 const CONFIG = {
 	resultLink: "https://comcamp.io/result",
-	contactLink: "https://comcamp.io/#contact",
-	email: "kmutt.comcamp@gmail.com",
 };
 
 export default function AnnouncementEmail({ name }: AnnouncementEmailProps) {
@@ -38,26 +38,14 @@ export default function AnnouncementEmail({ name }: AnnouncementEmailProps) {
 
 				<Body className="bg-white font-sans">
 					<Container className="mx-auto w-full max-w-[800px] my-10 bg-white rounded-2xl overflow-hidden shadow-lg">
-						<Section className="relative overflow-hidden px-12 pt-12 pb-8 text-center" style={{ background: "linear-gradient(135deg, #464f6a 0%, #92a6d2 100%)" }}>
-							<Img src="https://comcamp.io/_next/image?url=%2Fstatic%2Fimage%2Flogo.png&w=1200&q=75" width="180" height="auto" alt="ComCamp 37 Logo" className="mx-auto mb-6 mt-6 relative z-10" />
+						<Header />
 
-							<Heading className="text-white text-3xl font-bold m-0 relative z-10" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-								ประกาศผลการคัดเลือก
-							</Heading>
-							<Text className="text-3xl text-[#f2d575] font-bold m-0 relative z-10 leading-tight">COMCAMP 37</Text>
-							{/* 
-							<Text className="text-4xl font-bold m-0 relative z-10 leading-tight">
-								<span className="text-[#FFFFFF]">COM</span>
-								<span className="text-[#fc6f23]">C</span>
-								<span className="text-[#edea34]">AM</span>
-								<span className="text-[#fc6f23]">P</span>
-								<span className="text-[#fc6f23]">3</span>
-								<span className="text-[#edea34]">7</span>
-							</Text>
-							*/}
+						<Section className="bg-white px-6 py-8 text-center">
+							<Text className="text-sm font-semibold text-[#92a6d2] m-0 mb-2 tracking-widest uppercase">COMCAMP 37</Text>
+							<Heading className="text-2xl font-bold m-0 text-[#464f6a]">ประกาศผลการคัดเลือก 🎉</Heading>
 						</Section>
 
-						<Section className="px-6 py-10">
+						<Section className="px-6 pt-4 pb-10">
 							<Section className="bg-[#f8f9fc] border-l-4 border-[#e98d55] rounded-lg px-6 py-5 mb-8">
 								<Text className="text-base leading-relaxed text-[#464f6a] m-0">
 									สวัสดีครับน้อง <strong className="text-[#504039]">{name}</strong> 🎉
@@ -88,32 +76,7 @@ export default function AnnouncementEmail({ name }: AnnouncementEmailProps) {
 							</Section>
 						</Section>
 
-						<Section className="bg-[#f8f9fc] px-6 py-10 border-t border-[#e8ecf4]">
-							<Img src="https://res.cloudinary.com/dynrld3nm/image/upload/cc36preorder/kmutt-cpe-logo_lyyokm.png" width="144" height="80" alt="KMUTT CPE Logo" className="mb-5" />
-
-							<Text className="text-[13px] leading-relaxed text-[#92a6d2] mb-6">
-								© 2026 ComCamp 37. Computer Engineering Department,
-								<br />
-								King Mongkut&apos;s University of Technology Thonburi,
-								<br />
-								126 Pracha Uthit Rd, Bang Mot, Thung Khru, Bangkok 10140
-							</Text>
-
-							<Section className="border-t border-[#e8ecf4] pt-6 text-center">
-								<Text className="text-[13px] leading-relaxed text-[#92a6d2] m-0">
-									อีเมลฉบับนี้ถูกส่งโดยระบบอัตโนมัติ โปรดอย่าตอบกลับ
-									<br />
-									หากมีข้อสงสัยสามารถติดต่อทีมงานได้ที่{" "}
-									<Link href={`mailto:${CONFIG.email}`} className="text-[#e98d55] no-underline font-semibold">
-										{CONFIG.email}
-									</Link>{" "}
-									หรือ{" "}
-									<Link href={CONFIG.contactLink} className="text-[#e98d55] no-underline font-semibold">
-										ช่องทางต่อไปนี้
-									</Link>
-								</Text>
-							</Section>
-						</Section>
+						<Footer />
 					</Container>
 				</Body>
 			</Tailwind>
