@@ -141,7 +141,7 @@ async function main() {
 					std_info_nick_name: "Johnny",
 					std_info_age: 18,
 					std_info_birthdate: "2005-05-15",
-					std_info_gender: "Male",
+					std_info_gender: "male",
 					std_info_religion: "Buddhism",
 					std_info_phone_number: "0812345678",
 					std_info_education_level: "Grade 12",
