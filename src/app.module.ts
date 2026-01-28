@@ -18,8 +18,8 @@ import { ApplicationFileModule } from "./modules/application-file/application-fi
 import { ApplicationInfoModule } from "./modules/application-info/application-info.module";
 import { ApplicationQuestionModule } from "./modules/application-question/application-question.module";
 import { ApplicationStatusModule } from "./modules/application-status/application-status.module";
+import { EmailNotificationModule } from "./modules/email-notification/email-notification.module";
 import { StudentApplicationModule } from "./modules/student-application/student-application.module";
-import { SendMailModule } from "./send-mail/send-mail.module";
 import { StaffStudentQuestionModule } from "./staff-student-question/staff-student-question.module";
 import { StaffStudentUserModule } from "./staff-student-user/staff-student-user.module";
 import { StatusUpdateModule } from "./status-update/status-update.module";
@@ -43,7 +43,6 @@ import { StatusUpdateModule } from "./status-update/status-update.module";
 		}),
 		StaffStudentUserModule,
 		StaffStudentQuestionModule,
-		SendMailModule,
 		EmailModule,
 		StudentApplicationModule,
 		ApplicationStatusModule,
@@ -51,6 +50,7 @@ import { StatusUpdateModule } from "./status-update/status-update.module";
 		ApplicationFileModule,
 		ApplicationQuestionModule,
 		ApplicationConfirmationModule,
+		EmailNotificationModule,
 	],
 
 	controllers: [AppController],
