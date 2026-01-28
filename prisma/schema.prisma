@@ -81,6 +81,7 @@ model ApplicationRegisQuestionScore {
   
   stf_count                               Int                         @db.Integer()
   stf_score                               Float
+  stf_comment                             String?                     @db.Text
 
   stf_user_id                             String
   stf_user                                User                        @relation(fields: [stf_user_id], references: [id])
