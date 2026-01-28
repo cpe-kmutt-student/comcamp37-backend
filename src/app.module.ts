@@ -23,34 +23,24 @@ import { SendMailModule } from "./send-mail/send-mail.module";
 import { StaffStudentQuestionModule } from "./staff-student-question/staff-student-question.module";
 import { StaffStudentUserModule } from "./staff-student-user/staff-student-user.module";
 import { StatusUpdateModule } from "./status-update/status-update.module";
-import { StudentFileModule } from "./student-file/student-file.module";
-import { StudentInfoModule } from "./student-info/student-info.module";
-import { StudentQuestionModule } from "./student-question/student-question.module";
-import { StudentStatusModule } from "./student-status/student-status.module";
-import { StudentUserModule } from "./student-user/student-user.module";
 
 @Module({
 	imports: [
 		BetterAuthModule.forRoot({ auth, disableTrustedOriginsCors: true, disableControllers: true }),
 		AuthModule,
 		PrismaModule,
-		StudentUserModule,
 		JwtModule.register({
 			global: true,
 			secret: config.auth.jwtSecret,
 			signOptions: { expiresIn: "1d" },
 		}),
-		StudentInfoModule,
 		AuthModule,
-		StudentFileModule,
-		StudentStatusModule,
 		StatusUpdateModule,
 		S3Module,
 		ServeStaticModule.forRoot({
 			rootPath: join(process.cwd(), "public"),
 			exclude: ["/api/{*path}", "/docs/{*path}", "/{*path}"],
 		}),
-		StudentQuestionModule,
 		StaffStudentUserModule,
 		StaffStudentQuestionModule,
 		SendMailModule,

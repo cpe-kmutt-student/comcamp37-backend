@@ -1,13 +1,13 @@
 import { NotFound } from "@aws-sdk/client-s3";
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/core/prisma/prisma.service";
-import { StudentStatusType } from "src/student-status/dto/student-status.dto";
+// import { StudentStatusType } from "src/student-status/dto/student-status.dto";
 
 @Injectable()
 export class StatusUpdateService {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async update(userId: string, status: StudentStatusType, value: string | number | boolean) {
+	async update(userId: string, status: any, value: string | number | boolean) {
 		try {
 			// const studentApplication = await this.prisma.studentApplication.findUnique({
 			// 	where: {
