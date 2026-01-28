@@ -1,6 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { render } from "@react-email/render";
 import * as nodemailer from "nodemailer";
+import { config } from "src/config/app.config";
 import AnnouncementEmail from "./templates/AnnouncementEmail";
 import ContentIssueEmail from "./templates/ContentIssueEmail";
 import RegistrationConfirmEmail from "./templates/RegistrationConfirmEmail";
@@ -12,12 +13,12 @@ export class EmailService {
 	private readonly logger = new Logger(EmailService.name);
 	constructor() {
 		this.transporter = nodemailer.createTransport({
-			host: process.env.MAIL_HOST,
-			port: Number(process.env.MAIL_PORT),
-			secure: false,
+			host: config.email.nodemailer.host,
+			port: config.email.nodemailer.port,
+			secure: config.email.nodemailer.secure,
 			auth: {
-				user: process.env.MAIL_USER,
-				pass: process.env.MAIL_PASS,
+				user: config.email.nodemailer.user,
+				pass: config.email.nodemailer.pass,
 			},
 		});
 	}
@@ -60,7 +61,7 @@ export class EmailService {
 
 	private async sendMail(to: string, subject: string, html: string) {
 		const info = await this.transporter.sendMail({
-			from: process.env.MAIL_FROM,
+			from: config.email.nodemailer.from,
 			to: to,
 			subject: subject,
 			html: html,

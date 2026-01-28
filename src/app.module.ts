@@ -11,6 +11,7 @@ import { EmailModule } from "./core/email/email.module";
 import { PrismaModule } from "./core/prisma/prisma.module";
 // import { UsersModule } from "./users/users.module";
 import { PrismaService } from "./core/prisma/prisma.service";
+import { ResendModule } from "./core/resend/resend.module";
 import { S3Module } from "./core/s3/s3.module";
 import { auth } from "./lib/auth";
 import { ApplicationConfirmationModule } from "./modules/application-confirmation/application-confirmation.module";
@@ -51,6 +52,7 @@ import { StatusUpdateModule } from "./status-update/status-update.module";
 		ApplicationQuestionModule,
 		ApplicationConfirmationModule,
 		EmailNotificationModule,
+		ResendModule,
 	],
 
 	controllers: [AppController],
