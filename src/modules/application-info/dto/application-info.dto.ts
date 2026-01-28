@@ -1,4 +1,5 @@
-import { IsBoolean, IsEmail, IsInt, IsNumber, IsNumberString, IsString, Length, Max, MaxLength, Min } from "class-validator";
+import { IsBoolean, IsEmail, IsEnum, IsInt, IsNumber, IsNumberString, IsOptional, IsString, Length, Max, MaxLength, Min } from "class-validator";
+import { AppInfoGender } from "../../../../generated/prisma/enums";
 
 export class ApplicationInfoDto {
 	@IsString()
@@ -21,8 +22,12 @@ export class ApplicationInfoDto {
 	@IsString()
 	readonly birthdate: string;
 
+	@IsEnum(AppInfoGender)
+	readonly gender: AppInfoGender;
+
 	@IsString()
-	readonly gender: string;
+	@IsOptional()
+	readonly sexuality?: string;
 
 	@IsString()
 	readonly religion: string;

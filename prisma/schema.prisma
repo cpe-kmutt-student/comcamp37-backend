@@ -9,6 +9,11 @@ datasource db {
   provider = "postgresql"
 }
 
+enum AppInfoGender {
+  male
+  female
+  lgtv
+}
 
 model ApplicationInfo {
   std_application_id                      String                    @id
@@ -20,7 +25,8 @@ model ApplicationInfo {
   std_info_nick_name                      String?
   std_info_age                            Int?
   std_info_birthdate                      String?
-  std_info_gender                         String?
+  std_info_gender                         AppInfoGender?
+  std_info_sexuality                      String?
   std_info_religion                       String?
   std_info_phone_number                   String?
   std_info_education_level                String?
