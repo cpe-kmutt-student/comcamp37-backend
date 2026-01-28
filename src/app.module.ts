@@ -20,10 +20,8 @@ import { ApplicationInfoModule } from "./modules/application-info/application-in
 import { ApplicationQuestionModule } from "./modules/application-question/application-question.module";
 import { ApplicationStatusModule } from "./modules/application-status/application-status.module";
 import { EmailNotificationModule } from "./modules/email-notification/email-notification.module";
+import { StatusUpdaterModule } from "./modules/status-updater/status-updater.module";
 import { StudentApplicationModule } from "./modules/student-application/student-application.module";
-import { StaffStudentQuestionModule } from "./staff-student-question/staff-student-question.module";
-import { StaffStudentUserModule } from "./staff-student-user/staff-student-user.module";
-import { StatusUpdateModule } from "./status-update/status-update.module";
 
 @Module({
 	imports: [
@@ -36,14 +34,11 @@ import { StatusUpdateModule } from "./status-update/status-update.module";
 			signOptions: { expiresIn: "1d" },
 		}),
 		AuthModule,
-		StatusUpdateModule,
 		S3Module,
 		ServeStaticModule.forRoot({
 			rootPath: join(process.cwd(), "public"),
 			exclude: ["/api/{*path}", "/docs/{*path}", "/{*path}"],
 		}),
-		StaffStudentUserModule,
-		StaffStudentQuestionModule,
 		EmailModule,
 		StudentApplicationModule,
 		ApplicationStatusModule,
@@ -53,6 +48,7 @@ import { StatusUpdateModule } from "./status-update/status-update.module";
 		ApplicationConfirmationModule,
 		EmailNotificationModule,
 		ResendModule,
+		StatusUpdaterModule,
 	],
 
 	controllers: [AppController],
