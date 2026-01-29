@@ -1,10 +1,14 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/core/prisma/prisma.service";
+import { StatusUpdaterService } from "../status-updater/status-updater.service";
 import { ApplicationInfoDto } from "./dto/application-info.dto";
 
 @Injectable()
 export class ApplicationInfoService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly statusUpdaterService: StatusUpdaterService,
+	) {}
 
 	async getApplicationInfo(userId: string, appId: string) {
 		try {
@@ -65,6 +69,8 @@ export class ApplicationInfoService {
 					std_info_have_mouse: applicationInfoDto.have_mouse,
 				},
 			});
+
+			await this.statusUpdaterService.infoDoneUpdater(appId);
 
 			return {
 				application_id: applicationInfo.std_application_id,

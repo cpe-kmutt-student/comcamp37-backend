@@ -1,10 +1,14 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/core/prisma/prisma.service";
+import { StatusUpdaterService } from "../status-updater/status-updater.service";
 import { AnswerQuestionDto } from "./dto/answer-question.dto";
 
 @Injectable()
 export class ApplicationQuestionService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly statusUpdaterService: StatusUpdaterService,
+	) {}
 
 	async getRegisAnswerHistory(userId: string, appId?: string | undefined) {
 		try {
@@ -99,6 +103,8 @@ export class ApplicationQuestionService {
 				},
 			});
 
+			await this.statusUpdaterService.regisQuestionDoneUpdater(answerQuestionDto.application_id);
+
 			return updatedAnswer;
 		} catch (e) {
 			console.log(e);
@@ -148,6 +154,8 @@ export class ApplicationQuestionService {
 					},
 				},
 			});
+
+			await this.statusUpdaterService.academicQuestionDoneUpdater(answerQuestionDto.application_id);
 
 			return updatedAnswer;
 		} catch (e) {

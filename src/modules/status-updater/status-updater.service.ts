@@ -3,9 +3,7 @@ import { PrismaService } from "src/core/prisma/prisma.service";
 
 @Injectable()
 export class StatusUpdaterService {
-	constructor(private readonly prisma: PrismaService) {
-		this.infoDoneUpdater("0ac5872c-9e26-4944-b124-499415bc64ee");
-	}
+	constructor(private readonly prisma: PrismaService) {}
 
 	async fileDoneUpdater(appId: string) {
 		try {
@@ -148,5 +146,26 @@ export class StatusUpdaterService {
 		}
 	}
 
-	async updateAll(userId: string) {}
+	async updateAllApplicationStatus(userId: string) {
+		try {
+			const studentApplication = await this.prisma.studentApplication.findMany({
+				where: {
+					std_user_id: userId,
+				},
+				select: {
+					std_application_id: true,
+				},
+			});
+
+			for (const { std_application_id } of studentApplication) {
+				await this.fileDoneUpdater(std_application_id);
+				await this.infoDoneUpdater(std_application_id);
+				await this.regisQuestionDoneUpdater(std_application_id);
+				await this.academicQuestionDoneUpdater(std_application_id);
+				await this.paymentDoneUpdater(std_application_id);
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	}
 }

@@ -6,6 +6,7 @@ import { config } from "src/config/app.config";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { S3Service } from "src/core/s3/s3.service";
 import uuid from "uuid";
+import { StatusUpdaterService } from "../status-updater/status-updater.service";
 import { ApplicationFileDto } from "./dto/application-file.dto";
 
 @Injectable()
@@ -13,6 +14,7 @@ export class ApplicationFileService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly s3: S3Service,
+		private readonly statusUpdaterService: StatusUpdaterService,
 	) {}
 
 	async getApplicationFiles(userId: string, appId: string) {
@@ -90,6 +92,11 @@ export class ApplicationFileService {
 					std_file_size: file.size,
 				},
 			});
+
+			await this.statusUpdaterService.fileDoneUpdater(applicationFileDto.id);
+			if (applicationFileDto.type === "file_slip") {
+				await this.statusUpdaterService.paymentDoneUpdater(applicationFileDto.id);
+			}
 
 			return {
 				application_id: newApplicationFile.std_application_id,
