@@ -1,28 +1,35 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post, UseGuards } from "@nestjs/common";
+import { AdminGuard } from "src/common/guards/admin.guard";
+import { StaffGuard } from "src/common/guards/staff.guard";
 import { EmailService } from "src/core/email/email.service";
+import { AnnouncementEmailDto, ContentIssueEmailDto, TrackingEmailDto } from "./dto/email-notification.dto";
 import { EmailNotificationService } from "./email-notification.service";
 
 @Controller("/api/email/notification")
 export class EmailNotificationController {
 	constructor(private readonly emailNotificationService: EmailNotificationService) {}
 
-	@Post("announce-test")
-	async testAnnouncement(@Body() body: { email: string; name: string }) {
-		// return await this.emailService.sendAnnouncement(body.email, body.name);
+	@Post("/announce")
+	@UseGuards(AdminGuard)
+	announcement(@Body() announcementEmailDto: AnnouncementEmailDto) {
+		return this.emailNotificationService.sendAnnouncement(announcementEmailDto.email, announcementEmailDto.name);
 	}
 
-	@Post("registration-confirm-test")
-	async testRegistrationConfirm(@Body() body: { email: string; name: string }) {
-		// return await this.emailService.sendRegistrationConfirm(body.email, body.name);
+	@Post("/registration-confirm")
+	@UseGuards(AdminGuard)
+	registrationConfirm(@Body() announcementEmailDto: AnnouncementEmailDto) {
+		return this.emailNotificationService.sendRegistrationConfirm(announcementEmailDto.email, announcementEmailDto.name);
 	}
 
-	@Post("content-issue-test")
-	async testContentIssue(@Body() body: { email: string; name: string; issueDetail: string; deadline: string }) {
-		// return await this.emailService.sendContentIssue(body.email, body.name, body.issueDetail, body.deadline);
+	@Post("/content-issue")
+	@UseGuards(AdminGuard)
+	contentIssue(@Body() contentIssueEmailDto: ContentIssueEmailDto) {
+		return this.emailNotificationService.sendContentIssue(contentIssueEmailDto.email, contentIssueEmailDto.name, contentIssueEmailDto.detail, contentIssueEmailDto.deadline);
 	}
 
-	@Post("tracking-test")
-	async testTracking(@Body() body: { email: string; name: string; orderId: string; trackingNumber: string; provider: string }) {
-		// return await this.emailService.sendTracking(body.email, body.name, body.orderId, body.trackingNumber, body.provider);
+	@Post("/tracking")
+	@UseGuards(AdminGuard)
+	tracking(@Body() trackingEmailDto: TrackingEmailDto) {
+		return this.emailNotificationService.sendTracking(trackingEmailDto.email, trackingEmailDto.name, trackingEmailDto.application_id, trackingEmailDto.tracking_number, trackingEmailDto.provider);
 	}
 }
