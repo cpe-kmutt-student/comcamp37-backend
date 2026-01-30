@@ -1,0 +1,1635 @@
+{
+	"openapi": "3.0.3",
+	"info": {
+		"title": "ComCamp 37 - Backend API",
+		"description": "API สำหรับระบบรับสมัครค่าย ComCamp 37\n\n**สแต็กเทคโนโลยี:**\n- Node.js + NestJS\n- TypeScript\n- PostgreSQL (Supabase)\n- Prisma ORM\n- JWT Authentication\n\n**การ Authentication:**\nใช้ Google OAuth 2.0 ผ่าน Better Auth library\nส่วนใหญ่ต้องมี Session token ยกเว้น endpoint ที่ระบุว่า public\n",
+		"version": "1.0.0",
+		"contact": {
+			"name": "ComCamp 37 Technic Team"
+		}
+	},
+	"servers": [
+		{
+			"url": "http://localhost:3030",
+			"description": "Development Server"
+		},
+		{
+			"url": "https://api.comcamp.app",
+			"description": "Production Server"
+		}
+	],
+	"tags": [
+		{
+			"name": "Health Check",
+			"description": "ตรวจสอบสถานะ API"
+		},
+		{
+			"name": "Authentication",
+			"description": "การยืนยันตัวตน (Google OAuth)"
+		},
+		{
+			"name": "Student Application",
+			"description": "จัดการใบสมัครของนักเรียน"
+		},
+		{
+			"name": "Application Info",
+			"description": "ข้อมูลส่วนตัวในใบสมัคร"
+		},
+		{
+			"name": "Application File",
+			"description": "อัพโหลดและจัดการไฟล์เอกสาร"
+		},
+		{
+			"name": "Application Question",
+			"description": "คำถามลงทะเบียนและวิชาการ"
+		},
+		{
+			"name": "Application Status",
+			"description": "สถานะใบสมัคร"
+		},
+		{
+			"name": "Application Confirmation",
+			"description": "ยืนยันการเข้าร่วมค่าย"
+		},
+		{
+			"name": "Staff Statistics",
+			"description": "สถิติสำหรับเจ้าหน้าที่"
+		}
+	],
+	"components": {
+		"securitySchemes": {
+			"SessionAuth": {
+				"type": "apiKey",
+				"in": "cookie",
+				"name": "better-auth.session_token",
+				"description": "Session token จาก Better Auth (ได้หลังจาก login ด้วย Google)"
+			}
+		},
+		"schemas": {
+			"Error": {
+				"type": "object",
+				"properties": {
+					"statusCode": {
+						"type": "integer",
+						"description": "HTTP status code"
+					},
+					"message": {
+						"type": "string",
+						"description": "ข้อความอธิบายข้อผิดพลาด"
+					},
+					"error": {
+						"type": "string",
+						"description": "ชื่อประเภทข้อผิดพลาด"
+					}
+				}
+			},
+			"ApplicationInfoDto": {
+				"type": "object",
+				"required": [
+					"prefix",
+					"first_name",
+					"last_name",
+					"nick_name",
+					"age",
+					"birthdate",
+					"gender",
+					"religion",
+					"phone_number",
+					"education_level",
+					"education_institute",
+					"education_plan",
+					"parent_fullname",
+					"parent_relation",
+					"parent_phone_number",
+					"have_participated",
+					"have_laptop",
+					"can_participate_every_day",
+					"medical_insurance",
+					"chronic_disease",
+					"drug_allergy",
+					"food_allergy",
+					"blood_group",
+					"address",
+					"shirt_size",
+					"travel_plan",
+					"laptop_os",
+					"have_tablet",
+					"have_mouse"
+				],
+				"properties": {
+					"prefix": {
+						"type": "string",
+						"description": "คำนำหน้าชื่อ"
+					},
+					"first_name": {
+						"type": "string",
+						"description": "ชื่อ"
+					},
+					"last_name": {
+						"type": "string",
+						"description": "นามสกุล"
+					},
+					"nick_name": {
+						"type": "string",
+						"description": "ชื่อเล่น"
+					},
+					"age": {
+						"type": "number",
+						"minimum": 14,
+						"maximum": 20,
+						"description": "อายุ"
+					},
+					"birthdate": {
+						"type": "string",
+						"description": "วันเดือนปีเกิด"
+					},
+					"gender": {
+						"type": "string",
+						"enum": ["male", "female", "lgtv"],
+						"description": "เพศ"
+					},
+					"sexuality": {
+						"type": "string",
+						"description": "รสนิยมทางเพศ (optional)"
+					},
+					"religion": {
+						"type": "string",
+						"description": "ศาสนา"
+					},
+					"phone_number": {
+						"type": "string",
+						"description": "เบอร์โทรศัพท์"
+					},
+					"education_level": {
+						"type": "string",
+						"description": "ระดับการศึกษา"
+					},
+					"education_institute": {
+						"type": "string",
+						"description": "สถาบันการศึกษา"
+					},
+					"education_plan": {
+						"type": "string",
+						"description": "แผนการเรียน"
+					},
+					"parent_fullname": {
+						"type": "string",
+						"description": "ชื่อ-นามสกุล ผู้ปกครอง"
+					},
+					"parent_relation": {
+						"type": "string",
+						"description": "ความสัมพันธ์กับผู้ปกครอง"
+					},
+					"parent_phone_number": {
+						"type": "string",
+						"description": "เบอร์โทรผู้ปกครอง"
+					},
+					"have_participated": {
+						"type": "boolean",
+						"description": "เคยเข้าร่วมค่ายหรือไม่"
+					},
+					"have_laptop": {
+						"type": "boolean",
+						"description": "มีคอมพิวเตอร์ส่วนตัวหรือไม่"
+					},
+					"can_participate_every_day": {
+						"type": "boolean",
+						"description": "สามารถเข้าร่วมทุกวันหรือไม่"
+					},
+					"medical_insurance": {
+						"type": "string",
+						"description": "ประกันสุขภาพ"
+					},
+					"chronic_disease": {
+						"type": "string",
+						"description": "โรคประจำตัว"
+					},
+					"drug_allergy": {
+						"type": "string",
+						"description": "แพ้ยา"
+					},
+					"food_allergy": {
+						"type": "string",
+						"description": "แพ้อาหาร"
+					},
+					"blood_group": {
+						"type": "string",
+						"description": "หมู่เลือด"
+					},
+					"address": {
+						"type": "string",
+						"description": "ที่อยู่"
+					},
+					"shirt_size": {
+						"type": "string",
+						"description": "ไซส์เสื้อ"
+					},
+					"travel_plan": {
+						"type": "string",
+						"description": "แผนการเดินทาง"
+					},
+					"laptop_os": {
+						"type": "string",
+						"description": "ระบบปฏิบัติการของคอมพิวเตอร์"
+					},
+					"have_tablet": {
+						"type": "boolean",
+						"description": "มีแท็บเล็ตหรือไม่"
+					},
+					"have_mouse": {
+						"type": "boolean",
+						"description": "มีเมาส์หรือไม่"
+					}
+				}
+			},
+			"ApplicationFileDto": {
+				"type": "object",
+				"required": ["id", "type"],
+				"properties": {
+					"id": {
+						"type": "string",
+						"format": "uuid",
+						"description": "Application ID"
+					},
+					"type": {
+						"type": "string",
+						"enum": [
+							"file_face",
+							"file_national_id",
+							"file_parent_permission",
+							"file_pp_1",
+							"file_pp_7",
+							"file_slip"
+						],
+						"description": "ประเภทไฟล์"
+					}
+				}
+			},
+			"AnswerQuestionDto": {
+				"type": "object",
+				"required": ["application_id", "answers"],
+				"properties": {
+					"application_id": {
+						"type": "string",
+						"description": "Application ID"
+					},
+					"answers": {
+						"type": "array",
+						"description": "คำตอบทั้งหมด",
+						"items": {
+							"type": "object",
+							"properties": {
+								"section": {
+									"type": "string",
+									"description": "หมวดหมู่ของคำถาม"
+								},
+								"value": {
+									"type": "string",
+									"description": "คำตอบ"
+								}
+							}
+						}
+					}
+				}
+			},
+			"ApplicationConfirmationDto": {
+				"type": "object",
+				"required": ["application_id", "confirm"],
+				"properties": {
+					"application_id": {
+						"type": "string",
+						"description": "Application ID"
+					},
+					"confirm": {
+						"type": "boolean",
+						"description": "ยืนยันการเข้าร่วมหรือไม่"
+					},
+					"reason": {
+						"type": "string",
+						"description": "เหตุผลที่ไม่เข้าร่วม (optional)"
+					}
+				}
+			}
+		}
+	},
+	"paths": {
+		"/": {
+			"get": {
+				"summary": "ตรวจสอบสถานะ API",
+				"description": "ใช้ตรวจสอบว่า API ทำงานปกติหรือไม่",
+				"tags": ["Health Check"],
+				"responses": {
+					"200": {
+						"description": "API ทำงานปกติ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"status": {
+											"type": "string"
+										},
+										"message": {
+											"type": "string"
+										},
+										"timestamp": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/auth/{path}": {
+			"all": {
+				"summary": "Authentication Endpoints",
+				"description": "จัดการ Authentication ผ่าน Better Auth library\n\n**Endpoints ที่สำคัญ:**\n- `/api/auth/sign-in/google` - เริ่มการ login ด้วย Google\n- `/api/auth/sign-out` - Logout\n- `/api/auth/session` - ดูข้อมูล session ปัจจุบัน\n\nดูเอกสารเพิ่มเติมที่: https://www.better-auth.com/\n",
+				"tags": ["Authentication"],
+				"parameters": [
+					{
+						"name": "path",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Auth endpoint path"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "สำเร็จ"
+					},
+					"401": {
+						"description": "ไม่มีสิทธิ์"
+					}
+				}
+			}
+		},
+		"/api/student/application": {
+			"get": {
+				"summary": "ดึงรายการใบสมัครทั้งหมดของนักเรียน",
+				"description": "ดึงข้อมูลใบสมัครทั้งหมดของผู้ใช้ที่ login",
+				"tags": ["Student Application"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "รายการใบสมัครทั้งหมด",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"std_application_id": {
+												"type": "string"
+											},
+											"std_application_submit": {
+												"type": "boolean"
+											},
+											"std_application_confirm": {
+												"type": "boolean"
+											},
+											"std_application_result": {
+												"type": "string",
+												"enum": [
+													"waiting_for_announcement",
+													"pass",
+													"reserve",
+													"fail"
+												]
+											},
+											"created_at": {
+												"type": "string",
+												"format": "date-time"
+											},
+											"updated_at": {
+												"type": "string",
+												"format": "date-time"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/student/application/create": {
+			"post": {
+				"summary": "สร้างใบสมัครใหม่",
+				"description": "สร้างใบสมัครใหม่สำหรับผู้ใช้ที่ login",
+				"tags": ["Student Application"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "สร้างใบสมัครสำเร็จ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"std_application_id": {
+											"type": "string"
+										},
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/student/application/{id}": {
+			"get": {
+				"summary": "ดูข้อมูลใบสมัครเฉพาะ",
+				"description": "ดึงข้อมูลใบสมัครตาม ID",
+				"tags": ["Student Application"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Application ID"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ข้อมูลใบสมัคร",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"std_application_id": {
+											"type": "string"
+										},
+										"std_application_submit": {
+											"type": "boolean"
+										},
+										"std_application_confirm": {
+											"type": "boolean"
+										},
+										"std_info": {
+											"type": "object",
+											"description": "ข้อมูลส่วนตัว"
+										},
+										"std_file": {
+											"type": "array",
+											"description": "ไฟล์เอกสาร"
+										},
+										"std_status": {
+											"type": "object",
+											"description": "สถานะใบสมัคร"
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "ไม่พบใบสมัคร",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/application/info/{id}": {
+			"get": {
+				"summary": "ดูข้อมูลส่วนตัวในใบสมัคร",
+				"description": "ดึงข้อมูลส่วนตัวของใบสมัครตาม ID",
+				"tags": ["Application Info"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Application ID"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ข้อมูลส่วนตัว",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApplicationInfoDto"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "ไม่พบข้อมูล",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "บันทึก/อัพเดทข้อมูลส่วนตัว",
+				"description": "บันทึกหรืออัพเดทข้อมูลส่วนตัวในใบสมัคร",
+				"tags": ["Application Info"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Application ID"
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ApplicationInfoDto"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "บันทึกข้อมูลสำเร็จ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string"
+										},
+										"data": {
+											"$ref": "#/components/schemas/ApplicationInfoDto"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "ข้อมูลไม่ถูกต้อง",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/application/file/{id}": {
+			"get": {
+				"summary": "ดูรายการไฟล์ทั้งหมดของใบสมัคร",
+				"description": "ดึงรายการไฟล์เอกสารทั้งหมดของใบสมัครตาม ID",
+				"tags": ["Application File"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Application ID"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "รายการไฟล์ทั้งหมด",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"std_file_key": {
+												"type": "string",
+												"description": "S3 file key"
+											},
+											"std_file_type": {
+												"type": "string",
+												"description": "ประเภทไฟล์"
+											},
+											"std_file_originalname": {
+												"type": "string",
+												"description": "ชื่อไฟล์เดิม"
+											},
+											"std_file_size": {
+												"type": "integer",
+												"description": "ขนาดไฟล์ (bytes)"
+											},
+											"created_at": {
+												"type": "string",
+												"format": "date-time"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/application/file/{id}/{type}": {
+			"get": {
+				"summary": "ดูไฟล์ตามประเภท",
+				"description": "ดึงข้อมูลไฟล์เฉพาะประเภทของใบสมัคร",
+				"tags": ["Application File"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Application ID"
+					},
+					{
+						"name": "type",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"enum": [
+								"file_face",
+								"file_national_id",
+								"file_parent_permission",
+								"file_pp_1",
+								"file_pp_7",
+								"file_slip"
+							]
+						},
+						"description": "ประเภทไฟล์"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ข้อมูลไฟล์",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"std_file_key": {
+											"type": "string"
+										},
+										"std_file_type": {
+											"type": "string"
+										},
+										"url": {
+											"type": "string",
+											"description": "URL สำหรับดาวน์โหลดไฟล์"
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "ไม่พบไฟล์",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/application/file/upload": {
+			"post": {
+				"summary": "อัพโหลดไฟล์เอกสาร",
+				"description": "อัพโหลดไฟล์เอกสารประกอบใบสมัคร\n\n**ข้อกำหนด:**\n- ขนาดไฟล์ไม่เกิน 3 MB\n- ใช้ multipart/form-data\n",
+				"tags": ["Application File"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"required": ["id", "type", "file"],
+								"properties": {
+									"id": {
+										"type": "string",
+										"format": "uuid",
+										"description": "Application ID"
+									},
+									"type": {
+										"type": "string",
+										"enum": [
+											"file_face",
+											"file_national_id",
+											"file_parent_permission",
+											"file_pp_1",
+											"file_pp_7",
+											"file_slip"
+										],
+										"description": "ประเภทไฟล์"
+									},
+									"file": {
+										"type": "string",
+										"format": "binary",
+										"description": "ไฟล์ที่ต้องการอัพโหลด"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "อัพโหลดสำเร็จ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string"
+										},
+										"file_key": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "ไฟล์ไม่ถูกต้องหรือใหญ่เกินไป",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/application/question/regis/answer/history": {
+			"get": {
+				"summary": "ดูคำตอบคำถามลงทะเบียนทั้งหมด",
+				"description": "ดึงประวัติคำตอบคำถามลงทะเบียนของผู้ใช้ทั้งหมด",
+				"tags": ["Application Question"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ประวัติคำตอบทั้งหมด",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"std_regis_answer_id": {
+												"type": "integer"
+											},
+											"std_regis_answer_section": {
+												"type": "string"
+											},
+											"std_regis_answer": {
+												"type": "string"
+											},
+											"created_at": {
+												"type": "string",
+												"format": "date-time"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/application/question/regis/{id}/answer/history": {
+			"get": {
+				"summary": "ดูคำตอบคำถามลงทะเบียนของใบสมัครเฉพาะ",
+				"description": "ดึงประวัติคำตอบคำถามลงทะเบียนตาม Application ID",
+				"tags": ["Application Question"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Application ID"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ประวัติคำตอบ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"std_regis_answer_id": {
+												"type": "integer"
+											},
+											"std_regis_answer_section": {
+												"type": "string"
+											},
+											"std_regis_answer": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/application/question/regis/answer": {
+			"post": {
+				"summary": "ตอบคำถามลงทะเบียน",
+				"description": "บันทึกคำตอบคำถามลงทะเบียน",
+				"tags": ["Application Question"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AnswerQuestionDto"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "บันทึกคำตอบสำเร็จ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "ข้อมูลไม่ถูกต้อง",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/application/question/academic/answer/history": {
+			"get": {
+				"summary": "ดูคำตอบคำถามวิชาการทั้งหมด",
+				"description": "ดึงประวัติคำตอบคำถามวิชาการของผู้ใช้ทั้งหมด",
+				"tags": ["Application Question"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ประวัติคำตอบทั้งหมด",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"std_academic_answer_id": {
+												"type": "integer"
+											},
+											"std_academic_answer_section": {
+												"type": "string"
+											},
+											"std_academic_answer": {
+												"type": "string"
+											},
+											"created_at": {
+												"type": "string",
+												"format": "date-time"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/application/question/academic/{id}/answer/history": {
+			"get": {
+				"summary": "ดูคำตอบคำถามวิชาการของใบสมัครเฉพาะ",
+				"description": "ดึงประวัติคำตอบคำถามวิชาการตาม Application ID",
+				"tags": ["Application Question"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Application ID"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ประวัติคำตอบ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"std_academic_answer_id": {
+												"type": "integer"
+											},
+											"std_academic_answer_section": {
+												"type": "string"
+											},
+											"std_academic_answer": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/application/question/academic/answer": {
+			"post": {
+				"summary": "ตอบคำถามวิชาการ",
+				"description": "บันทึกคำตอบคำถามวิชาการ",
+				"tags": ["Application Question"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AnswerQuestionDto"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "บันทึกคำตอบสำเร็จ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "ข้อมูลไม่ถูกต้อง",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/application/status": {
+			"get": {
+				"summary": "ดูสถานะใบสมัครทั้งหมด",
+				"description": "ดึงสถานะของใบสมัครทั้งหมดของผู้ใช้",
+				"tags": ["Application Status"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "สถานะใบสมัครทั้งหมด",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"std_application_id": {
+												"type": "string"
+											},
+											"std_status_info_done": {
+												"type": "boolean",
+												"description": "กรอกข้อมูลส่วนตัวเสร็จแล้วหรือไม่"
+											},
+											"std_status_file_done": {
+												"type": "boolean",
+												"description": "อัพโหลดไฟล์ครบหรือไม่"
+											},
+											"std_status_regis_question_done": {
+												"type": "boolean",
+												"description": "ตอบคำถามลงทะเบียนแล้วหรือไม่"
+											},
+											"std_status_acdemic_question_done": {
+												"type": "boolean",
+												"description": "ตอบคำถามวิชาการแล้วหรือไม่"
+											},
+											"std_status_payment_done": {
+												"type": "boolean",
+												"description": "ชำระเงินแล้วหรือไม่"
+											},
+											"stf_info_checked": {
+												"type": "boolean",
+												"description": "เจ้าหน้าที่ตรวจข้อมูลแล้วหรือไม่"
+											},
+											"stf_regis_question_checked": {
+												"type": "boolean",
+												"description": "เจ้าหน้าที่ตรวจคำถามลงทะเบียนแล้วหรือไม่"
+											},
+											"stf_academic_question_checked": {
+												"type": "boolean",
+												"description": "เจ้าหน้าที่ตรวจคำถามวิชาการแล้วหรือไม่"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/application/status/{id}": {
+			"get": {
+				"summary": "ดูสถานะใบสมัครเฉพาะ",
+				"description": "ดึงสถานะของใบสมัครตาม ID",
+				"tags": ["Application Status"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Application ID"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "สถานะใบสมัคร",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"std_application_id": {
+											"type": "string"
+										},
+										"std_status_info_done": {
+											"type": "boolean"
+										},
+										"std_status_file_done": {
+											"type": "boolean"
+										},
+										"std_status_regis_question_done": {
+											"type": "boolean"
+										},
+										"std_status_acdemic_question_done": {
+											"type": "boolean"
+										},
+										"std_status_payment_done": {
+											"type": "boolean"
+										},
+										"stf_info_checked": {
+											"type": "boolean"
+										},
+										"stf_regis_question_checked": {
+											"type": "boolean"
+										},
+										"stf_academic_question_checked": {
+											"type": "boolean"
+										},
+										"std_info_note": {
+											"type": "string",
+											"description": "หมายเหตุจากเจ้าหน้าที่"
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "ไม่พบสถานะ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/application/confirmation": {
+			"get": {
+				"summary": "ดูข้อมูลการยืนยันทั้งหมด",
+				"description": "ดึงข้อมูลการยืนยันเข้าร่วมค่ายของผู้ใช้ทั้งหมด",
+				"tags": ["Application Confirmation"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ข้อมูลการยืนยันทั้งหมด",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"std_application_id": {
+												"type": "string"
+											},
+											"std_application_confirm": {
+												"type": "boolean"
+											},
+											"std_application_abort_reason": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "ยืนยันการเข้าร่วมค่าย",
+				"description": "บันทึกการยืนยันหรือปฏิเสธการเข้าร่วมค่าย",
+				"tags": ["Application Confirmation"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ApplicationConfirmationDto"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "บันทึกการยืนยันสำเร็จ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "ข้อมูลไม่ถูกต้อง",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/application/confirmation/{id}": {
+			"get": {
+				"summary": "ดูข้อมูลการยืนยันเฉพาะ",
+				"description": "ดึงข้อมูลการยืนยันเข้าร่วมค่ายตาม Application ID",
+				"tags": ["Application Confirmation"],
+				"security": [
+					{
+						"SessionAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Application ID"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "ข้อมูลการยืนยัน",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"std_application_id": {
+											"type": "string"
+										},
+										"std_application_confirm": {
+											"type": "boolean"
+										},
+										"std_application_abort_reason": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "ไม่มี Session",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "ไม่พบข้อมูล",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/staff/statistic/count": {
+			"get": {
+				"summary": "ดูสถิติจำนวนผู้สมัครทั้งหมด (Public)",
+				"description": "ดึงข้อมูลสถิติจำนวนผู้สมัครทั้งหมด\n\n**หมายเหตุ:** Endpoint นี้เปิดให้เรียกได้โดยไม่ต้อง login\n",
+				"tags": ["Staff Statistics"],
+				"responses": {
+					"200": {
+						"description": "ข้อมูลสถิติ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"total_applications": {
+											"type": "integer",
+											"description": "จำนวนใบสมัครทั้งหมด"
+										},
+										"total_submitted": {
+											"type": "integer",
+											"description": "จำนวนที่ส่งใบสมัครแล้ว"
+										},
+										"total_confirmed": {
+											"type": "integer",
+											"description": "จำนวนที่ยืนยันเข้าร่วมแล้ว"
+										},
+										"total_passed": {
+											"type": "integer",
+											"description": "จำนวนที่ผ่านการคัดเลือก"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
