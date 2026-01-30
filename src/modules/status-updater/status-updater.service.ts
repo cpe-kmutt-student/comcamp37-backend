@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/core/prisma/prisma.service";
 
 @Injectable()
@@ -21,7 +21,7 @@ export class StatusUpdaterService {
 			if (!getAllUploadedType.includes("file_pp_1")) return;
 			if (!getAllUploadedType.includes("file_pp_7")) return;
 
-			await this.prisma.applicationStatus.update({
+			return await this.prisma.applicationStatus.update({
 				where: {
 					std_application_id: appId,
 				},
@@ -44,11 +44,11 @@ export class StatusUpdaterService {
 
 			for (const info in appInfo) {
 				if (appInfo[info] === null) {
-					return;
+					return new NotFoundException();
 				}
 			}
 
-			await this.prisma.applicationStatus.update({
+			return await this.prisma.applicationStatus.update({
 				where: {
 					std_application_id: appId,
 				},
@@ -74,10 +74,10 @@ export class StatusUpdaterService {
 			const [...setAnsweredSections] = new Set(answeredSections);
 
 			if (setAnsweredSections.length !== 6) {
-				return;
+				return new NotFoundException();
 			}
 
-			await this.prisma.applicationStatus.update({
+			return await this.prisma.applicationStatus.update({
 				where: {
 					std_application_id: appId,
 				},
@@ -86,7 +86,7 @@ export class StatusUpdaterService {
 				},
 			});
 		} catch (e) {
-			console.log(e);
+			throw new InternalServerErrorException();
 		}
 	}
 
@@ -103,10 +103,10 @@ export class StatusUpdaterService {
 			const [...setAnsweredSections] = new Set(answeredSections);
 
 			if (setAnsweredSections.length !== 6) {
-				return;
+				return new NotFoundException();
 			}
 
-			await this.prisma.applicationStatus.update({
+			return await this.prisma.applicationStatus.update({
 				where: {
 					std_application_id: appId,
 				},
@@ -115,7 +115,7 @@ export class StatusUpdaterService {
 				},
 			});
 		} catch (e) {
-			console.log(e);
+			throw new InternalServerErrorException();
 		}
 	}
 
@@ -130,10 +130,10 @@ export class StatusUpdaterService {
 			const findPaymentEvidence = appFiles.filter((f) => f.std_file_type === "file_slip");
 
 			if (findPaymentEvidence.length === 0) {
-				return;
+				return new NotFoundException();
 			}
 
-			await this.prisma.applicationStatus.update({
+			return await this.prisma.applicationStatus.update({
 				where: {
 					std_application_id: appId,
 				},
@@ -142,7 +142,7 @@ export class StatusUpdaterService {
 				},
 			});
 		} catch (e) {
-			console.log(e);
+			throw new InternalServerErrorException();
 		}
 	}
 
@@ -164,8 +164,17 @@ export class StatusUpdaterService {
 				await this.academicQuestionDoneUpdater(std_application_id);
 				await this.paymentDoneUpdater(std_application_id);
 			}
+
+			return await this.prisma.studentApplication.findMany({
+				where: {
+					std_user_id: userId,
+				},
+				include: {
+					std_status: true,
+				},
+			});
 		} catch (e) {
-			console.log(e);
+			throw new InternalServerErrorException();
 		}
 	}
 }
