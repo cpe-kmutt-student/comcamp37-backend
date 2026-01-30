@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
 import { PrismaService } from "src/core/prisma/prisma.service";
 
 @Injectable()
-export class StaffGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
 	constructor(private readonly prisma: PrismaService) {}
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -22,9 +22,7 @@ export class StaffGuard implements CanActivate {
 
 			if (!staffUser) return false;
 
-			if (staffUser.role === "admin") return true;
-
-			if (staffUser.role !== "staff") return false;
+			if (staffUser.role !== "admin") return false;
 
 			return true;
 		} catch (e) {
