@@ -32,7 +32,7 @@ export class EmailService {
 		}
 	}
 
-	async sendContentIssue(email: string, name: string, issueDetail: string, deadline: string) {
+	async sendContentIssue(email: string, name: string, issueDetail: string, deadline?: string) {
 		try {
 			const html = await render(ContentIssueEmail({ name, issueDetail, deadline }));
 			return await this.sendMail(email, "แจ้งเตือนปัญหาเนื้อหา", html);

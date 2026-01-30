@@ -6,7 +6,7 @@ import { Header } from "./layout/Header";
 interface ContentIssueEmailProps {
 	name: string;
 	issueDetail: string;
-	deadline: string;
+	deadline?: string;
 }
 
 const CONFIG = {
@@ -65,7 +65,7 @@ export default function ContentIssueEmail({ name, issueDetail, deadline }: Conte
 
 							<Section className="bg-[#fef3cd] border-l-4 border-[#f2d575] rounded-lg px-6 py-5 mb-8">
 								<Text className="text-sm leading-relaxed text-[#504039] m-0">
-									<strong>⏰ กำหนดแก้ไขภายใน:</strong> <span className="text-[#e98d55] font-bold">{deadline}</span>
+									<strong>⏰ กำหนดแก้ไขภายใน:</strong> <span className="text-[#e98d55] font-bold">{deadline ? deadline : " ไม่ได้กำหนด"}</span>
 								</Text>
 								<Text className="text-sm leading-relaxed text-[#504039] m-0 mt-2">หากไม่ดำเนินการแก้ไขภายในเวลาที่กำหนด ใบสมัครจะไม่ถูกนำไปพิจารณาในรอบคัดเลือก</Text>
 							</Section>
