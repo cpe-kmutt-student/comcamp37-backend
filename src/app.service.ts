@@ -18,7 +18,7 @@ export class AppService {
 				"Click the magic portal below and I'll send you back safely 👇✨",
 				config.app.frontendUrl,
 			],
-			...(await this.getSystemSpecs()),
+			// ...(await this.getSystemSpecs()),
 		};
 	}
 
