@@ -146,6 +146,23 @@ model ApplicationAcademicQuestionAnswer {
 //   created_at                              DateTime                  @default(now())
 //   updated_at                              DateTime                  @updatedAt
 // }
+enum AppInfoStatus {
+  info_approve
+  info_reject
+  info_waiting
+}
+
+
+model ApplicationInfoCheck {
+  std_application_id                      String                     @id
+  std_application                         ApplicationStatus          @relation(fields: [std_application_id], references: [std_application_id])
+  
+  stf_user_id                             String                     @unique
+  stf_user                                User                       @relation(fields: [stf_user_id], references: [id])
+  std_info_status                         AppInfoStatus
+  created_at                              DateTime                   @default(now())
+  updated_at                              DateTime                   @updatedAt
+}
 
 model ApplicationStatus {
   std_application_id                      String                    @id
@@ -157,7 +174,8 @@ model ApplicationStatus {
   std_status_acdemic_question_done        Boolean?                  @default(false)
   std_status_payment_done                 Boolean?                  @default(false)
   
-  stf_info_checked                        Boolean?                  @default(false)
+  stf_info_check                          ApplicationInfoCheck?
+
   stf_regis_question_checked              Boolean?                  @default(false)
   stf_academic_question_checked           Boolean?                  @default(false)
   
@@ -233,6 +251,8 @@ model User {
 
   stf_regis_question_score                ApplicationRegisQuestionScore[]
   stf_academic_question_score             ApplicationAcademicQuestionScore[]
+
+  stf_info_check                          ApplicationInfoCheck?
 
   @@unique([email])
   @@map("user")
