@@ -1,4 +1,6 @@
+import https from "node:https";
 import { S3Client } from "@aws-sdk/client-s3";
+import { NodeHttpHandler } from "@aws-sdk/node-http-handler";
 import { Injectable } from "@nestjs/common";
 import { config } from "src/config/app.config";
 
@@ -13,6 +15,11 @@ export class S3Service extends S3Client {
 				secretAccessKey: config.s3.secretKey,
 			},
 			forcePathStyle: true, // IMPORTANT for Supabase
+			// requestHandler: new NodeHttpHandler({
+			// 	httpsAgent: new https.Agent({
+			// 		rejectUnauthorized: false,
+			// 	}),
+			// }),
 		});
 	}
 }
