@@ -34,7 +34,6 @@ async function bootstrap() {
 		apiReference({
 			theme: "default",
 			content: swaggerDocumentFactory(),
-			url: "/openapi.json",
 		}),
 	);
 
