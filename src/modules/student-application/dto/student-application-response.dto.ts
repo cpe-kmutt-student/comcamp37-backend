@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { AppInfoGender, ApplicationResult, FileType } from "../../../../generated/prisma/enums";
 
-export class ApplicationInfoResponseDto {
+export class StudentAppInfoResponseDto {
 	@ApiProperty({ description: "Application ID", example: "550e8400-e29b-41d4-a716-446655440000" })
 	std_application_id: string;
 
@@ -102,7 +102,7 @@ export class ApplicationInfoResponseDto {
 	updated_at: Date;
 }
 
-export class ApplicationFileResponseDto {
+export class StudentAppFileResponseDto {
 	@ApiProperty({ description: "Application ID", example: "550e8400-e29b-41d4-a716-446655440000" })
 	std_application_id: string;
 
@@ -134,7 +134,7 @@ export class ApplicationFileResponseDto {
 	updated_at: Date;
 }
 
-export class ApplicationRegisQuestionAnswerResponseDto {
+export class StudentAppRegisQuestionAnswerResponseDto {
 	@ApiProperty({ description: "Application ID", example: "550e8400-e29b-41d4-a716-446655440000" })
 	std_application_id: string;
 
@@ -154,7 +154,7 @@ export class ApplicationRegisQuestionAnswerResponseDto {
 	updated_at: Date;
 }
 
-export class ApplicationAcademicQuestionAnswerResponseDto {
+export class StudentAppAcademicQuestionAnswerResponseDto {
 	@ApiProperty({ description: "Application ID", example: "550e8400-e29b-41d4-a716-446655440000" })
 	std_application_id: string;
 
@@ -174,7 +174,7 @@ export class ApplicationAcademicQuestionAnswerResponseDto {
 	updated_at: Date;
 }
 
-export class ApplicationStatusResponseDto {
+export class StudentAppStatusResponseDto {
 	@ApiProperty({ description: "Application ID", example: "550e8400-e29b-41d4-a716-446655440000" })
 	std_application_id: string;
 
@@ -240,20 +240,20 @@ export class StudentApplicationResponseDto {
 	@ApiProperty({ description: "User ID", example: "user-uuid-123" })
 	std_user_id: string;
 
-	@ApiPropertyOptional({ description: "Application info details", type: ApplicationInfoResponseDto })
-	std_info?: ApplicationInfoResponseDto;
+	@ApiPropertyOptional({ description: "Application info details", type: StudentAppInfoResponseDto })
+	std_info?: StudentAppInfoResponseDto;
 
-	@ApiPropertyOptional({ description: "Application files", type: [ApplicationFileResponseDto] })
-	std_file?: ApplicationFileResponseDto[];
+	@ApiPropertyOptional({ description: "Application files", type: [StudentAppFileResponseDto] })
+	std_file?: StudentAppFileResponseDto[];
 
-	@ApiPropertyOptional({ description: "Registration question answers", type: [ApplicationRegisQuestionAnswerResponseDto] })
-	std_regis_question?: ApplicationRegisQuestionAnswerResponseDto[];
+	@ApiPropertyOptional({ description: "Registration question answers", type: [StudentAppRegisQuestionAnswerResponseDto] })
+	std_regis_question?: StudentAppRegisQuestionAnswerResponseDto[];
 
-	@ApiPropertyOptional({ description: "Academic question answers", type: [ApplicationAcademicQuestionAnswerResponseDto] })
-	std_academic_question?: ApplicationAcademicQuestionAnswerResponseDto[];
+	@ApiPropertyOptional({ description: "Academic question answers", type: [StudentAppAcademicQuestionAnswerResponseDto] })
+	std_academic_question?: StudentAppAcademicQuestionAnswerResponseDto[];
 
-	@ApiPropertyOptional({ description: "Application status", type: ApplicationStatusResponseDto })
-	std_status?: ApplicationStatusResponseDto;
+	@ApiPropertyOptional({ description: "Application status", type: StudentAppStatusResponseDto })
+	std_status?: StudentAppStatusResponseDto;
 
 	@ApiProperty({ description: "Created at timestamp" })
 	created_at: Date;
