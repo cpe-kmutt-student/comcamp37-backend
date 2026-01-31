@@ -8,7 +8,7 @@ services:
     restart: unless-stopped
     env_file: .env
     ports:
-      - 8000:3030
+      - 8980:3030
     networks:
       - internal
 
