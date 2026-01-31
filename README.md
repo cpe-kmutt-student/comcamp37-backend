@@ -98,7 +98,20 @@ BETTER_AUTH_BASE_PATH=http://localhost:3030/api/auth
 ```
 
 
+<h3>Reference & Endpoint</h3>
+<ul>
+  <li>Dev Server : <code>http://dev-api.comcamp.io</code></li>
+  <li>Prod Server : <code>http://api.comcamp.io</code></li>
+  <li>Docs (Swagger) : <code>/docs</code></li>
+  <li>Docs (Scalar) : <code>/reference</code></li>
+  <li>Docs (Better Auth) : <code>/api/auth/reference</code></li>
+</ul>
 
+<h3>Object Storage Server (S3 Complatible)</h3>
+<ul>
+  <li>Endpoint : <code>https://s3-storage.comcamp.io</code></li>
+  <li>Console : <code>https://console-storage.comcamp.io</code></li>
+</ul>
 
 <h3>Cr.</h3>
 <p>Made with 🧡 by ComCamp 37 Technic Team</p>
