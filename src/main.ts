@@ -3,6 +3,7 @@ import { ValidationPipe } from "@nestjs/common";
 import type { CorsOptions } from "@nestjs/common/interfaces/external/cors-options.interface";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { apiReference } from "@scalar/nestjs-api-reference";
 import { toNodeHandler } from "better-auth/node";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
@@ -27,6 +28,14 @@ async function bootstrap() {
 	const swaggerConfig = new DocumentBuilder().setTitle("ComCamp37 API Document").setDescription("ComCamp37 backend API for a student registration/camp system").setVersion("Dev 0.1.0").build();
 	const swaggerDocumentFactory = () => SwaggerModule.createDocument(app, swaggerConfig);
 	SwaggerModule.setup("docs", app, swaggerDocumentFactory);
+
+	const OpenApiSpecification = app.use(
+		"/reference",
+		apiReference({
+			theme: "default",
+			content: swaggerDocumentFactory(),
+		}),
+	);
 
 	await app.listen(config.app.port);
 }

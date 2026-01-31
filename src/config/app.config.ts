@@ -24,4 +24,19 @@ export const config = {
 		googleClientSecret: process.env.AUTH_GOOGLE_CLIENT_SECRET || "",
 		googleCallbackUrl: process.env.AUTH_GOOGLE_CALLBACK_URL || "http://localhost:3030/student/google/callback",
 	},
-};
+	email: {
+		resend: {
+			key: process.env.RESEND_API_KEY || "",
+			name: process.env.RESEND_API_NAME || "",
+			domain: process.env.RESEND_API_DOMAIN || "",
+		},
+		nodemailer: {
+			host: process.env.MAIL_HOST || "",
+			port: Number(process.env.MAIL_PORT || ""),
+			user: process.env.MAIL_USER || "",
+			pass: process.env.MAIL_PASS || "",
+			secure: false,
+			from: process.env.MAIL_FROM || "",
+		},
+	},
+} as const;

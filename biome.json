@@ -26,7 +26,8 @@
 				"noUnusedVariables": "off",
 				"noUnusedImports": "off",
 				"noUnusedPrivateClassMembers": "off",
-				"noUnusedFunctionParameters": "off"
+				"noUnusedFunctionParameters": "off",
+				"useHookAtTopLevel": "off"
 			}
 		}
 	},

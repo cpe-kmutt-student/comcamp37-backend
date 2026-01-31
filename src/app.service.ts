@@ -6,7 +6,7 @@ import { config } from "./config/app.config";
 export class AppService {
 	async getStatus() {
 		return {
-			title: "ComCamp #37 Backend REST API",
+			title: "ComCamp#37 Backend REST API",
 			credits: "Made with 🧡 by ComCamp#37 Technic Team",
 			greeting: [
 				"😎 Whoa there, explorer!",
@@ -18,7 +18,7 @@ export class AppService {
 				"Click the magic portal below and I'll send you back safely 👇✨",
 				config.app.frontendUrl,
 			],
-			...(await this.getSystemSpecs()),
+			// ...(await this.getSystemSpecs()),
 		};
 	}
 
