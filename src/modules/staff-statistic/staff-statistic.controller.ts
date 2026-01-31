@@ -10,16 +10,19 @@ import { StaffStatisticService } from "./staff-statistic.service";
 export class StaffStatisticController {
 	constructor(private readonly staffStatisticService: StaffStatisticService) {}
 
-	@Get("/count")
-	// @UseGuards(StaffGuard)
-	@AllowAnonymous()
+	@Get("/")
+	@UseGuards(StaffGuard)
 	@ApiOperation({
-		description: "Retrieve application statistics including user counts, submission status, and gender breakdown (Public endpoint)",
+		description: "Retrieve application statistics including user counts, submission status, and gender breakdown (Staff only)",
 	})
 	@ApiResponse({
 		status: 200,
 		description: "Successfully retrieved statistics",
 		type: StaffStatisticCountResponseDto,
+	})
+	@ApiResponse({
+		status: 403,
+		description: "Forbidden - Staff access required",
 	})
 	@ApiResponse({
 		status: 500,

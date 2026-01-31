@@ -2,7 +2,7 @@ import { Type } from "@aws-sdk/client-s3";
 import { CanActivate, ExecutionContext, Injectable, InternalServerErrorException } from "@nestjs/common";
 import type { UserSession } from "@thallesp/nestjs-better-auth";
 import { Session } from "@thallesp/nestjs-better-auth";
-import { Observable } from "rxjs";
+import { Observable, retry } from "rxjs";
 import { PrismaService } from "src/core/prisma/prisma.service";
 
 @Injectable()
@@ -24,9 +24,13 @@ export class StaffGuard implements CanActivate {
 
 			if (staffUser.role === "admin") return true;
 
-			if (staffUser.role !== "staff") return false;
+			if (staffUser.role === "staff") return true;
 
-			return true;
+			if (staffUser.role === "academic") return true;
+
+			if (staffUser.role === "regis") return true;
+
+			return false;
 		} catch (e) {
 			return false;
 		}
