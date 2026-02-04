@@ -20,6 +20,7 @@ import { ApplicationInfoModule } from "./modules/application-info/application-in
 import { ApplicationQuestionModule } from "./modules/application-question/application-question.module";
 import { ApplicationStatusModule } from "./modules/application-status/application-status.module";
 import { EmailNotificationModule } from "./modules/email-notification/email-notification.module";
+import { StaffAccountModule } from "./modules/staff-account/staff-account.module";
 import { StaffApplicationModule } from "./modules/staff-application/staff-application.module";
 import { StaffStatisticModule } from "./modules/staff-statistic/staff-statistic.module";
 import { StaffStatusModule } from "./modules/staff-status/staff-status.module";
@@ -55,6 +56,7 @@ import { StudentApplicationModule } from "./modules/student-application/student-
 		StaffStatisticModule,
 		StaffApplicationModule,
 		StaffStatusModule,
+		StaffAccountModule,
 	],
 
 	controllers: [AppController],
