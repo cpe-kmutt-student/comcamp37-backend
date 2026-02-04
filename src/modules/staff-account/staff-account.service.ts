@@ -27,11 +27,7 @@ export class StaffAccountService {
 	}
 
 	async getAllRoles() {
-		return [
-			...Object.values(UserRoles)
-				.filter((r) => r !== "user")
-				.map((r) => ({ role: r })),
-		];
+		return [...Object.values(UserRoles).filter((r) => r !== "user")];
 	}
 
 	async createStaffAccount(createStaffAccountDto: CreateStaffAccountDto) {

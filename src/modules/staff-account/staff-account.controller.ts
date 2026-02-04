@@ -67,7 +67,11 @@ export class StaffAccountController {
 	@ApiResponse({
 		status: 200,
 		description: "Successfully retrieved all roles",
-		type: [StaffRoleResponseDto],
+		schema: {
+			type: "array",
+			items: { type: "string", enum: ["admin", "regis", "staff"] },
+			example: ["admin", "regis", "staff"],
+		},
 	})
 	@ApiResponse({
 		status: 403,
