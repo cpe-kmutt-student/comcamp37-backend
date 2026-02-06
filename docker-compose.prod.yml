@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+  traefik:
+    image: traefik:v3.0
+    container_name: traefik
+    restart: unless-stopped
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+
+      - "--entrypoints.web.address=:80"
+
+      - "--log.level=DEBUG"
+      - "--accesslog=true"
+
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+    ports:
+      - "8980:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - internal
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    labels:
+      # Treafik Base Config
+      - "traefik.enable=true"
+      - "traefik.http.routers.client.rule=Host(`api.localhost`) || Host(`api.comcamp.io`) || Host(`dev-api.comcamp.io`)"
+      - "traefik.http.routers.client.entrypoints=web"
+      - "traefik.http.services.client.loadbalancer.server.port=3030"
+
+      # Treafik Health Check Config
+      - "traefik.http.services.client.loadbalancer.healthcheck.path=/health"
+      - "traefik.http.services.client.loadbalancer.healthcheck.interval=5s"
+
+      # # Treafik Rate Limit Config
+      # - "traefik.http.middlewares.api-ratelimit.ratelimit.average=1200"
+      # - "traefik.http.middlewares.api-ratelimit.ratelimit.burst=2500"
+      # - "traefik.http.routers.client.middlewares=api-ratelimit"
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge

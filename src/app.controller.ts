@@ -11,4 +11,16 @@ export class AppController {
 	getStatus() {
 		return this.appService.getStatus();
 	}
+
+	@Get("/health")
+	@AllowAnonymous()
+	health() {
+		return "ok";
+	}
+
+	@Get("/who")
+	@AllowAnonymous()
+	who() {
+		return process.pid;
+	}
 }
