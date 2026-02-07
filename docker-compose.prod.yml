@@ -16,9 +16,14 @@ services:
 
       - "--api.dashboard=true"
       - "--api.insecure=true"
+
+      - "--ping=true"
+      - "--ping.entrypoint=health"
+      - "--entrypoints.health.address=:8082"
     ports:
       - "8980:80"
       - "8080:8080"
+      - "8082:8082"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
