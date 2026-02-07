@@ -1,5 +1,7 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { BadRequestException, HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { Prisma } from "generated/prisma/client";
 import { PrismaService } from "src/core/prisma/prisma.service";
+import { StaffApplicationNoteDto, StaffCheckApplicationDto } from "./dto/staff-application.dto";
 
 @Injectable()
 export class StaffApplicationService {
@@ -50,5 +52,58 @@ export class StaffApplicationService {
 	async getByAppId(appId: string) {
 		const apps = await this.getAll(appId);
 		return apps.length !== 0 ? apps[0] : new NotFoundException();
+	}
+
+	async checkApplication(staffId: string, staffCheckApplicationDto: StaffCheckApplicationDto) {
+		try {
+			const appStatus = await this.prisma.applicationStatus.findUnique({
+				where: {
+					std_application_id: staffCheckApplicationDto.app_id,
+				},
+			});
+			if (!appStatus) throw new NotFoundException();
+
+			const updateAppInfoCheck = await this.prisma.applicationInfoCheck.upsert({
+				where: {
+					std_application_id: staffCheckApplicationDto.app_id,
+				},
+				create: {
+					std_application_id: staffCheckApplicationDto.app_id,
+					stf_user_id: staffId,
+					std_info_status: staffCheckApplicationDto.app_status,
+				},
+				update: {
+					stf_user_id: staffId,
+					std_info_status: staffCheckApplicationDto.app_status,
+				},
+				include: {
+					stf_user: true,
+					std_application: true,
+				},
+			});
+
+			return updateAppInfoCheck;
+		} catch (err) {
+			if (err instanceof HttpException) throw err;
+			throw new InternalServerErrorException("Unexpected server error");
+		}
+	}
+
+	async addApplicationNote(staffApplicationNoteDto: StaffApplicationNoteDto) {
+		try {
+			const updateApplicationNote = await this.prisma.applicationStatus.update({
+				where: {
+					std_application_id: staffApplicationNoteDto.app_id,
+				},
+				data: {
+					std_info_note: staffApplicationNoteDto.is_note ? staffApplicationNoteDto.app_note : null,
+				},
+			});
+
+			return updateApplicationNote;
+		} catch (err) {
+			if (err instanceof HttpException) throw err;
+			throw new InternalServerErrorException("Unexpected server error");
+		}
 	}
 }

@@ -1,7 +1,8 @@
-import { Controller, Get, Param, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Session, type UserSession } from "@thallesp/nestjs-better-auth";
 import { RegisGuard } from "src/common/guards/regis.guard";
+import { StaffApplicationNoteDto, StaffCheckApplicationDto } from "./dto/staff-application.dto";
 import { StaffApplicationResponseDto } from "./dto/staff-application-response.dto";
 import { StaffApplicationService } from "./staff-application.service";
 
@@ -61,5 +62,17 @@ export class StaffApplicationController {
 	})
 	getByAppId(@Param("id") appId: string) {
 		return this.staffApplicationService.getByAppId(appId);
+	}
+
+	@Post("/check")
+	@UseGuards(RegisGuard)
+	checkApplication(@Session() session: UserSession, @Body() staffCheckApplicationDto: StaffCheckApplicationDto) {
+		return this.staffApplicationService.checkApplication(session.user.id, staffCheckApplicationDto);
+	}
+
+	@Post("/note")
+	@UseGuards(RegisGuard)
+	addApplicationNote(@Body() staffApplicationNoteDto: StaffApplicationNoteDto) {
+		return this.staffApplicationService.addApplicationNote(staffApplicationNoteDto);
 	}
 }
