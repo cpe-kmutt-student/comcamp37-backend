@@ -157,7 +157,7 @@ model ApplicationInfoCheck {
   std_application_id                      String                     @id
   std_application                         ApplicationStatus          @relation(fields: [std_application_id], references: [std_application_id])
   
-  stf_user_id                             String                     @unique
+  stf_user_id                             String                     
   stf_user                                User                       @relation(fields: [stf_user_id], references: [id])
   std_info_status                         AppInfoStatus
   created_at                              DateTime                   @default(now())
@@ -252,7 +252,7 @@ model User {
   stf_regis_question_score                ApplicationRegisQuestionScore[]
   stf_academic_question_score             ApplicationAcademicQuestionScore[]
 
-  stf_info_check                          ApplicationInfoCheck?
+  stf_info_check                          ApplicationInfoCheck[]
 
   @@unique([email])
   @@map("user")
