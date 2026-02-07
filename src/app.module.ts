@@ -22,6 +22,7 @@ import { ApplicationStatusModule } from "./modules/application-status/applicatio
 import { EmailNotificationModule } from "./modules/email-notification/email-notification.module";
 import { StaffAccountModule } from "./modules/staff-account/staff-account.module";
 import { StaffApplicationModule } from "./modules/staff-application/staff-application.module";
+import { StaffRegisQuestionModule } from "./modules/staff-regis-question/staff-regis-question.module";
 import { StaffStatisticModule } from "./modules/staff-statistic/staff-statistic.module";
 import { StaffStatusModule } from "./modules/staff-status/staff-status.module";
 import { StatusUpdaterModule } from "./modules/status-updater/status-updater.module";
@@ -57,6 +58,7 @@ import { StudentApplicationModule } from "./modules/student-application/student-
 		StaffApplicationModule,
 		StaffStatusModule,
 		StaffAccountModule,
+		StaffRegisQuestionModule,
 	],
 
 	controllers: [AppController],
