@@ -56,7 +56,7 @@ export class StaffStatisticService {
 			app_submit: submitedApplicationCount,
 			app_info_done: applicationInfoDoneCount,
 			app_file_done: applicationFileDoneCount,
-			app_regis_question_doen: applicationRegisQuestionDoneCount,
+			app_regis_question_done: applicationRegisQuestionDoneCount,
 			app_payment_done: applicationPaymentDoneCount,
 			student_male: studentMaleCount,
 			student_female: studentFemaleCount,
