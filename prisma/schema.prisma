@@ -202,6 +202,7 @@ model ApplicationStatus {
   std_status_file_done                    Boolean?                  @default(false)
   std_status_regis_question_done          Boolean?                  @default(false)
   std_status_acdemic_question_done        Boolean?                  @default(false)
+  std_status_academic_chaos_question_done Boolean?                  @default(false)
   std_status_payment_done                 Boolean?                  @default(false)
   
   stf_info_check                          ApplicationInfoCheck?
