@@ -8,7 +8,7 @@ export class ApplicationSubmitController {
 	constructor(private readonly applicationSubmitService: ApplicationSubmitService) {}
 
 	@Post("/")
-	submit(@Session() session: UserSession, @Body() applicationSubmitDto: ApplicationSubmitDto) {
-		return this.applicationSubmitService.applicationSubmit(session.user.id, applicationSubmitDto.app_id);
+	applicationSubmit(@Session() session: UserSession, @Body() applicationSubmitDto: ApplicationSubmitDto) {
+		return this.applicationSubmitService.applicationSubmit(session.user.id, applicationSubmitDto);
 	}
 }

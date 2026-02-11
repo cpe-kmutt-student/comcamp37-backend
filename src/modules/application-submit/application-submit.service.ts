@@ -1,16 +1,21 @@
-import { ForbiddenException, Injectable, InternalServerErrorException } from "@nestjs/common";
+import { ForbiddenException, Injectable, InternalServerErrorException, NotAcceptableException } from "@nestjs/common";
 import { PrismaService } from "src/core/prisma/prisma.service";
+import { ApplicationSubmitDto } from "./dto/application-submit.dto";
 
 @Injectable()
 export class ApplicationSubmitService {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async applicationSubmit(userId: string, appId: string) {
+	async applicationSubmit(userId: string, applicationSubmitDto: ApplicationSubmitDto) {
 		try {
+			if (!applicationSubmitDto.confirm) {
+				throw new NotAcceptableException();
+			}
+
 			const applicationStatus = await this.prisma.studentApplication.findUnique({
 				where: {
 					std_user_id: userId,
-					std_application_id: appId,
+					std_application_id: applicationSubmitDto.application_id,
 				},
 				select: {
 					std_status: {
@@ -38,7 +43,7 @@ export class ApplicationSubmitService {
 			const updateSubmitStatus = await this.prisma.studentApplication.update({
 				where: {
 					std_user_id: userId,
-					std_application_id: appId,
+					std_application_id: applicationSubmitDto.application_id,
 				},
 				data: {
 					std_application_submit: true,

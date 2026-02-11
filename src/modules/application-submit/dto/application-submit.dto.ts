@@ -1,6 +1,9 @@
-import { IsUUID } from "class-validator";
+import { IsBoolean, IsUUID } from "class-validator";
 
 export class ApplicationSubmitDto {
 	@IsUUID()
-	readonly app_id: string;
+	readonly application_id: string;
+
+	@IsBoolean()
+	readonly confirm: boolean;
 }
