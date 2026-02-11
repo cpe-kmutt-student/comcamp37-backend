@@ -38,7 +38,8 @@ services:
     labels:
       # Treafik Base Config
       - "traefik.enable=true"
-      - "traefik.http.routers.client.rule=Host(`api.localhost`) || Host(`localhost:3030`) || Host(`dev-api2.comcamp.io`) || Host(`dev-api2.comcamp.io:4842`) || Host(`api.comcamp.io`) || Host(`dev-api.comcamp.io`) || Host(`localhost`)"
+      - "traefik.http.routers.client.rule=Host(`100.88.117.62`) || Host(`api.localhost`) || Host(`localhost:3030`) || Host(`dev-api2.comcamp.io`) || Host(`dev-api2.comcamp.io:4842`) || Host(`api.comcamp.io`) || Host(`dev-api.comcamp.io`) || Host(`localhost`)"
+
       - "traefik.http.routers.client.entrypoints=web"
       - "traefik.http.services.client.loadbalancer.server.port=3030"
 
@@ -46,8 +47,6 @@ services:
       - "traefik.http.services.client.loadbalancer.healthcheck.path=/health"
       - "traefik.http.services.client.loadbalancer.healthcheck.interval=5s"
 
-      # # Treafik Rate Limit Config
-      # - "traefik.http.middlewares.api-ratelimit.ratelimit.average=1200"
       # - "traefik.http.middlewares.api-ratelimit.ratelimit.burst=2500"
       # - "traefik.http.routers.client.middlewares=api-ratelimit"
     networks:
