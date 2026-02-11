@@ -140,6 +140,36 @@ model ApplicationAcademicQuestionAnswer {
   updated_at                              DateTime                  @updatedAt
 }
 
+model ApplicationAcademicChaosQuestionScore {
+  id                                      Int                           @id @default(autoincrement())
+
+  std_academic_answer_id                  Int                           
+  std_academic_answer                     ApplicationAcademicChaosQuestionAnswer @relation(fields: [std_academic_answer_id], references: [std_academic_answer_id])
+
+  stf_count                               Int                           @db.Integer()
+  stf_score                               Float
+
+  stf_user_id                             String
+  stf_user                                User                          @relation(fields: [stf_user_id], references: [id])
+
+  created_at                              DateTime                       @default(now())
+  updated_at                              DateTime                      @updatedAt
+}
+
+model ApplicationAcademicChaosQuestionAnswer {
+  std_application_id                      String                    
+  std_application                         StudentApplication        @relation(fields: [std_application_id], references: [std_application_id])
+  
+  std_academic_answer_id                  Int                       @id @default(autoincrement())
+  std_academic_answer_section             String
+  std_academic_answer                     String
+
+  stf_academic_question_score             ApplicationAcademicChaosQuestionScore[]
+
+  created_at                              DateTime                  @default(now())
+  updated_at                              DateTime                  @updatedAt
+}
+
 // model StudentScore {
 //   std_application_id                      String                    @id
 //   std_application                         StudentApplication        @relation(fields: [std_application_id], references: [std_application_id])
@@ -157,7 +187,7 @@ model ApplicationInfoCheck {
   std_application_id                      String                     @id
   std_application                         ApplicationStatus          @relation(fields: [std_application_id], references: [std_application_id])
   
-  stf_user_id                             String                     @unique
+  stf_user_id                             String                     
   stf_user                                User                       @relation(fields: [stf_user_id], references: [id])
   std_info_status                         AppInfoStatus
   created_at                              DateTime                   @default(now())
@@ -172,6 +202,7 @@ model ApplicationStatus {
   std_status_file_done                    Boolean?                  @default(false)
   std_status_regis_question_done          Boolean?                  @default(false)
   std_status_acdemic_question_done        Boolean?                  @default(false)
+  std_status_academic_chaos_question_done Boolean?                  @default(false)
   std_status_payment_done                 Boolean?                  @default(false)
   
   stf_info_check                          ApplicationInfoCheck?
@@ -213,6 +244,8 @@ model StudentApplication {
   std_file                                ApplicationFile[]
   std_regis_question                      ApplicationRegisQuestionAnswer[]
   std_academic_question                   ApplicationAcademicQuestionAnswer[]
+  std_academic_chaos_question             ApplicationAcademicChaosQuestionAnswer[]
+  
   std_status                              ApplicationStatus?
 
   created_at                              DateTime                  @default(now())
@@ -251,8 +284,9 @@ model User {
 
   stf_regis_question_score                ApplicationRegisQuestionScore[]
   stf_academic_question_score             ApplicationAcademicQuestionScore[]
+  stf_academic_chaos_question_score       ApplicationAcademicChaosQuestionScore[]
 
-  stf_info_check                          ApplicationInfoCheck?
+  stf_info_check                          ApplicationInfoCheck[]
 
   @@unique([email])
   @@map("user")
