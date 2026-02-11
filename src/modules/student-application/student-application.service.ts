@@ -19,6 +19,7 @@ export class StudentApplicationService {
 					std_file: true,
 					std_regis_question: true,
 					std_academic_question: true,
+					std_academic_chaos_question: true,
 					std_status: true,
 				},
 			});
@@ -44,6 +45,7 @@ export class StudentApplicationService {
 					std_file: true,
 					std_regis_question: true,
 					std_academic_question: true,
+					std_academic_chaos_question: true,
 					std_status: true,
 				},
 			});
@@ -87,6 +89,7 @@ export class StudentApplicationService {
 					std_file: true,
 					std_regis_question: true,
 					std_academic_question: true,
+					std_academic_chaos_question: true,
 					std_status: true,
 				},
 			});
