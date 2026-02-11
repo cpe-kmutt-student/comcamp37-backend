@@ -1,9 +1,12 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { FileType } from "generated/prisma/enums";
 import { PrismaService } from "src/core/prisma/prisma.service";
 
 @Injectable()
 export class StatusUpdaterService {
 	constructor(private readonly prisma: PrismaService) {}
+
+	private readonly file;
 
 	async fileDoneUpdater(appId: string) {
 		try {
@@ -15,11 +18,13 @@ export class StatusUpdaterService {
 
 			const getAllUploadedType = files.map((f) => f.std_file_type);
 
-			if (!getAllUploadedType.includes("file_face")) return;
-			if (!getAllUploadedType.includes("file_national_id")) return;
-			if (!getAllUploadedType.includes("file_parent_permission")) return;
-			if (!getAllUploadedType.includes("file_pp_1")) return;
-			if (!getAllUploadedType.includes("file_pp_7")) return;
+			const missingFile = Object.values(FileType)
+				.filter((f) => f !== "file_slip")
+				.filter((f) => !getAllUploadedType.includes(f));
+
+			if (missingFile.length !== 0) {
+				return;
+			}
 
 			return await this.prisma.applicationStatus.update({
 				where: {
@@ -92,13 +97,13 @@ export class StatusUpdaterService {
 
 	async academicQuestionDoneUpdater(appId: string) {
 		try {
-			const regisQuestion = await this.prisma.applicationAcademicQuestionAnswer.findMany({
+			const academicQuestion = await this.prisma.applicationAcademicQuestionAnswer.findMany({
 				where: {
 					std_application_id: appId,
 				},
 			});
 
-			const answeredSections = regisQuestion.map((rq) => rq.std_academic_answer_section);
+			const answeredSections = academicQuestion.map((rq) => rq.std_academic_answer_section);
 
 			const [...setAnsweredSections] = new Set(answeredSections);
 
@@ -112,6 +117,35 @@ export class StatusUpdaterService {
 				},
 				data: {
 					std_status_acdemic_question_done: true,
+				},
+			});
+		} catch (e) {
+			throw new InternalServerErrorException();
+		}
+	}
+
+	async academicQuestionChaosDoneUpdater(appId: string) {
+		try {
+			const academicChaosQuestion = await this.prisma.applicationAcademicChaosQuestionAnswer.findMany({
+				where: {
+					std_application_id: appId,
+				},
+			});
+
+			const answeredSections = academicChaosQuestion.map((rq) => rq.std_academic_answer_section);
+
+			const [...setAnsweredSections] = new Set(answeredSections);
+
+			if (setAnsweredSections.length !== 6) {
+				return new NotFoundException();
+			}
+
+			return await this.prisma.applicationStatus.update({
+				where: {
+					std_application_id: appId,
+				},
+				data: {
+					std_status_academic_chaos_question_done: true,
 				},
 			});
 		} catch (e) {

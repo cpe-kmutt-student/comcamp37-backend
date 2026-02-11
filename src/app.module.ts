@@ -19,6 +19,7 @@ import { ApplicationFileModule } from "./modules/application-file/application-fi
 import { ApplicationInfoModule } from "./modules/application-info/application-info.module";
 import { ApplicationQuestionModule } from "./modules/application-question/application-question.module";
 import { ApplicationStatusModule } from "./modules/application-status/application-status.module";
+import { ApplicationSubmitModule } from "./modules/application-submit/application-submit.module";
 import { EmailNotificationModule } from "./modules/email-notification/email-notification.module";
 import { StaffAccountModule } from "./modules/staff-account/staff-account.module";
 import { StaffApplicationModule } from "./modules/staff-application/staff-application.module";
@@ -59,6 +60,7 @@ import { StudentApplicationModule } from "./modules/student-application/student-
 		StaffStatusModule,
 		StaffAccountModule,
 		StaffRegisQuestionModule,
+		ApplicationSubmitModule,
 	],
 
 	controllers: [AppController],
