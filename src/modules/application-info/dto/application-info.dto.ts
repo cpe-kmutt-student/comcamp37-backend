@@ -101,6 +101,34 @@ export class ApplicationInfoDto {
 	readonly education_plan: string;
 
 	@ApiProperty({
+		description: "Grade GPAX",
+		example: "4.00",
+	})
+	@IsNumberString()
+	readonly grade_gpax: string;
+
+	@ApiProperty({
+		description: "Grade Math",
+		example: "4.00",
+	})
+	@IsNumberString()
+	readonly grade_math: string;
+
+	@ApiProperty({
+		description: "Grade Science",
+		example: "4.00",
+	})
+	@IsNumberString()
+	readonly grade_sci: string;
+
+	@ApiProperty({
+		description: "Grade English",
+		example: "4.00",
+	})
+	@IsNumberString()
+	readonly grade_eng: string;
+
+	@ApiProperty({
 		description: "Parent full name",
 		example: "นายสมศักดิ์ ใจดี",
 	})
