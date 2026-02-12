@@ -32,6 +32,10 @@ model ApplicationInfo {
   std_info_education_level                String?
   std_info_education_institute            String?
   std_info_education_plan                 String?
+  std_info_grade_gpax                     String?
+  std_info_grade_math                     String?
+  std_info_grade_sci                      String?
+  std_info_grade_eng                      String?
   std_info_parent_fullname                String?
   std_info_parent_relation                String?
   std_info_parent_phone_number            String?
