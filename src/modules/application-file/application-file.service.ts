@@ -140,7 +140,7 @@ export class ApplicationFileService {
 					)
 				: new NotFoundException();
 		} catch (e) {
-			throw new InternalServerErrorException();
+			throw new InternalServerErrorException(e);
 		}
 	}
 

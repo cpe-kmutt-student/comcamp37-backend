@@ -28,6 +28,7 @@ import { StaffStatisticModule } from "./modules/staff-statistic/staff-statistic.
 import { StaffStatusModule } from "./modules/staff-status/staff-status.module";
 import { StatusUpdaterModule } from "./modules/status-updater/status-updater.module";
 import { StudentApplicationModule } from "./modules/student-application/student-application.module";
+import { UtilModule } from "./modules/util/util.module";
 
 @Module({
 	imports: [
@@ -61,6 +62,7 @@ import { StudentApplicationModule } from "./modules/student-application/student-
 		StaffAccountModule,
 		StaffRegisQuestionModule,
 		ApplicationSubmitModule,
+		UtilModule,
 	],
 
 	controllers: [AppController],
