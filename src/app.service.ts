@@ -18,6 +18,9 @@ export class AppService {
 				"Click the magic portal below and I'll send you back safely 👇✨",
 				config.app.frontendUrl,
 			],
+			config: {
+				cors_origin: config.app.allowOrigins,
+			},
 			// ...(await this.getSystemSpecs()),
 		};
 	}
