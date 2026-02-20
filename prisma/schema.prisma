@@ -147,8 +147,8 @@ model ApplicationAcademicQuestionAnswer {
 model ApplicationAcademicChaosQuestionScore {
   id                                      Int                           @id @default(autoincrement())
 
-  std_academic_answer_id                  Int                           
-  std_academic_answer                     ApplicationAcademicChaosQuestionAnswer @relation(fields: [std_academic_answer_id], references: [std_academic_answer_id])
+  std_academic_chaos_answer_id                  Int                           
+  std_academic_chaos_answer                     ApplicationAcademicChaosQuestionAnswer @relation(fields: [std_academic_chaos_answer_id], references: [std_academic_chaos_answer_id])
 
   stf_count                               Int                           @db.Integer()
   stf_score                               Float
@@ -164,11 +164,11 @@ model ApplicationAcademicChaosQuestionAnswer {
   std_application_id                      String                    
   std_application                         StudentApplication        @relation(fields: [std_application_id], references: [std_application_id])
   
-  std_academic_answer_id                  Int                       @id @default(autoincrement())
-  std_academic_answer_section             String
-  std_academic_answer                     String
+  std_academic_chaos_answer_id                  Int                       @id @default(autoincrement())
+  std_academic_chaos_answer_section             String
+  std_academic_chaos_answer                     String
 
-  stf_academic_question_score             ApplicationAcademicChaosQuestionScore[]
+  stf_academic_chaos_question_score             ApplicationAcademicChaosQuestionScore[]
 
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
