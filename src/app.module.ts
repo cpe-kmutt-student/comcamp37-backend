@@ -8,6 +8,7 @@ import { AppService } from "./app.service";
 import { config } from "./config/app.config";
 import { AuthModule } from "./core/auth/auth.module";
 import { EmailModule } from "./core/email/email.module";
+import { LoggerModule } from "./core/logger/logger.module";
 import { PrismaModule } from "./core/prisma/prisma.module";
 // import { UsersModule } from "./users/users.module";
 import { PrismaService } from "./core/prisma/prisma.service";
@@ -67,6 +68,7 @@ import { UtilModule } from "./modules/util/util.module";
 		UtilModule,
 		StaffRegisGradingModule,
 		StaffAcademicGradingModule,
+		LoggerModule,
 	],
 
 	controllers: [AppController],
