@@ -39,7 +39,24 @@ export class StaffApplicationService {
 							},
 						},
 					},
-					std_status: true,
+					std_academic_chaos_question: {
+						include: {
+							stf_academic_chaos_question_score: {
+								include: {
+									stf_user: true,
+								},
+							},
+						},
+					},
+					std_status: {
+						include: {
+							stf_info_check: {
+								include: {
+									stf_user: true,
+								},
+							},
+						},
+					},
 				},
 			});
 
