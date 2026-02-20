@@ -198,7 +198,7 @@ export class ApplicationQuestionService {
 						std_application: {
 							std_user_id: userId,
 						},
-						std_academic_answer_section: answer.section,
+						std_academic_chaos_answer_section: answer.section,
 					},
 				});
 
@@ -206,8 +206,8 @@ export class ApplicationQuestionService {
 					await this.prisma.applicationAcademicChaosQuestionAnswer.create({
 						data: {
 							std_application_id: answerQuestionDto.application_id,
-							std_academic_answer_section: answer.section,
-							std_academic_answer: answer.value,
+							std_academic_chaos_answer_section: answer.section,
+							std_academic_chaos_answer: answer.value,
 						},
 					});
 					continue;
@@ -215,10 +215,10 @@ export class ApplicationQuestionService {
 
 				await this.prisma.applicationAcademicChaosQuestionAnswer.update({
 					where: {
-						std_academic_answer_id: answered[0].std_academic_answer_id,
+						std_academic_chaos_answer_id: answered[0].std_academic_chaos_answer_id,
 					},
 					data: {
-						std_academic_answer: answer.value,
+						std_academic_chaos_answer: answer.value,
 					},
 				});
 			}
