@@ -132,7 +132,7 @@ export class StatusUpdaterService {
 				},
 			});
 
-			const answeredSections = academicChaosQuestion.map((rq) => rq.std_academic_answer_section);
+			const answeredSections = academicChaosQuestion.map((rq) => rq.std_academic_chaos_answer_section);
 
 			const [...setAnsweredSections] = new Set(answeredSections);
 
