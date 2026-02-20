@@ -9,6 +9,7 @@ import { config } from "./config/app.config";
 import { AuthModule } from "./core/auth/auth.module";
 import { EmailModule } from "./core/email/email.module";
 import { LoggerModule } from "./core/logger/logger.module";
+import { LoggerService } from "./core/logger/logger.service";
 import { PrismaModule } from "./core/prisma/prisma.module";
 // import { UsersModule } from "./users/users.module";
 import { PrismaService } from "./core/prisma/prisma.service";
@@ -72,7 +73,7 @@ import { UtilModule } from "./modules/util/util.module";
 	],
 
 	controllers: [AppController],
-	providers: [AppService, PrismaService],
+	providers: [AppService, PrismaService, LoggerService],
 })
 export class AppModule {
 	// configure(consumer: MiddlewareConsumer) {
