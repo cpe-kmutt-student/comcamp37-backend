@@ -4,3 +4,6 @@ npm-debug.log
 dist
 generated
 build
+
+.env
+.env.prod
