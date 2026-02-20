@@ -2,7 +2,7 @@ import { Controller, Get, Param, UseGuards } from "@nestjs/common";
 import { RegisGuard } from "src/common/guards/regis.guard";
 import { StaffRegisQuestionService } from "./staff-regis-question.service";
 
-@Controller("/api/staff/question/regis")
+@Controller("/api/staff/regis/question")
 export class StaffRegisQuestionController {
 	constructor(private readonly staffRegisQuestionService: StaffRegisQuestionService) {}
 
