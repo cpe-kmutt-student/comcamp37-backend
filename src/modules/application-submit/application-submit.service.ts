@@ -1,10 +1,14 @@
 import { ForbiddenException, Injectable, InternalServerErrorException, NotAcceptableException } from "@nestjs/common";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { ApplicationSubmitDto } from "./dto/application-submit.dto";
 
 @Injectable()
 export class ApplicationSubmitService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly logger: LoggerService,
+	) {}
 
 	async applicationSubmit(userId: string, applicationSubmitDto: ApplicationSubmitDto) {
 		try {
@@ -52,6 +56,7 @@ export class ApplicationSubmitService {
 
 			return updateSubmitStatus;
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}

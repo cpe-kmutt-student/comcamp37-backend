@@ -1,9 +1,13 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 
 @Injectable()
 export class StudentApplicationService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly logger: LoggerService,
+	) {}
 
 	async getApplications(userId: string) {
 		try {
@@ -26,6 +30,7 @@ export class StudentApplicationService {
 
 			return studentApplication.length !== 0 ? studentApplication : new NotFoundException();
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -52,6 +57,7 @@ export class StudentApplicationService {
 
 			return studentApplication ? studentApplication : new NotFoundException();
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -94,6 +100,7 @@ export class StudentApplicationService {
 				},
 			});
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}

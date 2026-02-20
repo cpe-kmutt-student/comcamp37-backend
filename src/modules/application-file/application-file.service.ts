@@ -3,6 +3,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { FileType } from "generated/prisma/enums";
 import { config } from "src/config/app.config";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { S3Service } from "src/core/s3/s3.service";
 import uuid from "uuid";
@@ -15,6 +16,7 @@ export class ApplicationFileService {
 		private readonly prisma: PrismaService,
 		private readonly s3: S3Service,
 		private readonly statusUpdaterService: StatusUpdaterService,
+		private readonly logger: LoggerService,
 	) {}
 
 	async getApplicationFiles(userId: string, appId: string) {
@@ -34,7 +36,7 @@ export class ApplicationFileService {
 
 			return applicationFiles.length !== 0 ? applicationFiles : new NotFoundException();
 		} catch (e) {
-			console.log(e);
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -107,6 +109,7 @@ export class ApplicationFileService {
 				craeted_at: newApplicationFile.created_at,
 			};
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -140,7 +143,8 @@ export class ApplicationFileService {
 					)
 				: new NotFoundException();
 		} catch (e) {
-			throw new InternalServerErrorException();
+			this.logger.error(e);
+			throw new InternalServerErrorException(e);
 		}
 	}
 

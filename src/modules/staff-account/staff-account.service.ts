@@ -1,12 +1,16 @@
 import { Injectable, InternalServerErrorException, NotAcceptableException } from "@nestjs/common";
 import { UserRoles } from "generated/prisma/enums";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { auth } from "src/lib/auth";
 import { CreateStaffAccountDto, DeleteStaffAccountDto, UpdateStaffAccountDto } from "./dto/staff-account.dto";
 
 @Injectable()
 export class StaffAccountService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly logger: LoggerService,
+	) {}
 
 	async getAllAccount() {
 		try {
@@ -22,6 +26,7 @@ export class StaffAccountService {
 
 			return staffAccount;
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -53,6 +58,7 @@ export class StaffAccountService {
 
 			return staffAccount;
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -88,6 +94,7 @@ export class StaffAccountService {
 
 			return staffUser;
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -106,6 +113,7 @@ export class StaffAccountService {
 
 			return deletedUser;
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}

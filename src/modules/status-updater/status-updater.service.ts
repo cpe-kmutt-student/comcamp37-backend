@@ -1,10 +1,14 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { FileType } from "generated/prisma/enums";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 
 @Injectable()
 export class StatusUpdaterService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly logger: LoggerService,
+	) {}
 
 	private readonly file;
 
@@ -35,7 +39,7 @@ export class StatusUpdaterService {
 				},
 			});
 		} catch (e) {
-			console.error(e);
+			this.logger.error(e);
 		}
 	}
 
@@ -62,7 +66,7 @@ export class StatusUpdaterService {
 				},
 			});
 		} catch (e) {
-			console.error(e);
+			this.logger.error(e);
 		}
 	}
 
@@ -91,6 +95,7 @@ export class StatusUpdaterService {
 				},
 			});
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -107,7 +112,7 @@ export class StatusUpdaterService {
 
 			const [...setAnsweredSections] = new Set(answeredSections);
 
-			if (setAnsweredSections.length !== 6) {
+			if (setAnsweredSections.length !== 10) {
 				return new NotFoundException();
 			}
 
@@ -120,6 +125,7 @@ export class StatusUpdaterService {
 				},
 			});
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -132,11 +138,11 @@ export class StatusUpdaterService {
 				},
 			});
 
-			const answeredSections = academicChaosQuestion.map((rq) => rq.std_academic_answer_section);
+			const answeredSections = academicChaosQuestion.map((rq) => rq.std_academic_chaos_answer_section);
 
 			const [...setAnsweredSections] = new Set(answeredSections);
 
-			if (setAnsweredSections.length !== 6) {
+			if (setAnsweredSections.length !== 7) {
 				return new NotFoundException();
 			}
 
@@ -149,6 +155,7 @@ export class StatusUpdaterService {
 				},
 			});
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -176,6 +183,7 @@ export class StatusUpdaterService {
 				},
 			});
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -208,6 +216,7 @@ export class StatusUpdaterService {
 				},
 			});
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
