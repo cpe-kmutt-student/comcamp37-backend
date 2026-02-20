@@ -1,8 +1,11 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { LoggerService } from "src/core/logger/logger.service";
 import schools from "../../data/schools.json";
 
 @Injectable()
 export class UtilService {
+	constructor(private readonly logger: LoggerService) {}
+
 	async getSchools(query?: string) {
 		try {
 			if (!query) {
@@ -18,6 +21,7 @@ export class UtilService {
 
 			return filtered;
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException(e);
 		}
 	}

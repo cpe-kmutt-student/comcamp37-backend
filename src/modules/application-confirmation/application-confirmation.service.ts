@@ -1,10 +1,14 @@
 import { ForbiddenException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { ApplicationConfirmationDto } from "./dto/application-confirmation.dto";
 
 @Injectable()
 export class ApplicationConfirmationService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly logger: LoggerService,
+	) {}
 
 	async getApplicationConfirmation(userId: string, appId?: string) {
 		try {
@@ -33,6 +37,7 @@ export class ApplicationConfirmationService {
 
 			return confirmation[0];
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -78,6 +83,7 @@ export class ApplicationConfirmationService {
 
 			return updateComfirmation;
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}

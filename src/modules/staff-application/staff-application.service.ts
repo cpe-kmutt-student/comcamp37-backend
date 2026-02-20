@@ -1,11 +1,15 @@
 import { BadRequestException, HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { Prisma } from "generated/prisma/client";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { StaffApplicationNoteDto, StaffCheckApplicationDto } from "./dto/staff-application.dto";
 
 @Injectable()
 export class StaffApplicationService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly logger: LoggerService,
+	) {}
 
 	async getAll(appId?: string) {
 		try {
@@ -62,6 +66,7 @@ export class StaffApplicationService {
 
 			return allApplications;
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -100,8 +105,9 @@ export class StaffApplicationService {
 			});
 
 			return updateAppInfoCheck;
-		} catch (err) {
-			if (err instanceof HttpException) throw err;
+		} catch (e) {
+			this.logger.error(e);
+			if (e instanceof HttpException) throw e;
 			throw new InternalServerErrorException("Unexpected server error");
 		}
 	}
@@ -118,8 +124,9 @@ export class StaffApplicationService {
 			});
 
 			return updateApplicationNote;
-		} catch (err) {
-			if (err instanceof HttpException) throw err;
+		} catch (e) {
+			this.logger.error(e);
+			if (e instanceof HttpException) throw e;
 			throw new InternalServerErrorException("Unexpected server error");
 		}
 	}
