@@ -1,9 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import os from "os";
 import { config } from "./config/app.config";
+import { LoggerService } from "./core/logger/logger.service";
 
 @Injectable()
 export class AppService {
+	constructor(private readonly logger: LoggerService) {}
+
 	async getStatus() {
 		return {
 			title: "ComCamp#37 Backend REST API",

@@ -1,10 +1,14 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { AppStatusCommentDto, AppStatusInfoCheckDto } from "./dto/staff-status.dto";
 
 @Injectable()
 export class StaffStatusService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly logger: LoggerService,
+	) {}
 
 	async getStatusById(appId: string) {
 		try {
@@ -16,6 +20,7 @@ export class StaffStatusService {
 
 			return appStatus;
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -39,6 +44,7 @@ export class StaffStatusService {
 
 			return updateStatus;
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -56,6 +62,7 @@ export class StaffStatusService {
 
 			return updateStatus;
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}

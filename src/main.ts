@@ -11,6 +11,7 @@ import morgan from "morgan";
 import { AppModule } from "./app.module";
 import { config } from "./config/app.config";
 import { corsConfig } from "./config/cors.config";
+import { LoggerService } from "./core/logger/logger.service";
 import { auth } from "./lib/auth";
 
 async function bootstrap() {
@@ -37,7 +38,20 @@ async function bootstrap() {
 			content: swaggerDocumentFactory(),
 		}),
 	);
-
-	await app.listen(config.app.port);
+	const logger = new LoggerService();
+	await app
+		.listen(config.app.port)
+		.then(() => {
+			logger.start("Service Port :", config.app.port);
+			logger.info("Cors Origin :", config.app.allowOrigins.join(" "));
+			logger.info("Frontend URL :", config.app.frontendUrl);
+			logger.info("BetterAuth URL :", process.env.BETTER_AUTH_URL);
+			logger.info("S3 Endpoint :", config.s3.endpoint);
+			logger.info("S3 Bucket :", config.s3.bucket);
+			logger.info("Email User:", config.email.nodemailer.user);
+		})
+		.catch((e) => {
+			logger.error(e);
+		});
 }
 bootstrap();
