@@ -60,6 +60,31 @@ export class ApplicationQuestionService {
 		}
 	}
 
+	async getAcademicChaosAnswerHistory(userId: string, appId?: string | undefined) {
+		try {
+			const academicChaosAnswer = await this.prisma.applicationAcademicChaosQuestionAnswer.findMany({
+				where: {
+					std_application: {
+						std_user_id: userId,
+					},
+					std_application_id: appId,
+				},
+			});
+
+			if (academicChaosAnswer.length === 0) {
+				return new NotFoundException();
+			}
+
+			if (!appId) {
+				return academicChaosAnswer;
+			}
+
+			return academicChaosAnswer[0];
+		} catch (e) {
+			throw new InternalServerErrorException();
+		}
+	}
+
 	async answerRegis(userId: string, answerQuestionDto: AnswerQuestionDto) {
 		try {
 			for (const answer of answerQuestionDto.answers) {
@@ -156,6 +181,58 @@ export class ApplicationQuestionService {
 			});
 
 			await this.statusUpdaterService.academicQuestionDoneUpdater(answerQuestionDto.application_id);
+
+			return updatedAnswer;
+		} catch (e) {
+			console.log(e);
+			throw new InternalServerErrorException();
+		}
+	}
+
+	async answerAcademicChaos(userId: string, answerQuestionDto: AnswerQuestionDto) {
+		try {
+			for (const answer of answerQuestionDto.answers) {
+				const answered = await this.prisma.applicationAcademicChaosQuestionAnswer.findMany({
+					where: {
+						std_application_id: answerQuestionDto.application_id,
+						std_application: {
+							std_user_id: userId,
+						},
+						std_academic_answer_section: answer.section,
+					},
+				});
+
+				if (answered.length === 0) {
+					await this.prisma.applicationAcademicChaosQuestionAnswer.create({
+						data: {
+							std_application_id: answerQuestionDto.application_id,
+							std_academic_answer_section: answer.section,
+							std_academic_answer: answer.value,
+						},
+					});
+					continue;
+				}
+
+				await this.prisma.applicationAcademicChaosQuestionAnswer.update({
+					where: {
+						std_academic_answer_id: answered[0].std_academic_answer_id,
+					},
+					data: {
+						std_academic_answer: answer.value,
+					},
+				});
+			}
+
+			const updatedAnswer = await this.prisma.applicationAcademicChaosQuestionAnswer.findMany({
+				where: {
+					std_application_id: answerQuestionDto.application_id,
+					std_application: {
+						std_user_id: userId,
+					},
+				},
+			});
+
+			await this.statusUpdaterService.academicQuestionChaosDoneUpdater(answerQuestionDto.application_id);
 
 			return updatedAnswer;
 		} catch (e) {

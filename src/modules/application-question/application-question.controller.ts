@@ -143,4 +143,19 @@ export class ApplicationQuestionController {
 	answerAcademic(@Session() session: UserSession, @Body() answerQuestionDto: AnswerQuestionDto) {
 		return this.applicationQuestionService.answerAcademic(session.user.id, answerQuestionDto);
 	}
+
+	@Get("/academic/chaos/answer/history")
+	getAcademicChaosAnswerHistoryAll(@Session() session: UserSession) {
+		return this.applicationQuestionService.getAcademicChaosAnswerHistory(session.user.id);
+	}
+
+	@Get("/academic/chaos/:id/answer/history")
+	getAcademicChaosHistory(@Session() session: UserSession, @Param("id") appId: string) {
+		return this.applicationQuestionService.getAcademicChaosAnswerHistory(session.user.id, appId);
+	}
+
+	@Post("/academic/chaos/answer")
+	answerAcadenicChaos(@Session() session: UserSession, @Body() answerQuestionDto: AnswerQuestionDto) {
+		return this.applicationQuestionService.answerAcademicChaos(session.user.id, answerQuestionDto);
+	}
 }

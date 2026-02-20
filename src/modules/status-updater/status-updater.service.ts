@@ -107,7 +107,7 @@ export class StatusUpdaterService {
 
 			const [...setAnsweredSections] = new Set(answeredSections);
 
-			if (setAnsweredSections.length !== 6) {
+			if (setAnsweredSections.length !== 10) {
 				return new NotFoundException();
 			}
 
@@ -136,7 +136,7 @@ export class StatusUpdaterService {
 
 			const [...setAnsweredSections] = new Set(answeredSections);
 
-			if (setAnsweredSections.length !== 6) {
+			if (setAnsweredSections.length !== 7) {
 				return new NotFoundException();
 			}
 

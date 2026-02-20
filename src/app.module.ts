@@ -21,8 +21,10 @@ import { ApplicationQuestionModule } from "./modules/application-question/applic
 import { ApplicationStatusModule } from "./modules/application-status/application-status.module";
 import { ApplicationSubmitModule } from "./modules/application-submit/application-submit.module";
 import { EmailNotificationModule } from "./modules/email-notification/email-notification.module";
+import { StaffAcademicGradingModule } from "./modules/staff-academic-grading/staff-academic-grading.module";
 import { StaffAccountModule } from "./modules/staff-account/staff-account.module";
 import { StaffApplicationModule } from "./modules/staff-application/staff-application.module";
+import { StaffRegisGradingModule } from "./modules/staff-regis-grading/staff-regis-grading.module";
 import { StaffRegisQuestionModule } from "./modules/staff-regis-question/staff-regis-question.module";
 import { StaffStatisticModule } from "./modules/staff-statistic/staff-statistic.module";
 import { StaffStatusModule } from "./modules/staff-status/staff-status.module";
@@ -63,6 +65,8 @@ import { UtilModule } from "./modules/util/util.module";
 		StaffRegisQuestionModule,
 		ApplicationSubmitModule,
 		UtilModule,
+		StaffRegisGradingModule,
+		StaffAcademicGradingModule,
 	],
 
 	controllers: [AppController],

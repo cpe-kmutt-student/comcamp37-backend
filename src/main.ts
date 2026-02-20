@@ -24,6 +24,7 @@ async function bootstrap() {
 	app.use(morgan("dev"));
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({ extended: true }));
+	app.getHttpAdapter().getInstance().set("trust proxy", 1);
 
 	const swaggerConfig = new DocumentBuilder().setTitle("ComCamp37 API Document").setDescription("ComCamp37 backend API for a student registration/camp system").setVersion("Dev 0.1.0").build();
 	const swaggerDocumentFactory = () => SwaggerModule.createDocument(app, swaggerConfig);
