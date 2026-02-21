@@ -1,4 +1,5 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { StatusUpdaterService } from "../status-updater/status-updater.service";
 import { ApplicationInfoDto } from "./dto/application-info.dto";
@@ -8,6 +9,7 @@ export class ApplicationInfoService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly statusUpdaterService: StatusUpdaterService,
+		private readonly logger: LoggerService,
 	) {}
 
 	async getApplicationInfo(userId: string, appId: string) {
@@ -23,6 +25,7 @@ export class ApplicationInfoService {
 
 			return applicationInfo ? applicationInfo : new NotFoundException();
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -50,6 +53,10 @@ export class ApplicationInfoService {
 					std_info_education_level: encodeURI(applicationInfoDto.education_level),
 					std_info_education_institute: encodeURI(applicationInfoDto.education_institute),
 					std_info_education_plan: encodeURI(applicationInfoDto.education_plan),
+					std_info_grade_gpax: applicationInfoDto.grade_gpax,
+					std_info_grade_math: applicationInfoDto.grade_math,
+					std_info_grade_sci: applicationInfoDto.grade_sci,
+					std_info_grade_eng: applicationInfoDto.grade_eng,
 					std_info_parent_fullname: encodeURI(applicationInfoDto.parent_fullname),
 					std_info_parent_relation: encodeURI(applicationInfoDto.parent_relation),
 					std_info_parent_phone_number: encodeURI(applicationInfoDto.parent_phone_number),
@@ -87,6 +94,10 @@ export class ApplicationInfoService {
 				education_level: this.decode(applicationInfo.std_info_education_level),
 				education_institute: this.decode(applicationInfo.std_info_education_institute),
 				education_plan: this.decode(applicationInfo.std_info_education_plan),
+				grade_gpax: applicationInfo.std_info_grade_gpax,
+				grade_math: applicationInfo.std_info_grade_math,
+				grade_sci: applicationInfo.std_info_grade_sci,
+				grade_eng: applicationInfo.std_info_grade_eng,
 				parent_fullname: this.decode(applicationInfo.std_info_parent_fullname),
 				parent_relation: this.decode(applicationInfo.std_info_parent_relation),
 				parent_phone_number: this.decode(applicationInfo.std_info_parent_phone_number),
@@ -108,6 +119,7 @@ export class ApplicationInfoService {
 				updated_at: applicationInfo.updated_at,
 			};
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
