@@ -1,4 +1,5 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { StatusUpdaterService } from "../status-updater/status-updater.service";
 import { AnswerQuestionDto } from "./dto/answer-question.dto";
@@ -8,6 +9,7 @@ export class ApplicationQuestionService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly statusUpdaterService: StatusUpdaterService,
+		private readonly logger: LoggerService,
 	) {}
 
 	async getRegisAnswerHistory(userId: string, appId?: string | undefined) {
@@ -31,6 +33,7 @@ export class ApplicationQuestionService {
 
 			return regisAnswer[0];
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -56,6 +59,7 @@ export class ApplicationQuestionService {
 
 			return academicAnswer[0];
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -81,6 +85,7 @@ export class ApplicationQuestionService {
 
 			return academicChaosAnswer[0];
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -132,7 +137,7 @@ export class ApplicationQuestionService {
 
 			return updatedAnswer;
 		} catch (e) {
-			console.log(e);
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -184,7 +189,7 @@ export class ApplicationQuestionService {
 
 			return updatedAnswer;
 		} catch (e) {
-			console.log(e);
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -236,7 +241,7 @@ export class ApplicationQuestionService {
 
 			return updatedAnswer;
 		} catch (e) {
-			console.log(e);
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}

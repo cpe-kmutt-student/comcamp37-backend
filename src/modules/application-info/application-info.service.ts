@@ -1,4 +1,5 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { StatusUpdaterService } from "../status-updater/status-updater.service";
 import { ApplicationInfoDto } from "./dto/application-info.dto";
@@ -8,6 +9,7 @@ export class ApplicationInfoService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly statusUpdaterService: StatusUpdaterService,
+		private readonly logger: LoggerService,
 	) {}
 
 	async getApplicationInfo(userId: string, appId: string) {
@@ -23,6 +25,7 @@ export class ApplicationInfoService {
 
 			return applicationInfo ? applicationInfo : new NotFoundException();
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -116,6 +119,7 @@ export class ApplicationInfoService {
 				updated_at: applicationInfo.updated_at,
 			};
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}

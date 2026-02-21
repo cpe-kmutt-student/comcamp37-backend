@@ -1,9 +1,13 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 
 @Injectable()
 export class StaffRegisQuestionService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly logger: LoggerService,
+	) {}
 
 	async getAllRegisAnswer() {
 		try {
@@ -31,6 +35,7 @@ export class StaffRegisQuestionService {
 				};
 			});
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -65,6 +70,7 @@ export class StaffRegisQuestionService {
 				total_score: score,
 			};
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
