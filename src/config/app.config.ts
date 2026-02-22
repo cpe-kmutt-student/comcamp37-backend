@@ -8,6 +8,9 @@ export const config = {
 		allowOrigins: (process.env.APP_ALLOW_ORIGIN || "").split(","),
 		frontendUrl: process.env.APP_FRONTEND_URL || "",
 	},
+	logging: {
+		webhookUrl: process.env.LOGGING_WEBHOOK_URL,
+	},
 	db: {
 		url: process.env.DATABASE_URL || "",
 	},
