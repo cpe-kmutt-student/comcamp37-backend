@@ -7,6 +7,8 @@ COPY package.json ./
 
 RUN npm install -g pnpm tsx ts-node 
 
+ARG DATABASE_URL
+ENV DATABASE_URL=$DATABASE_URL
 RUN pnpm install
 
 COPY . .
