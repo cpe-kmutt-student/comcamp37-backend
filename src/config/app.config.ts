@@ -11,6 +11,11 @@ export const config = {
 	logging: {
 		webhookUrl: process.env.LOGGING_WEBHOOK_URL,
 	},
+	regisPeriod: {
+		bypass: process.env.REGISTER_PERIOD_BYPASS === "true",
+		start: process.env.REGISTER_PERIOD_START,
+		end: process.env.REGISTER_PERIOD_END,
+	},
 	db: {
 		url: process.env.DATABASE_URL || "",
 	},
