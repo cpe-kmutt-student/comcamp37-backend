@@ -38,7 +38,7 @@ services:
     labels:
       # Treafik Base Config
       - "traefik.enable=true"
-      - "traefik.http.routers.client.rule=Host(`100.88.117.62`) || Host(`api.localhost`) || Host(`localhost:3030`) || Host(`dev-api2.comcamp.io`) || Host(`dev-api2.comcamp.io:4842`) || Host(`api.comcamp.io`) || Host(`dev-api.comcamp.io`) || Host(`localhost`) || Host(`dev-cc37.aboutnon.in.th`)"
+      - "traefik.http.routers.client.rule=Host(`100.108.173.73`) | Host(`100.88.117.62`) || Host(`api.localhost`) || Host(`localhost:3030`) || Host(`dev-api2.comcamp.io`) || Host(`dev-api2.comcamp.io:4842`) || Host(`api.comcamp.io`) || Host(`dev-api.comcamp.io`) || Host(`localhost`) || Host(`dev-cc37.aboutnon.in.th`)"
       - "traefik.http.routers.client.entrypoints=web"
       - "traefik.http.services.client.loadbalancer.server.port=3030"
 
