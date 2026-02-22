@@ -48,8 +48,6 @@ services:
       - "traefik.http.services.client.loadbalancer.healthcheck.path=/health"
       - "traefik.http.services.client.loadbalancer.healthcheck.interval=5s"
 
-      # # Treafik Rate Limit Config
-      # - "traefik.http.middlewares.api-ratelimit.ratelimit.average=1200"
       # - "traefik.http.middlewares.api-ratelimit.ratelimit.burst=2500"
       # - "traefik.http.routers.client.middlewares=api-ratelimit"
     networks:
