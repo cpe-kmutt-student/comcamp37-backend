@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
     env_file: .env
     ports:
-      - 8980:3030
+      - ${DOCKER_APP_EXPOSE_PORT}:${APP_PORT}
     networks:
       - internal
 
