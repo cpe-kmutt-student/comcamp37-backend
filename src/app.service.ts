@@ -9,21 +9,14 @@ export class AppService {
 
 	async getStatus() {
 		return {
-			title: "ComCamp#37 Backend REST API",
-			credits: "Made with 🧡 by ComCamp#37 Technic Team",
-			greeting: [
-				"😎 Whoa there, explorer!",
-				"Congrats 🎉 you've discovered the Backend API URL.",
-				"But wait… why are you here? 🤔",
-				"This place is full of JSON, bugs, and sleepless nights — not for humans.",
-				"Looking for the frontend? Totally understandable.",
-				"Don't worry, I got you 🫶",
-				"Click the magic portal below and I'll send you back safely 👇✨",
-				config.app.frontendUrl,
-			],
+			title: "ComCamp 37 Backend REST API",
+			credits: "Made with 🧡 & ☕️ by CPE 39",
+			greeting: ["เอ๋~~ เดี๋ยวนะ! นี่น้องเข้ามาได้่ไงเนี่ยยย", "คงไปเจอบัคสิท่า 😅", "เเต่ไม่ต้องตกใจไปเดี๋ยวน้องกดลิ้งด้านล่างนี้ก็จะกลับไปหน้าลงทะเบียนได้เเล้ว", "เย่~~", config.app.frontendUrl],
 			config: {
 				cors_origin: config.app.allowOrigins,
+				regis_period: config.regisPeriod,
 			},
+			status: "ok",
 			// ...(await this.getSystemSpecs()),
 		};
 	}
@@ -73,5 +66,24 @@ export class AppService {
 		const usage = 100 - Math.round((idleDiff / totalDiff) * 100);
 
 		return usage;
+	}
+
+	timeLeft() {
+		if (!config.regisPeriod.start || !config.regisPeriod.end) return "Register period have not set yet";
+		const currentUTC = Date.now();
+		const end = new Date(config.regisPeriod.end).getTime();
+		const ms = end - currentUTC;
+		return {
+			current: new Date(currentUTC + 7 * 60 * 60 * 1000).toISOString().replace("Z", "+07:00"),
+			start_at: config.regisPeriod.start,
+			end_at: config.regisPeriod.end,
+			time_left: {
+				day: Math.floor(ms / (1000 * 60 * 60 * 24)),
+				hour: Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+				minute: Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60)),
+				second: Math.floor((ms % (1000 * 60)) / 1000),
+				milisecond: ms % 1000,
+			},
+		};
 	}
 }

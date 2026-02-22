@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Session, type UserSession } from "@thallesp/nestjs-better-auth";
+import { RegisterPeriodGuard } from "src/common/guards/register-period.guard";
 import { ApplicationInfoService } from "./application-info.service";
 import { ApplicationInfoDto } from "./dto/application-info.dto";
 import { ApplicationInfoResponseDto, ApplicationInfoUpdateResponseDto } from "./dto/application-info-response.dto";
@@ -37,6 +38,7 @@ export class ApplicationInfoController {
 	}
 
 	@Post("/:id")
+	@UseGuards(RegisterPeriodGuard)
 	@ApiOperation({
 		description: "Update personal information for a specific application",
 	})

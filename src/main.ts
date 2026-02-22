@@ -48,7 +48,9 @@ async function bootstrap() {
 			logger.info("BetterAuth URL :", process.env.BETTER_AUTH_URL);
 			logger.info("S3 Endpoint :", config.s3.endpoint);
 			logger.info("S3 Bucket :", config.s3.bucket);
-			logger.info("Email User:", config.email.nodemailer.user);
+			logger.info("Email User :", config.email.nodemailer.user);
+			logger.info("Register Period Set to :", config.regisPeriod.start, "-", config.regisPeriod.end);
+			logger.info("Is Register Bypass :", config.regisPeriod.bypass);
 		})
 		.catch((e) => {
 			logger.error(e);

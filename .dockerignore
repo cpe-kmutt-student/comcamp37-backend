@@ -1,6 +1,6 @@
-.git
 node_modules
-npm-debug.log
+.git
+Dockerfile
+*.log
+.env
 dist
-generated
-build
