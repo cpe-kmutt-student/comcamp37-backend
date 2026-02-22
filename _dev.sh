@@ -1,5 +1,5 @@
 git pull
-docker compose down -v
-docker compose build --no-cache
-docker compose up -d
-docker compose logs -f
+docker compose --env-file .env.prod down -v
+docker compose --env-file .env.prod build --no-cache
+docker compose --env-file .env.prod up -d
+docker compose --env-file .env.prod logs -f
