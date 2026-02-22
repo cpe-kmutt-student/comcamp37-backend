@@ -1,63 +1,28 @@
 import { Injectable } from "@nestjs/common";
-import { Signale } from "signale";
-
-const options = {
-	disabled: false,
-	interactive: false,
-	logLevel: "info",
-	config: {
-		displayTimestamp: true,
-		displayFilename: true,
-	},
-};
+import { SignaleLogger } from "src/lib/signale-logger";
+import { DiscordWebhook } from "src/utils/discord-webhook";
 
 @Injectable()
-export class LoggerService extends Signale {
+export class LoggerService {
+	private logger: SignaleLogger;
+	private discordWebhook: DiscordWebhook;
+
 	constructor() {
-		super({
-			...options,
-			types: {
-				info: {
-					badge: "ℹ",
-					color: "blue",
-					label: "info",
-				},
-				warn: {
-					badge: "⚠",
-					color: "yellow",
-					label: "warn",
-				},
-				error: {
-					badge: "✖",
-					color: "red",
-					label: "error",
-				},
-				debug: {
-					badge: "🐛",
-					color: "magenta",
-					label: "debug",
-				},
-				success: {
-					badge: "✔",
-					color: "green",
-					label: "success",
-				},
-				log: {
-					badge: "📝",
-					color: "white",
-					label: "log",
-				},
-				pause: {
-					badge: "⏸",
-					color: "yellow",
-					label: "pause",
-				},
-				start: {
-					badge: "▶",
-					color: "green",
-					label: "start",
-				},
-			},
-		});
+		this.logger = new SignaleLogger();
+		this.discordWebhook = new DiscordWebhook();
+	}
+
+	info(...ctx: any[]) {
+		this.logger.info(...ctx);
+	}
+
+	error(...ctx: any[]) {
+		this.logger.error(...ctx);
+		this.discordWebhook.send(this.discordWebhook.errorEmbed(...ctx));
+	}
+
+	start(...ctx: any[]) {
+		this.logger.start(...ctx);
+		this.discordWebhook.send(this.discordWebhook.startEmbed(...ctx));
 	}
 }
