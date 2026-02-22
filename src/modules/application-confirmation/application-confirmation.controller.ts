@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Session, type UserSession } from "@thallesp/nestjs-better-auth";
+import { RegisterPeriodGuard } from "src/common/guards/register-period.guard";
 import { ApplicationConfirmationService } from "./application-confirmation.service";
 import { ApplicationConfirmationDto } from "./dto/application-confirmation.dto";
 import { ApplicationConfirmationResponseDto } from "./dto/application-confirmation-response.dto";
@@ -58,6 +59,7 @@ export class ApplicationConfirmationController {
 	}
 
 	@Post("/")
+	@UseGuards(RegisterPeriodGuard)
 	@ApiOperation({
 		description: "Confirm or decline an application. Requires application to be passed and allowed to confirm.",
 	})
