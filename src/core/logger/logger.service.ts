@@ -13,16 +13,16 @@ export class LoggerService {
 	}
 
 	info(...ctx: any[]) {
-		this.logger.info(...ctx);
+		this.logger.info(ctx.join(" "));
 	}
 
 	error(...ctx: any[]) {
-		this.logger.error(...ctx);
-		this.discordWebhook.send(this.discordWebhook.errorEmbed(...ctx));
+		this.logger.error(ctx.join(" "));
+		this.discordWebhook.send(this.discordWebhook.errorEmbed(ctx.join(" ")));
 	}
 
 	start(...ctx: any[]) {
-		this.logger.start(...ctx);
-		this.discordWebhook.send(this.discordWebhook.startEmbed(...ctx));
+		this.logger.start(ctx.join(" "));
+		this.discordWebhook.send(this.discordWebhook.startEmbed(ctx.join(" ")));
 	}
 }
