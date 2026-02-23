@@ -512,93 +512,93 @@ class PrismaSeed {
 			// Create staff users
 			console.log("📝 Creating staff users...");
 			const admin = await this.createAdminUser();
-			const regis = await this.createRegisUser();
-			const academic = await this.createAcademicUser();
-			const staff = await this.createStaffUser();
+			// const regis = await this.createRegisUser();
+			// const academic = await this.createAcademicUser();
+			// const staff = await this.createStaffUser();
 
-			// Create banned user
-			console.log("\n📝 Creating banned user...");
-			await this.createBannedUser();
+			// // Create banned user
+			// console.log("\n📝 Creating banned user...");
+			// await this.createBannedUser();
 
-			// Create normal users with various application states
-			console.log("\n📝 Creating normal users with applications...\n");
+			// // Create normal users with various application states
+			// console.log("\n📝 Creating normal users with applications...\n");
 
-			// User 1: Empty application (just registered)
-			const user1 = await this.createNormalUser(1);
-			await this.createEmptyApplication(user1.id);
+			// // User 1: Empty application (just registered)
+			// const user1 = await this.createNormalUser(1);
+			// await this.createEmptyApplication(user1.id);
 
-			// User 2: Application with info only
-			const user2 = await this.createNormalUser(2);
-			await this.createApplicationWithInfo(user2.id, AppInfoGender.male);
+			// // User 2: Application with info only
+			// const user2 = await this.createNormalUser(2);
+			// await this.createApplicationWithInfo(user2.id, AppInfoGender.male);
 
-			// User 3: Full application (not submitted)
-			const user3 = await this.createNormalUser(3);
-			await this.createFullApplication(user3.id, 3);
+			// // User 3: Full application (not submitted)
+			// const user3 = await this.createNormalUser(3);
+			// await this.createFullApplication(user3.id, 3);
 
-			// User 4: Submitted application (waiting for review)
-			const user4 = await this.createNormalUser(4);
-			await this.createSubmittedApplication(user4.id, 4);
+			// // User 4: Submitted application (waiting for review)
+			// const user4 = await this.createNormalUser(4);
+			// await this.createSubmittedApplication(user4.id, 4);
 
-			// User 5: Passed application (not confirmed)
-			const user5 = await this.createNormalUser(5);
-			await this.createPassedApplication(user5.id, 5);
+			// // User 5: Passed application (not confirmed)
+			// const user5 = await this.createNormalUser(5);
+			// await this.createPassedApplication(user5.id, 5);
 
-			// User 6: Confirmed application
-			const user6 = await this.createNormalUser(6);
-			await this.createConfirmedApplication(user6.id, 6);
+			// // User 6: Confirmed application
+			// const user6 = await this.createNormalUser(6);
+			// await this.createConfirmedApplication(user6.id, 6);
 
-			// User 7: Reserve application
-			const user7 = await this.createNormalUser(7);
-			await this.createReserveApplication(user7.id, 7);
+			// // User 7: Reserve application
+			// const user7 = await this.createNormalUser(7);
+			// await this.createReserveApplication(user7.id, 7);
 
-			// User 8: Failed application
-			const user8 = await this.createNormalUser(8);
-			await this.createFailedApplication(user8.id, 8);
+			// // User 8: Failed application
+			// const user8 = await this.createNormalUser(8);
+			// await this.createFailedApplication(user8.id, 8);
 
-			// User 9: Aborted application
-			const user9 = await this.createNormalUser(9);
-			await this.createAbortedApplication(user9.id);
+			// // User 9: Aborted application
+			// const user9 = await this.createNormalUser(9);
+			// await this.createAbortedApplication(user9.id);
 
-			// User 10: Female applicant
-			const user10 = await this.createNormalUser(10);
-			await this.createApplicationWithInfo(user10.id, AppInfoGender.female);
+			// // User 10: Female applicant
+			// const user10 = await this.createNormalUser(10);
+			// await this.createApplicationWithInfo(user10.id, AppInfoGender.female);
 
-			// User 11: LGBTQ+ applicant
-			const user11 = await this.createNormalUser(11);
-			await this.createApplicationWithInfo(user11.id, AppInfoGender.lgtv);
+			// // User 11: LGBTQ+ applicant
+			// const user11 = await this.createNormalUser(11);
+			// await this.createApplicationWithInfo(user11.id, AppInfoGender.lgtv);
 
-			// Create some scored applications
-			console.log("\n📝 Creating scored applications...");
+			// // Create some scored applications
+			// console.log("\n📝 Creating scored applications...");
 
-			// Get regis answers and score them
-			const regisAnswers = await this.prisma.applicationRegisQuestionAnswer.findMany({
-				take: 5,
-			});
-			for (let i = 0; i < regisAnswers.length; i++) {
-				await this.createRegisQuestionScores(regis.id, regisAnswers[i].std_regis_answer_id, i + 1);
-			}
+			// // Get regis answers and score them
+			// const regisAnswers = await this.prisma.applicationRegisQuestionAnswer.findMany({
+			// 	take: 5,
+			// });
+			// for (let i = 0; i < regisAnswers.length; i++) {
+			// 	await this.createRegisQuestionScores(regis.id, regisAnswers[i].std_regis_answer_id, i + 1);
+			// }
 
-			// Get academic answers and score them
-			const academicAnswers = await this.prisma.applicationAcademicQuestionAnswer.findMany({
-				take: 5,
-			});
-			for (let i = 0; i < academicAnswers.length; i++) {
-				await this.createAcademicQuestionScores(academic.id, academicAnswers[i].std_academic_answer_id, i + 1);
-			}
+			// // Get academic answers and score them
+			// const academicAnswers = await this.prisma.applicationAcademicQuestionAnswer.findMany({
+			// 	take: 5,
+			// });
+			// for (let i = 0; i < academicAnswers.length; i++) {
+			// 	await this.createAcademicQuestionScores(academic.id, academicAnswers[i].std_academic_answer_id, i + 1);
+			// }
 
-			// Create bulk users for testing pagination (users 12-20)
-			console.log("\n📝 Creating bulk users for pagination testing...");
-			for (let i = 12; i <= 20; i++) {
-				const user = await this.createNormalUser(i);
-				await this.createSubmittedApplication(user.id, i);
-			}
+			// // Create bulk users for testing pagination (users 12-20)
+			// console.log("\n📝 Creating bulk users for pagination testing...");
+			// for (let i = 12; i <= 20; i++) {
+			// 	const user = await this.createNormalUser(i);
+			// 	await this.createSubmittedApplication(user.id, i);
+			// }
 
-			console.log("\n✅ Seed completed successfully!");
-			console.log("\n📊 Summary:");
-			console.log("- Staff users: 4 (admin, regis, academic, staff)");
-			console.log("- Banned user: 1");
-			console.log("- Normal users: 20");
-			console.log("- Applications: ~20 (various states)");
+			// console.log("\n✅ Seed completed successfully!");
+			// console.log("\n📊 Summary:");
+			// console.log("- Staff users: 4 (admin, regis, academic, staff)");
+			// console.log("- Banned user: 1");
+			// console.log("- Normal users: 20");
+			// console.log("- Applications: ~20 (various states)");
 		} catch (error) {
 			console.error("❌ Seed failed:", error);
 			throw error;
