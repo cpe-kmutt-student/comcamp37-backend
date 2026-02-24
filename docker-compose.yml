@@ -1,18 +1,79 @@
 
 services:
-  client:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-      args:
-        DATABASE_URL: ${DATABASE_URL}
-    container_name: comcamp37-service
+  traefik:
+    image: traefik:v3.4
+    container_name: traefik
     restart: unless-stopped
-    env_file: .env
+    env_file: .env.prod
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+
+      - "--entrypoints.web.address=:80"
+
+      - "--log.level=DEBUG"
+      - "--accesslog=true"
+
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+
+      - "--ping=true"
+      - "--ping.entrypoint=health"
+      - "--entrypoints.health.address=:8082"
     ports:
-      - ${DOCKER_APP_EXPOSE_PORT}:${APP_PORT}
+      - "${DOCKER_APP_EXPOSE_PORT}:80"
+      - "8080:8080"
+      - "8082:8082"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - internal
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    restart: unless-stopped
+    command:
+      - "--label-enable"
+      - "--interval"
+      - "30"
+      - "--cleanup"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # - ~/.docker/config.json:/config.json:ro
     networks:
       - internal
 
+  client:
+    image: ghcr.io/imjustnon/comcamp37-server:latest
+    restart: unless-stopped
+    env_file: .env.prod
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Treafik Base Config
+      - "traefik.http.routers.client.service=client"
+      - "traefik.enable=true"
+      - "traefik.http.routers.client.rule=${DOCKER_PROXY_HOST}"
+      - "traefik.http.routers.client.entrypoints=web"
+      - "traefik.http.services.client.loadbalancer.server.port=${APP_PORT}"
+
+      # Treafik Health Check Config
+      - "traefik.http.services.client.loadbalancer.healthcheck.path=/health"
+      - "traefik.http.services.client.loadbalancer.healthcheck.interval=5s"
+
+      # - "traefik.http.middlewares.api-ratelimit.ratelimit.burst=2500"
+      # - "traefik.http.routers.client.middlewares=api-ratelimit"
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${APP_PORT}/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
 networks:
   internal:
+    driver: bridge
