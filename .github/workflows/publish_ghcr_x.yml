@@ -1,0 +1,44 @@
+name: ComCamp Backend CI for GHCR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: imjustnon
+          password: ${{ secrets.GH_PAT }}
+
+      - name: Build and Push Multi-Arch Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile.prod
+          push: true
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+          tags: |
+            ghcr.io/imjustnon/comcamp37-server-x:latest
+            ghcr.io/imjustnon/comcamp37-server-x:${{ github.sha }}
