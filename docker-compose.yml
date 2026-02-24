@@ -68,11 +68,7 @@ services:
       # - "traefik.http.routers.client.middlewares=api-ratelimit"
     networks:
       - internal
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${APP_PORT}/health"]
-      interval: 10s
-      timeout: 3s
-      retries: 3
+      
 
 networks:
   internal:
