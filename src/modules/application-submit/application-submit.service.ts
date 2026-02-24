@@ -68,9 +68,9 @@ export class ApplicationSubmitService {
 					},
 				},
 			});
-			if (userInfo) {
-				await this.emailService.sendRegistrationConfirm(userInfo.std_application.std_user.email, `${userInfo.std_info_first_name} ${userInfo.std_info_last_name} (${userInfo.std_info_nick_name})`);
-			}
+			// if (userInfo) {
+			// 	await this.emailService.sendRegistrationConfirm(userInfo.std_application.std_user.email, `${userInfo.std_info_first_name} ${userInfo.std_info_last_name} (${userInfo.std_info_nick_name})`);
+			// }
 
 			return updateSubmitStatus;
 		} catch (e) {
