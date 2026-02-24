@@ -1,4 +1,5 @@
 import { ForbiddenException, Injectable, InternalServerErrorException, NotAcceptableException } from "@nestjs/common";
+import { EmailService } from "src/core/email/email.service";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { ApplicationSubmitDto } from "./dto/application-submit.dto";
@@ -8,6 +9,7 @@ export class ApplicationSubmitService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly logger: LoggerService,
+		private readonly emailService: EmailService,
 	) {}
 
 	async applicationSubmit(userId: string, applicationSubmitDto: ApplicationSubmitDto) {
@@ -53,6 +55,22 @@ export class ApplicationSubmitService {
 					std_application_submit: true,
 				},
 			});
+
+			const userInfo = await this.prisma.applicationInfo.findUnique({
+				where: {
+					std_application_id: applicationSubmitDto.application_id,
+				},
+				include: {
+					std_application: {
+						include: {
+							std_user: true,
+						},
+					},
+				},
+			});
+			if (userInfo) {
+				await this.emailService.sendRegistrationConfirm(userInfo.std_application.std_user.email, `${userInfo.std_info_first_name} ${userInfo.std_info_last_name} (${userInfo.std_info_nick_name})`);
+			}
 
 			return updateSubmitStatus;
 		} catch (e) {

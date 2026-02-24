@@ -13,6 +13,9 @@ export class StaffRegisGradingService {
 	async getAll() {
 		try {
 			const allAnswers = await this.prisma.studentApplication.findMany({
+				where: {
+					std_application_submit: true,
+				},
 				include: {
 					std_status: true,
 					std_regis_question: {
@@ -40,12 +43,12 @@ export class StaffRegisGradingService {
 
 	async getAnswerByAppId(appId: string) {
 		try {
-			const allAnswers = await this.prisma.applicationAcademicQuestionAnswer.findMany({
+			const allAnswers = await this.prisma.applicationRegisQuestionAnswer.findMany({
 				where: {
 					std_application_id: appId,
 				},
 				include: {
-					stf_academic_question_score: {
+					stf_regis_question_score: {
 						include: {
 							stf_user: true,
 						},
@@ -66,26 +69,16 @@ export class StaffRegisGradingService {
 
 	async answerGrading(userId: string, staffRegisGradingDto: StaffRegisGradingDto) {
 		try {
-			const scoreHistory = await this.prisma.applicationRegisQuestionScore.findMany({
+			// Delete existing score by the same staff before creating a new one
+			await this.prisma.applicationRegisQuestionScore.deleteMany({
 				where: {
 					std_regis_answer: {
 						std_application_id: staffRegisGradingDto.application_id,
 					},
 					std_regis_answer_id: staffRegisGradingDto.answer_id,
+					stf_count: staffRegisGradingDto.staff_count,
 				},
 			});
-
-			if (scoreHistory.length >= 2) {
-				await this.prisma.applicationRegisQuestionScore.deleteMany({
-					where: {
-						std_regis_answer: {
-							std_application_id: staffRegisGradingDto.application_id,
-						},
-						std_regis_answer_id: staffRegisGradingDto.answer_id,
-						stf_count: staffRegisGradingDto.staff_count,
-					},
-				});
-			}
 
 			const createScore = await this.prisma.applicationRegisQuestionScore.create({
 				data: {
