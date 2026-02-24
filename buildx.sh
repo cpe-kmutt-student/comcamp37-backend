@@ -3,7 +3,7 @@
 set -e
 
 ENV_FILE=".env"
-IMAGE="ghcr.io/imjustnon/comcamp37-server:latest"
+IMAGE="ghcr.io/imjustnon/comcamp37-server-x:latest"
 
 # Check if .env exists
 if [ ! -f "$ENV_FILE" ]; then
@@ -21,10 +21,11 @@ fi
 
 echo "Using DATABASE_URL: ${DATABASE_URL%%@*}@****"
 
-docker build \
+docker buildx build \
   -f Dockerfile.prod \
+  --platform linux/amd64,linux/arm64 \
   --build-arg DATABASE_URL="$DATABASE_URL" \
-  -t "$IMAGE" .
+  -t "$IMAGE" --push .
 
 echo "Build complete: $IMAGE"
 
