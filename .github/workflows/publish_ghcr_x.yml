@@ -1,4 +1,4 @@
-name: ComCamp Backend CI for GHCR
+name: ComCamp Backend CI for GHCR - X
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build_and_publish:
+  build_and_publish_x:
     runs-on: ubuntu-latest
 
     permissions:
