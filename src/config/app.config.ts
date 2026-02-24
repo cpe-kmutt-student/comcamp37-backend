@@ -1,12 +1,16 @@
-import dotenv from "dotenv";
-
-dotenv.config();
-
 export const config = {
 	app: {
 		port: parseInt(process.env.APP_PORT || "3000", 10),
 		allowOrigins: (process.env.APP_ALLOW_ORIGIN || "").split(","),
 		frontendUrl: process.env.APP_FRONTEND_URL || "",
+	},
+	logging: {
+		webhookUrl: process.env.LOGGING_WEBHOOK_URL,
+	},
+	regisPeriod: {
+		bypass: process.env.REGISTER_PERIOD_BYPASS === "true",
+		start: process.env.REGISTER_PERIOD_START,
+		end: process.env.REGISTER_PERIOD_END,
 	},
 	db: {
 		url: process.env.DATABASE_URL || "",

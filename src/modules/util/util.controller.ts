@@ -11,4 +11,10 @@ export class UtilController {
 	getSchools(@Query("q") query?: string) {
 		return this.utilService.getSchools(query);
 	}
+
+	@Get("/address")
+	@AllowAnonymous()
+	getAddress(@Query("postal") postal?: string) {
+		return this.utilService.getAddressByPostal(postal);
+	}
 }

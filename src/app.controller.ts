@@ -1,4 +1,4 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, UseGuards } from "@nestjs/common";
 import { AllowAnonymous } from "@thallesp/nestjs-better-auth";
 import { AppService } from "./app.service";
 
@@ -22,5 +22,11 @@ export class AppController {
 	@AllowAnonymous()
 	who() {
 		return process.pid;
+	}
+
+	@Get("/timeleft")
+	@AllowAnonymous()
+	timeLeft() {
+		return this.appService.timeLeft();
 	}
 }
