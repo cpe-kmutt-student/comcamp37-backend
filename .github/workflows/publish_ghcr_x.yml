@@ -3,9 +3,9 @@ name: ComCamp Backend CI for GHCR - X
 on:
   push:
     branches:
-      - main
+      - main 
       - dev
-      
+
 jobs:
   build_and_publish_x:
     runs-on: ubuntu-latest
