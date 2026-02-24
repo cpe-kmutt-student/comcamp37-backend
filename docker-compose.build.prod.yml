@@ -4,7 +4,7 @@ services:
     image: traefik:v3.4
     container_name: traefik
     restart: unless-stopped
-    env_file: .env
+    env_file: .env.prod
     command:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
@@ -28,33 +28,17 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - internal
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
-
-
-  watchtower:
-    image: containrrr/watchtower:latest
-    container_name: watchtower
-    restart: unless-stopped
-    command:
-      - "--label-enable"
-      - "--interval"
-      - "30"
-      - "--cleanup"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      # - ~/.docker/config.json:/config.json:ro
-    networks:
-      - internal
 
   client:
-    image: ghcr.io/imjustnon/comcamp37-server-x:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+      args:
+        DATABASE_URL: ${DATABASE_URL}
     restart: unless-stopped
-    env_file: .env
+    env_file: .env.prod
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
       # Treafik Base Config
-      - "traefik.http.routers.client.service=client"
       - "traefik.enable=true"
       - "traefik.http.routers.client.rule=${DOCKER_PROXY_HOST}"
       - "traefik.http.routers.client.entrypoints=web"
@@ -68,7 +52,6 @@ services:
       # - "traefik.http.routers.client.middlewares=api-ratelimit"
     networks:
       - internal
-      
 
 networks:
   internal:
