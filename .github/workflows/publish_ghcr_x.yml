@@ -3,7 +3,7 @@ name: ComCamp Backend CI for GHCR - X
 on:
   push:
     branches:
-      - main 
+      - main
       - dev
 
 jobs:
