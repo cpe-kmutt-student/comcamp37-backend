@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - dev
-      
+
 jobs:
   build_and_publish_x:
     runs-on: ubuntu-latest

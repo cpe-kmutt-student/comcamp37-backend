@@ -1,6 +1,8 @@
-import { Body, Controller, Param, Post } from "@nestjs/common";
+import { Body, Controller, Param, Post, UseGuards } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Session, type UserSession } from "@thallesp/nestjs-better-auth";
+import { ApplicationSubmittedGuard } from "src/common/guards/application-submitted.guard";
+import { RegisterPeriodGuard } from "src/common/guards/register-period.guard";
 import { StatusUpdaterDto } from "./dto/status-updater.dto";
 import { StatusUpdaterAllResponseDto, StatusUpdaterResponseDto } from "./dto/status-updater-response.dto";
 import { StatusUpdaterService } from "./status-updater.service";
@@ -11,6 +13,8 @@ export class StatusUpdaterController {
 	constructor(private readonly statusUpdaterService: StatusUpdaterService) {}
 
 	@Post("/all")
+	@UseGuards(RegisterPeriodGuard)
+	@UseGuards(ApplicationSubmittedGuard)
 	@ApiOperation({
 		description: "Update all application statuses for the current user based on completion criteria",
 	})
@@ -32,6 +36,8 @@ export class StatusUpdaterController {
 	}
 
 	@Post("/file")
+	@UseGuards(RegisterPeriodGuard)
+	@UseGuards(ApplicationSubmittedGuard)
 	@ApiOperation({
 		description: "Update file completion status for an application (checks required file types)",
 	})
@@ -53,6 +59,8 @@ export class StatusUpdaterController {
 	}
 
 	@Post("/info")
+	@UseGuards(RegisterPeriodGuard)
+	@UseGuards(ApplicationSubmittedGuard)
 	@ApiOperation({
 		description: "Update info completion status for an application (checks all required fields)",
 	})
@@ -78,6 +86,8 @@ export class StatusUpdaterController {
 	}
 
 	@Post("/regis-question")
+	@UseGuards(RegisterPeriodGuard)
+	@UseGuards(ApplicationSubmittedGuard)
 	@ApiOperation({
 		description: "Update registration question completion status (checks all 6 sections answered)",
 	})
@@ -103,6 +113,8 @@ export class StatusUpdaterController {
 	}
 
 	@Post("/academic-question")
+	@UseGuards(RegisterPeriodGuard)
+	@UseGuards(ApplicationSubmittedGuard)
 	@ApiOperation({
 		description: "Update academic question completion status (checks all 6 sections answered)",
 	})
@@ -128,6 +140,8 @@ export class StatusUpdaterController {
 	}
 
 	@Post("/payment")
+	@UseGuards(RegisterPeriodGuard)
+	@UseGuards(ApplicationSubmittedGuard)
 	@ApiOperation({
 		description: "Update payment completion status (checks payment slip uploaded)",
 	})

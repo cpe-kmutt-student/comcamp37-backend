@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Session, type UserSession } from "@thallesp/nestjs-better-auth";
+import { ApplicationSubmittedGuard } from "src/common/guards/application-submitted.guard";
 import { RegisterPeriodGuard } from "src/common/guards/register-period.guard";
 import { ApplicationQuestionService } from "./application-question.service";
 import { AnswerQuestionDto } from "./dto/answer-question.dto";
@@ -107,6 +108,7 @@ export class ApplicationQuestionController {
 
 	@Post("/regis/answer")
 	@UseGuards(RegisterPeriodGuard)
+	@UseGuards(ApplicationSubmittedGuard)
 	@ApiOperation({
 		description: "Submit or update registration question answers for an application",
 	})
@@ -128,6 +130,7 @@ export class ApplicationQuestionController {
 
 	@Post("/academic/answer")
 	@UseGuards(RegisterPeriodGuard)
+	@UseGuards(ApplicationSubmittedGuard)
 	@ApiOperation({
 		description: "Submit or update academic question answers for an application",
 	})
@@ -159,6 +162,7 @@ export class ApplicationQuestionController {
 
 	@Post("/academic/chaos/answer")
 	@UseGuards(RegisterPeriodGuard)
+	@UseGuards(ApplicationSubmittedGuard)
 	answerAcadenicChaos(@Session() session: UserSession, @Body() answerQuestionDto: AnswerQuestionDto) {
 		return this.applicationQuestionService.answerAcademicChaos(session.user.id, answerQuestionDto);
 	}
