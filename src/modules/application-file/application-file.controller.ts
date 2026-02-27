@@ -3,6 +3,7 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Session, type UserSession } from "@thallesp/nestjs-better-auth";
 import { FileType } from "generated/prisma/enums";
+import { ApplicationSubmittedGuard } from "src/common/guards/application-submitted.guard";
 import { RegisterPeriodGuard } from "src/common/guards/register-period.guard";
 import { ApplicationFileService } from "./application-file.service";
 import { ApplicationFileDto } from "./dto/application-file.dto";
@@ -41,6 +42,7 @@ export class ApplicationFileController {
 
 	@Post("/upload")
 	@UseGuards(RegisterPeriodGuard)
+	@UseGuards(ApplicationSubmittedGuard)
 	@UseInterceptors(FileInterceptor("file"))
 	@ApiOperation({
 		description: `Upload a file for an application. Max file size is 3MB. Supported file types: ${Object.values(FileType).join(", ")}`,

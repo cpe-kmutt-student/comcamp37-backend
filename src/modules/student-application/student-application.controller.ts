@@ -1,6 +1,7 @@
 import { Controller, Get, Param, Post, Session, UseGuards } from "@nestjs/common";
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import type { UserSession } from "@thallesp/nestjs-better-auth";
+import { ApplicationCreatedGuard } from "src/common/guards/application-created.guard";
 import { RegisterPeriodGuard } from "src/common/guards/register-period.guard";
 import { StudentApplicationResponseDto } from "./dto";
 import { StudentApplicationService } from "./student-application.service";
@@ -33,6 +34,7 @@ export class StudentApplicationController {
 
 	@Post("/create")
 	@UseGuards(RegisterPeriodGuard)
+	@UseGuards(ApplicationCreatedGuard)
 	@ApiOperation({
 		description: "Create a new student application for the authenticated user. This will also initialize ApplicationInfo and ApplicationStatus records.",
 	})
