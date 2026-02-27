@@ -10,6 +10,7 @@ export class ApplicationSubmitController {
 
 	@Post("/")
 	@UseGuards(RegisterPeriodGuard)
+	@UseGuards(ApplicationSubmittedGuard)
 	applicationSubmit(@Session() session: UserSession, @Body() applicationSubmitDto: ApplicationSubmitDto) {
 		return this.applicationSubmitService.applicationSubmit(session.user.id, applicationSubmitDto);
 	}
