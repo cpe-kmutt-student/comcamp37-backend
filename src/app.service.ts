@@ -15,6 +15,8 @@ export class AppService {
 			config: {
 				cors_origin: config.app.allowOrigins,
 				regis_period: config.regisPeriod,
+				app_domain: config.app.domain,
+				app_env: config.app.env,
 			},
 			status: "ok",
 			// ...(await this.getSystemSpecs()),

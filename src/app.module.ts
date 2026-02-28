@@ -33,6 +33,7 @@ import { StaffStatusModule } from "./modules/staff-status/staff-status.module";
 import { StatusUpdaterModule } from "./modules/status-updater/status-updater.module";
 import { StudentApplicationModule } from "./modules/student-application/student-application.module";
 import { UtilModule } from "./modules/util/util.module";
+import { StaffStatusUpdaterModule } from "./staff-status-updater/staff-status-updater.module";
 
 @Module({
 	imports: [
@@ -70,6 +71,7 @@ import { UtilModule } from "./modules/util/util.module";
 		StaffRegisGradingModule,
 		StaffAcademicGradingModule,
 		LoggerModule,
+		StaffStatusUpdaterModule,
 	],
 
 	controllers: [AppController],
