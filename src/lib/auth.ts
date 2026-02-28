@@ -18,12 +18,12 @@ export const auth = betterAuth({
 		strategy: "database",
 		expiresIn: 60 * 60 * 24 * 7, // 7 days
 	},
-	advanced: {
-		crossSubDomainCookies: {
-			enabled: config.app.env === "PROD",
-			domain: config.app.domain,
-		},
-	},
+	// advanced: {
+	// 	crossSubDomainCookies: {
+	// 		enabled: config.app.env === "PROD",
+	// 		domain: config.app.domain,
+	// 	},
+	// },
 	emailAndPassword: {
 		enabled: true,
 	},
