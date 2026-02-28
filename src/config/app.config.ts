@@ -1,8 +1,12 @@
+type APP_ENV = "PROD" | "DEV";
+
 export const config = {
 	app: {
 		port: parseInt(process.env.APP_PORT || "3000", 10),
 		allowOrigins: (process.env.APP_ALLOW_ORIGIN || "").split(","),
 		frontendUrl: process.env.APP_FRONTEND_URL || "",
+		domain: process.env.APP_DOMAIN || "",
+		env: process.env.APP_ENV as APP_ENV,
 	},
 	logging: {
 		webhookUrl: process.env.LOGGING_WEBHOOK_URL,
