@@ -104,7 +104,7 @@ export class ApplicationFileService {
 				application_id: newApplicationFile.std_application_id,
 				file_originalname: newApplicationFile.std_file_originalname,
 				file_size: newApplicationFile.std_file_size,
-				file_url: await this.signedUrl(newApplicationFile.std_file_key),
+				file_url: await this.s3.signedUrl(newApplicationFile.std_file_key),
 				file_type: newApplicationFile.std_file_type,
 				craeted_at: newApplicationFile.created_at,
 			};
@@ -136,7 +136,7 @@ export class ApplicationFileService {
 							application_id: af.std_application_id,
 							file_originalname: af.std_file_originalname,
 							file_size: af.std_file_size,
-							file_url: await this.signedUrl(af.std_file_key),
+							file_url: await this.s3.signedUrl(af.std_file_key),
 							file_type: af.std_file_type,
 							created_at: af.created_at,
 						})),
@@ -146,19 +146,5 @@ export class ApplicationFileService {
 			this.logger.error(e);
 			throw new InternalServerErrorException(e);
 		}
-	}
-
-	async signedUrl(key: string | null | undefined): Promise<string | null> {
-		if (!key) return null;
-		return await getSignedUrl(
-			this.s3,
-			new GetObjectCommand({
-				Bucket: config.s3.bucket,
-				Key: key,
-			}),
-			{
-				expiresIn: 30 * 60, // 30m
-			},
-		);
 	}
 }
