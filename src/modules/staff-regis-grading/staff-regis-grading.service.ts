@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
-import { StaffStatusUpdaterService } from "src/staff-status-updater/staff-status-updater.service";
+import { StaffStatusUpdaterService } from "../staff-status-updater/staff-status-updater.service";
 import { StaffRegisGradingDto } from "./dto/staff-regis-grading.dto";
 
 @Injectable()

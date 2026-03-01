@@ -26,14 +26,15 @@ import { EmailNotificationModule } from "./modules/email-notification/email-noti
 import { StaffAcademicGradingModule } from "./modules/staff-academic-grading/staff-academic-grading.module";
 import { StaffAccountModule } from "./modules/staff-account/staff-account.module";
 import { StaffApplicationModule } from "./modules/staff-application/staff-application.module";
+import { StaffFileModule } from "./modules/staff-file/staff-file.module";
 import { StaffRegisGradingModule } from "./modules/staff-regis-grading/staff-regis-grading.module";
 import { StaffRegisQuestionModule } from "./modules/staff-regis-question/staff-regis-question.module";
 import { StaffStatisticModule } from "./modules/staff-statistic/staff-statistic.module";
 import { StaffStatusModule } from "./modules/staff-status/staff-status.module";
+import { StaffStatusUpdaterModule } from "./modules/staff-status-updater/staff-status-updater.module";
 import { StatusUpdaterModule } from "./modules/status-updater/status-updater.module";
 import { StudentApplicationModule } from "./modules/student-application/student-application.module";
 import { UtilModule } from "./modules/util/util.module";
-import { StaffStatusUpdaterModule } from "./staff-status-updater/staff-status-updater.module";
 
 @Module({
 	imports: [
@@ -72,6 +73,7 @@ import { StaffStatusUpdaterModule } from "./staff-status-updater/staff-status-up
 		StaffAcademicGradingModule,
 		LoggerModule,
 		StaffStatusUpdaterModule,
+		StaffFileModule,
 	],
 
 	controllers: [AppController],
