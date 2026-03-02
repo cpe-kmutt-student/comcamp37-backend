@@ -37,10 +37,12 @@ export class StaffStatusUpdaterService {
 				},
 			});
 
+			this.logger.info("Updated Regis Question Check Status");
+
 			return updatedStatus;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException(e);
+			// throw new InternalServerErrorException(e);
 		}
 	}
 }
