@@ -5,6 +5,7 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { AuthModule as BetterAuthModule } from "@thallesp/nestjs-better-auth";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { logger } from "./common/middlewares/Logger.middleware";
 import { config } from "./config/app.config";
 import { AuthModule } from "./core/auth/auth.module";
 import { EmailModule } from "./core/email/email.module";
@@ -86,13 +87,7 @@ import { UtilModule } from "./modules/util/util.module";
 	providers: [AppService, PrismaService, LoggerService],
 })
 export class AppModule {
-	// configure(consumer: MiddlewareConsumer) {
-	// 	consumer
-	// 		.apply(StudentAuthMiddleware)
-	// 		.exclude(
-	// 			{ path: "/student/user/auth", method: RequestMethod.GET },
-	// 			{ path: "/student/user/auth/callback", method: RequestMethod.GET },
-	// 		)
-	// 		.forRoutes("*");
-	// }
+	configure(consumer: MiddlewareConsumer) {
+		consumer.apply(logger).forRoutes("*");
+	}
 }
