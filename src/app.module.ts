@@ -24,6 +24,7 @@ import { ApplicationStatusModule } from "./modules/application-status/applicatio
 import { ApplicationSubmitModule } from "./modules/application-submit/application-submit.module";
 import { EmailNotificationModule } from "./modules/email-notification/email-notification.module";
 import { StaffAcademicGradingModule } from "./modules/staff-academic-grading/staff-academic-grading.module";
+import { StaffAcademicQuestionModule } from "./modules/staff-academic-question/staff-academic-question.module";
 import { StaffAccountModule } from "./modules/staff-account/staff-account.module";
 import { StaffApplicationModule } from "./modules/staff-application/staff-application.module";
 import { StaffFileModule } from "./modules/staff-file/staff-file.module";
@@ -74,6 +75,7 @@ import { UtilModule } from "./modules/util/util.module";
 		LoggerModule,
 		StaffStatusUpdaterModule,
 		StaffFileModule,
+		StaffAcademicQuestionModule,
 	],
 
 	controllers: [AppController],
