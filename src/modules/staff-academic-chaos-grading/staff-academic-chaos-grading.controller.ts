@@ -22,7 +22,7 @@ export class StaffAcademicChaosGradingController {
 
 	@Post("/grading")
 	@UseGuards(AcademicGuard)
-	answerGrading(@Session() session: UserSession, @Body() staffAcademicGradingDto: StaffAcademicChaosGradingDto) {
-		return this.staffAcademicChaosGradingService.answerGrading(session.user.id, staffAcademicGradingDto);
+	answerGrading(@Session() session: UserSession, @Body() staffAcademicChaosGradingDto: StaffAcademicChaosGradingDto) {
+		return this.staffAcademicChaosGradingService.answerGrading(session.user.id, staffAcademicChaosGradingDto);
 	}
 }
