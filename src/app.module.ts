@@ -23,6 +23,7 @@ import { ApplicationQuestionModule } from "./modules/application-question/applic
 import { ApplicationStatusModule } from "./modules/application-status/application-status.module";
 import { ApplicationSubmitModule } from "./modules/application-submit/application-submit.module";
 import { EmailNotificationModule } from "./modules/email-notification/email-notification.module";
+import { StaffAcademicChaosGradingModule } from "./modules/staff-academic-chaos-grading/staff-academic-chaos-grading.module";
 import { StaffAcademicChaosQuestionModule } from "./modules/staff-academic-chaos-question/staff-academic-chaos-question.module";
 import { StaffAcademicGradingModule } from "./modules/staff-academic-grading/staff-academic-grading.module";
 import { StaffAcademicQuestionModule } from "./modules/staff-academic-question/staff-academic-question.module";
@@ -78,6 +79,7 @@ import { UtilModule } from "./modules/util/util.module";
 		StaffFileModule,
 		StaffAcademicQuestionModule,
 		StaffAcademicChaosQuestionModule,
+		StaffAcademicChaosGradingModule,
 	],
 
 	controllers: [AppController],
