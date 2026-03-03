@@ -1,6 +1,7 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
+import { StaffStatusUpdaterService } from "../staff-status-updater/staff-status-updater.service";
 import { StaffAcademicGradingDto } from "./dto/staff-academic-grading.dto";
 
 @Injectable()
@@ -8,7 +9,7 @@ export class StaffAcademicGradingService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly logger: LoggerService,
-		// private readonly staffStatusUpdaterService: StaffStatusUpdaterService,
+		private readonly staffStatusUpdaterService: StaffStatusUpdaterService,
 	) {}
 
 	async getAll() {
@@ -102,7 +103,7 @@ export class StaffAcademicGradingService {
 				},
 			});
 
-			// await this.staffStatusUpdaterService.updateRegisQuestionCheckedStatus(staffRegisGradingDto.application_id);
+			await this.staffStatusUpdaterService.updateAcademicQuestionCheckedStatus(staffAcademicGradingDto.application_id);
 			return answerScore;
 		} catch (e) {
 			this.logger.error(e);
