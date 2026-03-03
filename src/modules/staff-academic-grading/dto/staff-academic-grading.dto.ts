@@ -15,7 +15,7 @@ export class StaffAcademicGradingDto {
 	@IsNumber()
 	readonly score: number;
 
-	@IsString()
-	@IsOptional()
-	readonly comment?: string;
+	// @IsString()
+	// @IsOptional()
+	// readonly comment?: string;
 }
