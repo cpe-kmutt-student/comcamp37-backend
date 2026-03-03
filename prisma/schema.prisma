@@ -213,6 +213,8 @@ model ApplicationStatus {
 
   stf_regis_question_checked              Boolean?                  @default(false)
   stf_academic_question_checked           Boolean?                  @default(false)
+  stf_academic_chaos_question_checked     Boolean?                  @default(false)
+  
   
   std_info_note                           String?                   @db.Text
   
