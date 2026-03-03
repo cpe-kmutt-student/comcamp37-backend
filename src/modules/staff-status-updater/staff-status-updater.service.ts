@@ -25,7 +25,7 @@ export class StaffStatusUpdaterService {
 			});
 
 			if (unCompleteCheck.length !== 0) {
-				throw new Error("Grading not complete yet");
+				throw new Error("Regis Grading not complete yet");
 			}
 
 			const updatedStatus = await this.prisma.applicationStatus.update({
@@ -38,6 +38,80 @@ export class StaffStatusUpdaterService {
 			});
 
 			this.logger.info("Updated Regis Question Check Status");
+
+			return updatedStatus;
+		} catch (e) {
+			this.logger.error(e);
+			// throw new InternalServerErrorException(e);
+		}
+	}
+
+	async updateAcademicQuestionCheckedStatus(appId: string) {
+		try {
+			const answer = await this.prisma.applicationAcademicQuestionAnswer.findMany({
+				where: {
+					std_application_id: appId,
+				},
+				include: {
+					stf_academic_question_score: true,
+				},
+			});
+
+			const unCompleteCheck = answer.filter((ans) => {
+				return ans.stf_academic_question_score.length === 0;
+			});
+
+			if (unCompleteCheck.length !== 0) {
+				throw new Error("Academic Grading not complete yet");
+			}
+
+			const updatedStatus = await this.prisma.applicationStatus.update({
+				where: {
+					std_application_id: appId,
+				},
+				data: {
+					stf_academic_question_checked: true,
+				},
+			});
+
+			this.logger.info("Updated Academic Question Check Status");
+
+			return updatedStatus;
+		} catch (e) {
+			this.logger.error(e);
+			// throw new InternalServerErrorException(e);
+		}
+	}
+
+	async updateAcademicChaosQuestionCheckedStatus(appId: string) {
+		try {
+			const answer = await this.prisma.applicationAcademicChaosQuestionAnswer.findMany({
+				where: {
+					std_application_id: appId,
+				},
+				include: {
+					stf_academic_chaos_question_score: true,
+				},
+			});
+
+			const unCompleteCheck = answer.filter((ans) => {
+				return ans.stf_academic_chaos_question_score.length === 0;
+			});
+
+			if (unCompleteCheck.length !== 0) {
+				throw new Error("Academic Chaos Grading not complete yet");
+			}
+
+			const updatedStatus = await this.prisma.applicationStatus.update({
+				where: {
+					std_application_id: appId,
+				},
+				data: {
+					stf_academic_chaos_question_checked: true,
+				},
+			});
+
+			this.logger.info("Updated Academic Chaos Question Check Status");
 
 			return updatedStatus;
 		} catch (e) {
