@@ -88,6 +88,6 @@ import { UtilModule } from "./modules/util/util.module";
 })
 export class AppModule {
 	configure(consumer: MiddlewareConsumer) {
-		consumer.apply(logger).forRoutes("*");
+		consumer.apply(logger).exclude({ path: "/favicon.ico", method: RequestMethod.GET }, { path: "/", method: RequestMethod.GET }, { path: "/health", method: RequestMethod.GET }).forRoutes("*");
 	}
 }

@@ -25,6 +25,11 @@ export class DiscordWebhook {
 				return;
 			}
 
+			// Ensure description doesn't exceed Discord's 4096 char limit
+			if (body.description.length > 4096) {
+				body.description = `${body.description.slice(0, 4080)}\n...(truncated)`;
+			}
+
 			await axios.post(config.logging.webhookUrl, {
 				embeds: [body],
 				allowed_mentions: {
@@ -33,15 +38,29 @@ export class DiscordWebhook {
 			});
 
 			this.logger.success("Logging message has been sent!");
-		} catch (e) {
-			this.logger.error(e);
+		} catch (e: any) {
+			const errorData = e?.response?.data ? JSON.stringify(e.response.data) : e?.message || "Unknown error";
+			this.logger.error(`Discord webhook failed: ${errorData}`);
 		}
 	}
 
 	errorEmbed(...ctx: any[]): EmbedMessage {
+		const formatted = ctx
+			.map((item) => {
+				if (item instanceof Error) {
+					return `${item.name}: ${item.message}\n${item.stack || ""}`;
+				}
+				if (typeof item === "object") {
+					return JSON.stringify(item, null, 2);
+				}
+				return String(item);
+			})
+			.join(" ")
+			.slice(0, 4000);
+
 		return {
 			title: "Service Error!!!",
-			description: `\`\`\` ${ctx} \`\`\``,
+			description: `\`\`\`\n${formatted}\n\`\`\``,
 			color: 16711680,
 			footer: {
 				text: "Backend Service | ComCamp 37",
