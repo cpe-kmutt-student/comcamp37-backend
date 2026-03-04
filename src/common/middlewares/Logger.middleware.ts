@@ -3,7 +3,16 @@ import { DiscordWebhook } from "src/utils/discord-webhook";
 
 const discordWebhook = new DiscordWebhook();
 
+const EXCLUDED_PATHS = ["/health", "/"];
+
 export function logger(req: Request, res: Response, next: NextFunction) {
+	const url = req.originalUrl || req.url;
+
+	// Skip logging for excluded paths
+	if (EXCLUDED_PATHS.includes(url)) {
+		return next();
+	}
+
 	const startTime = Date.now();
 	let responseBody: any = null;
 
