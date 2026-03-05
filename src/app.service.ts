@@ -1,11 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import os from "os";
 import { config } from "./config/app.config";
+import { EmailService } from "./core/email/email.service";
 import { LoggerService } from "./core/logger/logger.service";
 
 @Injectable()
 export class AppService {
-	constructor(private readonly logger: LoggerService) {}
+	constructor(
+		private readonly logger: LoggerService,
+		private readonly emailService: EmailService,
+	) {}
 
 	async getStatus() {
 		return {

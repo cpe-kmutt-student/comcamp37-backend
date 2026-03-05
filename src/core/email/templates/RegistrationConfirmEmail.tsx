@@ -7,11 +7,6 @@ interface RegistrationConfirmEmailProps {
 	name: string;
 }
 
-const CONFIG = {
-	contactLink: "https://comcamp.io/#contact",
-	email: "kmutt.comcamp@gmail.com",
-};
-
 export default function RegistrationConfirmEmail({ name }: RegistrationConfirmEmailProps) {
 	return (
 		<Html>
@@ -21,8 +16,8 @@ export default function RegistrationConfirmEmail({ name }: RegistrationConfirmEm
 						extend: {
 							colors: {
 								zootopia: {
-									navy: "#464f6a",
-									blue: "#92a6d2",
+									navy: "#1d3071",
+									blue: "#004aad",
 									orange: "#e98d55",
 									yellow: "#f2d575",
 									brown: "#504039",
@@ -42,31 +37,30 @@ export default function RegistrationConfirmEmail({ name }: RegistrationConfirmEm
 						<Header />
 
 						<Section className="bg-white px-6 py-8 text-center">
-							<Heading className="text-sm font-semibold text-[#92a6d2] m-0 mb-2 tracking-widest uppercase" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-								COMCAMP 37
+							<Heading className="text-sm font-semibold text-[#1d3071] m-0 mb-2 tracking-widest uppercase" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+								สถานะ
 							</Heading>
-							<Text className="text-2xl font-bold m-0 text-[#464f6a]">ยืนยันการสมัครสำเร็จ! 🎉</Text>
+							<Text className="text-2xl font-bold m-0 text-[#004aad]">ส่งใบสมัครสำเร็จ!</Text>
 						</Section>
 
 						<Section className="px-6 pb-10 pt-4">
-							<Section className="bg-[#f8f9fc] border-l-4 border-[#e98d55] rounded-lg px-6 py-5 mb-8">
-								<Text className="text-base leading-relaxed text-[#464f6a] m-0">
-									สวัสดีครับน้อง <strong className="text-[#504039]">{name}</strong> 🎊
+							<Section className="bg-[#004aad]/20 border-l-4 border-[#1d3071] rounded-lg px-6 py-5 mb-8">
+								<Text className="text-base leading-relaxed text-[#004aad] m-0">
+									สวัสดีครับน้อง <strong className="text-white">{name}</strong>
 								</Text>
 							</Section>
 
 							<Section className="bg-[#e8f5e9] border-2 border-[#4caf50] rounded-xl px-6 py-6 mb-8 text-center">
-								<Text className="text-4xl m-0 mb-3">✅</Text>
-								<Text className="text-lg font-bold text-[#2e7d32] m-0">การสมัครของน้องได้รับการบันทึกเรียบร้อยแล้ว!</Text>
+								<Text className="text-lg font-bold text-[#2e7d32] m-0">ใบสมัครของน้องได้รับการบันทึกเรียบร้อยแล้ว!</Text>
 							</Section>
 
 							<Text className="text-base leading-relaxed text-[#504039] mb-6">
-								ขอขอบคุณที่ให้ความสนใจสมัครเข้าร่วมโครงการ <strong>ComCamp 37</strong> ค่ายคอมพิวเตอร์สำหรับน้อง ๆ มัธยมศึกษาตอนปลายที่จัดโดยภาควิชาวิศวกรรมคอมพิวเตอร์ มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี
+								ขอขอบคุณที่ให้ความสนใจสมัครเข้าร่วมโครงการ <strong>ComCamp 37</strong> ค่ายคอมพิวเตอร์สำหรับน้อง ๆ ที่จัดโดยภาควิชาวิศวกรรมคอมพิวเตอร์ มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี
 							</Text>
 
 							<Section className="bg-[#f0f4ff] border-l-4 border-[#92a6d2] rounded-lg px-6 py-5 mb-8">
-								<Text className="text-sm font-bold text-[#464f6a] m-0 mb-3">📋 ขั้นตอนถัดไป:</Text>
-								<Text className="text-sm leading-relaxed text-[#504039] m-0 mb-2">1. ทีมงานจะตรวจสอบใบสมัครของน้องภายใน 3-5 วันทำการ</Text>
+								<Text className="text-sm font-bold text-[#004aad] m-0 mb-3">📋 ขั้นตอนถัดไป:</Text>
+								<Text className="text-sm leading-relaxed text-[#504039] m-0 mb-2">1. ทีมงานจะตรวจสอบใบสมัครของน้อง</Text>
 								<Text className="text-sm leading-relaxed text-[#504039] m-0 mb-2">2. หากมีข้อมูลที่ต้องแก้ไข น้องจะได้รับอีเมลแจ้งเตือน</Text>
 								<Text className="text-sm leading-relaxed text-[#504039] m-0 mb-2">3. ติดตามประกาศผลการคัดเลือกได้ที่เว็บไซต์ของค่าย</Text>
 								<Text className="text-sm leading-relaxed text-[#504039] m-0">4. ตรวจสอบอีเมลเป็นประจำเพื่อไม่พลาดข่าวสารสำคัญ</Text>
