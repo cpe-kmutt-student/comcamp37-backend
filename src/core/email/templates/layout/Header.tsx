@@ -9,7 +9,7 @@ export const Header = () => {
 		<Section
 			className="relative overflow-hidden px-12 text-center"
 			style={{
-				background: "linear-gradient(135deg, #464f6a 0%, #92a6d2 100%)",
+				background: "linear-gradient(135deg, #1d3071 0%, #004aad 100%)",
 			}}
 		>
 			<Img src={CONFIG.logourl} width="160" height="auto" alt="ComCamp 37 Logo" className="mx-auto relative z-10" />
