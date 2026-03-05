@@ -46,7 +46,7 @@ export default function RegistrationConfirmEmail({ name }: RegistrationConfirmEm
 						<Section className="px-6 pb-10 pt-4">
 							<Section className="bg-[#004aad]/20 border-l-4 border-[#1d3071] rounded-lg px-6 py-5 mb-8">
 								<Text className="text-base leading-relaxed text-[#004aad] m-0">
-									สวัสดีครับน้อง <strong className="text-white">{name}</strong>
+									สวัสดีครับน้อง <strong className="text-[#504039]">{name}</strong>
 								</Text>
 							</Section>
 

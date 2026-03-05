@@ -70,7 +70,7 @@ export class ApplicationSubmitService {
 				},
 			});
 			if (userInfo) {
-				await this.emailService.sendRegistrationConfirm(userInfo.std_application.std_user.email, `${userInfo.std_info_nick_name}`);
+				await this.emailService.sendRegistrationConfirm(userInfo.std_application.std_user.email, `${decodeURI(userInfo.std_info_nick_name || "")}`);
 			}
 
 			return updateSubmitStatus;
