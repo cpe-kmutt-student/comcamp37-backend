@@ -38,6 +38,7 @@ import { StaffStatusModule } from "./modules/staff-status/staff-status.module";
 import { StaffStatusUpdaterModule } from "./modules/staff-status-updater/staff-status-updater.module";
 import { StatusUpdaterModule } from "./modules/status-updater/status-updater.module";
 import { StudentApplicationModule } from "./modules/student-application/student-application.module";
+import { TicketModule } from "./modules/ticket/ticket.module";
 import { UtilModule } from "./modules/util/util.module";
 
 @Module({
@@ -81,6 +82,7 @@ import { UtilModule } from "./modules/util/util.module";
 		StaffAcademicQuestionModule,
 		StaffAcademicChaosQuestionModule,
 		StaffAcademicChaosGradingModule,
+		TicketModule,
 	],
 
 	controllers: [AppController],

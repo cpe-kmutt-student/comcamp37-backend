@@ -5,6 +5,8 @@ import { config } from "src/config/app.config";
 import AnnouncementEmail from "./templates/AnnouncementEmail";
 import ContentIssueEmail from "./templates/ContentIssueEmail";
 import RegistrationConfirmEmail from "./templates/RegistrationConfirmEmail";
+import TicketCreatedEmail from "./templates/TicketCreatedEmail";
+import TicketSolvedEmail from "./templates/TicketSolvedEmail";
 import TrackingEmail from "./templates/TrackingEmail";
 
 @Injectable()
@@ -56,6 +58,24 @@ export class EmailService {
 			return await this.sendMail(email, "พัสดุถูกจัดส่งแล้ว!", html);
 		} catch (error) {
 			this.handleError("tracking", email, error);
+		}
+	}
+
+	async sendTicketCreated(email: string, name: string, ticketId: string, ticketSubject: string, ticketMessage?: string) {
+		try {
+			const html = await render(TicketCreatedEmail({ name, ticketId, ticketSubject, ticketMessage }));
+			return await this.sendMail(email, `ได้รับ Ticket #${ticketId} ของคุณแล้ว`, html);
+		} catch (error) {
+			this.handleError("ticket created", email, error);
+		}
+	}
+
+	async sendTicketSolved(email: string, name: string, ticketId: string, ticketMessage: string, resolution?: string) {
+		try {
+			const html = await render(TicketSolvedEmail({ name, ticketId, ticketMessage, resolution }));
+			return await this.sendMail(email, `Ticket #${ticketId} ได้รับการแก้ไขแล้ว`, html);
+		} catch (error) {
+			this.handleError("ticket solved", email, error);
 		}
 	}
 
