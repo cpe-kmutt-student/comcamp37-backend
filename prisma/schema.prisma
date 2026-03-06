@@ -9,6 +9,24 @@ datasource db {
   provider = "postgresql"
 }
 
+model Ticket {
+
+  std_user_id                             String                
+  std_user                                User                  @relation("ticket_student", fields: [std_user_id], references: [id])
+
+  ticket_id                               String                @id @default(uuid())
+  ticket_system_message                   String                @db.Text
+  ticket_user_message                     String?               @db.Text
+  ticket_solved                           Boolean               @default(false)
+
+  stf_user_id                             String?                
+  stf_user                                User?                 @relation("ticket_staff", fields: [stf_user_id], references: [id])
+  stf_solve_message                       String?               @db.Text
+
+  created_at                              DateTime              @default(now())
+  updated_at                              DateTime              @updatedAt
+}
+
 enum AppInfoGender {
   male
   female
@@ -287,12 +305,15 @@ model User {
   displayUsername                         String?
 
   std_application                         StudentApplication[]
+  std_ticket                              Ticket[]                @relation("ticket_student")
 
   stf_regis_question_score                ApplicationRegisQuestionScore[]
   stf_academic_question_score             ApplicationAcademicQuestionScore[]
   stf_academic_chaos_question_score       ApplicationAcademicChaosQuestionScore[]
 
   stf_info_check                          ApplicationInfoCheck[]
+
+  stf_ticket_solve                        Ticket[]               @relation("ticket_staff")
 
   @@unique([email])
   @@map("user")
