@@ -1,10 +1,16 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { EmailService } from "src/core/email/email.service";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { CreateTicketDto, StaffSolveTicketDto } from "./dto/ticket.dto";
 
 @Injectable()
 export class TicketService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly emailService: EmailService,
+		private readonly logger: LoggerService,
+	) {}
 
 	async createTicket(userId: string, createTicketDto: CreateTicketDto) {
 		try {
@@ -19,8 +25,25 @@ export class TicketService {
 				},
 			});
 
+			const userInfo = await this.prisma.user.findUnique({
+				where: {
+					id: userId,
+				},
+				include: {
+					std_application: {
+						include: {
+							std_info: true,
+						},
+					},
+				},
+			});
+
+			if (userInfo) {
+				await this.emailService.sendTicketCreated(userInfo.email, userInfo.std_application[0]?.std_info?.std_info_nick_name || "", createTicket.ticket_id, "", createTicket.ticket_user_message || "-");
+			}
 			return createTicket;
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -35,6 +58,7 @@ export class TicketService {
 			});
 			return getAll;
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
@@ -56,8 +80,26 @@ export class TicketService {
 				},
 			});
 
+			const userInfo = await this.prisma.user.findUnique({
+				where: {
+					id: ticketSolved.std_user_id,
+				},
+				include: {
+					std_application: {
+						include: {
+							std_info: true,
+						},
+					},
+				},
+			});
+
+			if (userInfo) {
+				await this.emailService.sendTicketSolved(userInfo.email, userInfo.std_application[0]?.std_info?.std_info_nick_name || "", ticketSolved.ticket_id, ticketSolved.ticket_user_message || "-", ticketSolved.stf_solve_message || "-");
+			}
+
 			return ticketSolved;
 		} catch (e) {
+			this.logger.error(e);
 			throw new InternalServerErrorException();
 		}
 	}
