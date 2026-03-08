@@ -16,6 +16,11 @@ export const config = {
 		start: process.env.REGISTER_PERIOD_START,
 		end: process.env.REGISTER_PERIOD_END,
 	},
+	resultAnnounceAndConfirmPeriod: {
+		bypass: process.env.RESULT_ANNOUNCE_AND_CONFIRM_PERIOD_BYPASS === "true",
+		start: process.env.RESULT_ANNOUNCE_AND_CONFIRM_PERIOD_START,
+		end: process.env.RESULT_ANNOUNCE_AND_CONFIRM_PERIOD_END,
+	},
 	db: {
 		url: process.env.DATABASE_URL || "",
 	},
