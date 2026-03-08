@@ -59,7 +59,7 @@ export class ApplicationConfirmationController {
 	}
 
 	@Post("/")
-	@UseGuards(RegisterPeriodGuard)
+	// @UseGuards(RegisterPeriodGuard)
 	@ApiOperation({
 		description: "Confirm or decline an application. Requires application to be passed and allowed to confirm.",
 	})
