@@ -18,6 +18,7 @@ export class TicketService {
 				data: {
 					std_user_id: userId,
 					ticket_system_message: createTicketDto.system_message,
+					ticket_user_message: createTicketDto.user_message,
 				},
 				include: {
 					std_user: true,
