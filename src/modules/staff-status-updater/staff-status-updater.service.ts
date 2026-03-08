@@ -94,9 +94,11 @@ export class StaffStatusUpdaterService {
 				},
 			});
 
-			const unCompleteCheck = answer.filter((ans) => {
-				return ans.stf_academic_chaos_question_score.length === 0;
-			});
+			const unCompleteCheck = answer
+				.filter((ans) => ans.std_academic_chaos_answer_section !== "aptitude_102" || "aptitude_302")
+				.filter((ans) => {
+					return ans.stf_academic_chaos_question_score.length === 0;
+				});
 
 			if (unCompleteCheck.length !== 0) {
 				throw new Error("Academic Chaos Grading not complete yet");

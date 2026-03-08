@@ -78,14 +78,14 @@ export class StaffAcademicChaosGradingService {
 						std_application_id: staffAcademicChaosGradingDto.application_id,
 					},
 					std_academic_chaos_answer_id: staffAcademicChaosGradingDto.answer_id,
-					stf_count: 1,
+					stf_count: staffAcademicChaosGradingDto.staff_count,
 				},
 			});
 
 			const createScore = await this.prisma.applicationAcademicChaosQuestionScore.create({
 				data: {
 					std_academic_chaos_answer_id: staffAcademicChaosGradingDto.answer_id,
-					stf_count: 1,
+					stf_count: staffAcademicChaosGradingDto.staff_count,
 					stf_score: staffAcademicChaosGradingDto.score,
 					stf_user_id: userId,
 				},
