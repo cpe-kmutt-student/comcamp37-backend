@@ -26,6 +26,9 @@ export class StudentApplicationService {
 					std_academic_chaos_question: true,
 					std_status: true,
 				},
+				omit: {
+					std_application_result: true,
+				},
 			});
 
 			return studentApplication.length !== 0 ? studentApplication : new NotFoundException();
@@ -52,6 +55,9 @@ export class StudentApplicationService {
 					std_academic_question: true,
 					std_academic_chaos_question: true,
 					std_status: true,
+				},
+				omit: {
+					std_application_result: true,
 				},
 			});
 
@@ -97,6 +103,9 @@ export class StudentApplicationService {
 					std_academic_question: true,
 					std_academic_chaos_question: true,
 					std_status: true,
+				},
+				omit: {
+					std_application_result: true,
 				},
 			});
 		} catch (e) {
