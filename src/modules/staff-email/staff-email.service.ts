@@ -41,7 +41,11 @@ export class StaffEmailService {
 
 	async staffGetAllEmail() {
 		try {
-			const emailHistory = await this.prisma.staffEmailHistory.findMany();
+			const emailHistory = await this.prisma.staffEmailHistory.findMany({
+				include: {
+					stf_user: true,
+				},
+			});
 			return emailHistory;
 		} catch (e) {
 			if (e instanceof HttpException) {
@@ -58,11 +62,21 @@ export class StaffEmailService {
 				where: {
 					role: "user",
 				},
-				select: {
-					email: true,
+				include: {
+					std_application: {
+						include: {
+							std_info: true,
+						},
+					},
 				},
 			});
-			return query ? allEmailUser.map((em) => em.email).filter((em) => em.includes(query)) : allEmailUser.map((em) => em.email);
+
+			const mapEmailAndName = allEmailUser.map((em) => ({
+				email: em.email,
+				name: decodeURI(em.std_application[0]?.std_info?.std_info_nick_name || ""),
+			}));
+
+			return query ? mapEmailAndName.filter((em) => em.email.includes(query)) : mapEmailAndName;
 		} catch (e) {
 			if (e instanceof HttpException) {
 				throw e;
