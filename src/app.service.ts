@@ -19,6 +19,7 @@ export class AppService {
 			config: {
 				cors_origin: config.app.allowOrigins,
 				regis_period: config.regisPeriod,
+				announce_and_confirm_period: config.resultAnnounceAndConfirmPeriod,
 				app_domain: config.app.domain,
 				app_env: config.app.env,
 			},

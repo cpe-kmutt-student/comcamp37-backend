@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 
@@ -26,6 +26,9 @@ export class StudentApplicationService {
 					std_academic_chaos_question: true,
 					std_status: true,
 				},
+				omit: {
+					std_application_result: true,
+				},
 			});
 
 			return studentApplication.length !== 0 ? studentApplication : new NotFoundException();
@@ -52,6 +55,9 @@ export class StudentApplicationService {
 					std_academic_question: true,
 					std_academic_chaos_question: true,
 					std_status: true,
+				},
+				omit: {
+					std_application_result: true,
 				},
 			});
 
@@ -98,10 +104,47 @@ export class StudentApplicationService {
 					std_academic_chaos_question: true,
 					std_status: true,
 				},
+				omit: {
+					std_application_result: true,
+				},
 			});
 		} catch (e) {
 			this.logger.error(e);
 			throw new InternalServerErrorException();
+		}
+	}
+
+	async getApplicationResult(userId: string, appId: string) {
+		try {
+			const studentApplication = await this.prisma.studentApplication.findUnique({
+				where: {
+					std_application_id: appId,
+					std_user: {
+						id: userId,
+					},
+				},
+				select: {
+					std_application_id: true,
+					std_application_result: true,
+					std_user: {
+						select: {
+							id: true,
+						},
+					},
+				},
+			});
+
+			if (!studentApplication) {
+				throw new NotFoundException();
+			}
+
+			return studentApplication;
+		} catch (e) {
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 }
