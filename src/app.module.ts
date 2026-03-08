@@ -30,6 +30,7 @@ import { StaffAcademicGradingModule } from "./modules/staff-academic-grading/sta
 import { StaffAcademicQuestionModule } from "./modules/staff-academic-question/staff-academic-question.module";
 import { StaffAccountModule } from "./modules/staff-account/staff-account.module";
 import { StaffApplicationModule } from "./modules/staff-application/staff-application.module";
+import { StaffEmailModule } from "./modules/staff-email/staff-email.module";
 import { StaffFileModule } from "./modules/staff-file/staff-file.module";
 import { StaffRegisGradingModule } from "./modules/staff-regis-grading/staff-regis-grading.module";
 import { StaffRegisQuestionModule } from "./modules/staff-regis-question/staff-regis-question.module";
@@ -83,6 +84,7 @@ import { UtilModule } from "./modules/util/util.module";
 		StaffAcademicChaosQuestionModule,
 		StaffAcademicChaosGradingModule,
 		TicketModule,
+		StaffEmailModule,
 	],
 
 	controllers: [AppController],
