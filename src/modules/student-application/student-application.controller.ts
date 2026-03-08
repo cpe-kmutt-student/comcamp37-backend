@@ -1,6 +1,7 @@
 import { Controller, Get, Param, Post, Session, UseGuards } from "@nestjs/common";
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import type { UserSession } from "@thallesp/nestjs-better-auth";
+import { AnnouncePeriodGuard } from "src/common/guards/announce-period.guard";
 import { ApplicationCreatedGuard } from "src/common/guards/application-created.guard";
 import { RegisterPeriodGuard } from "src/common/guards/register-period.guard";
 import { StudentApplicationResponseDto } from "./dto";
@@ -75,5 +76,11 @@ export class StudentApplicationController {
 	})
 	findApplication(@Session() session: UserSession, @Param("id") appId: string) {
 		return this.studentApplicationService.findApplication(session.user.id, appId);
+	}
+
+	@Get("/:id/result")
+	@UseGuards(AnnouncePeriodGuard)
+	getApplicationResult(@Session() session: UserSession, @Param("id") appId: string) {
+		return this.studentApplicationService.getApplicationResult(session.user.id, appId);
 	}
 }
