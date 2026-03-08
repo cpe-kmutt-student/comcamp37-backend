@@ -4,6 +4,7 @@ import * as nodemailer from "nodemailer";
 import { config } from "src/config/app.config";
 import AnnouncementEmail from "./templates/AnnouncementEmail";
 import ContentIssueEmail from "./templates/ContentIssueEmail";
+import GeneralContentEmail from "./templates/GeneralContentEmail";
 import RegistrationConfirmEmail from "./templates/RegistrationConfirmEmail";
 import TicketCreatedEmail from "./templates/TicketCreatedEmail";
 import TicketSolvedEmail from "./templates/TicketSolvedEmail";
@@ -76,6 +77,16 @@ export class EmailService {
 			return await this.sendMail(email, `Ticket #${ticketId} ได้รับการแก้ไขแล้ว`, html);
 		} catch (error) {
 			this.handleError("ticket solved", email, error);
+		}
+	}
+
+	async sendGeneralContent(email: string, name: string, subject: string, content: string, sender?: string) {
+		try {
+			const html = await render(GeneralContentEmail({ name, subject, content, sender }));
+			return await this.sendMail(email, subject, html);
+		} catch (error) {
+			this.handleError("general content", email, error);
+			throw new Error(error);
 		}
 	}
 

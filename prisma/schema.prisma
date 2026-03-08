@@ -9,6 +9,22 @@ datasource db {
   provider = "postgresql"
 }
 
+model StaffEmailHistory {
+  email_id                                String                @default(uuid()) @id
+  
+  email_subject                           String                
+  email_content                           String                @db.Text
+  email_to_email                          String
+  email_to_name                           String
+  email_has_sent                          Boolean               @default(false)
+
+  stf_user_id                             String                  
+  stf_user                                User                  @relation(fields: [stf_user_id], references: [id])
+
+  created_at                              DateTime              @default(now())
+  updated_at                              DateTime              @updatedAt
+}
+
 model Ticket {
 
   std_user_id                             String                
@@ -306,6 +322,8 @@ model User {
 
   std_application                         StudentApplication[]
   std_ticket                              Ticket[]                @relation("ticket_student")
+
+  stf_email_history                       StaffEmailHistory[]
 
   stf_regis_question_score                ApplicationRegisQuestionScore[]
   stf_academic_question_score             ApplicationAcademicQuestionScore[]
