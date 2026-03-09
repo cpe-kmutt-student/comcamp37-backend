@@ -61,7 +61,7 @@
 </ul>
 
 <h3>DB-Diagram (Prototype)</h3>
-<iframe width="560" height="315" src='https://dbdiagram.io/e/69ae7fb9cf54053b6f3980fa/69ae7fffcf54053b6f398582'> </iframe>
+<iframe width="500" height="315" src='https://dbdiagram.io/e/69ae7fb9cf54053b6f3980fa/69ae7fffcf54053b6f398582'> </iframe>
 
 <h3>API Flow Design (Prototype)</h3>
 <a href="https://www.figma.com/board/ZO9E1iaCZasX5wwyK0D6g9/CC37-Backend-Routing-Flow?node-id=0-1&t=meCqyS4DR1seJfqG-1"><p>Open on Figma</p></a>
