@@ -15,6 +15,8 @@ model ApplicationPaymentEvidence {
   pe_transaction_amount                   Float
   pe_transaction_date                     DateTime
 
+  pe_json                                String                @db.Text
+
   pe_sender_account_name                  String                
   pe_sender_account_number                String
 
