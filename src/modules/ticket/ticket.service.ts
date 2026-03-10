@@ -40,7 +40,7 @@ export class TicketService {
 			});
 
 			if (userInfo) {
-				await this.emailService.sendTicketCreated(userInfo.email, userInfo.std_application[0]?.std_info?.std_info_nick_name || "", createTicket.ticket_id, "", createTicket.ticket_user_message || "-");
+				await this.emailService.sendTicketCreated(userInfo.email, decodeURI(userInfo.std_application[0]?.std_info?.std_info_nick_name || ""), createTicket.ticket_id, "", createTicket.ticket_user_message || "-");
 			}
 			return createTicket;
 		} catch (e) {
@@ -95,7 +95,13 @@ export class TicketService {
 			});
 
 			if (userInfo) {
-				await this.emailService.sendTicketSolved(userInfo.email, userInfo.std_application[0]?.std_info?.std_info_nick_name || "", ticketSolved.ticket_id, ticketSolved.ticket_user_message || "-", ticketSolved.stf_solve_message || "-");
+				await this.emailService.sendTicketSolved(
+					userInfo.email,
+					decodeURI(userInfo.std_application[0]?.std_info?.std_info_nick_name || ""),
+					ticketSolved.ticket_id,
+					ticketSolved.ticket_user_message || "-",
+					ticketSolved.stf_solve_message || "-",
+				);
 			}
 
 			return ticketSolved;
