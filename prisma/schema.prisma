@@ -12,10 +12,12 @@ datasource db {
 model ApplicationPaymentEvidence {
   pe_id                                   String                @id @default(uuid())
   pe_transaction_ref                      String
-  pe_transaction_amount                   Float
   pe_transaction_date                     DateTime
 
-  pe_json                                String                @db.Text
+  pe_transaction_expect_amount                        Float                 @default(500.00)
+  pe_transaction_actual_amount                        Float
+
+  pe_json                                 String                @db.Text
 
   pe_sender_account_name                  String                
   pe_sender_account_number                String
