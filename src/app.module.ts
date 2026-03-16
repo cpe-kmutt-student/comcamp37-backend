@@ -32,6 +32,7 @@ import { StaffAccountModule } from "./modules/staff-account/staff-account.module
 import { StaffApplicationModule } from "./modules/staff-application/staff-application.module";
 import { StaffEmailModule } from "./modules/staff-email/staff-email.module";
 import { StaffFileModule } from "./modules/staff-file/staff-file.module";
+import { StaffLeaderboardModule } from "./modules/staff-leaderboard/staff-leaderboard.module";
 import { StaffRegisGradingModule } from "./modules/staff-regis-grading/staff-regis-grading.module";
 import { StaffRegisQuestionModule } from "./modules/staff-regis-question/staff-regis-question.module";
 import { StaffStatisticModule } from "./modules/staff-statistic/staff-statistic.module";
@@ -42,7 +43,6 @@ import { StatusUpdaterModule } from "./modules/status-updater/status-updater.mod
 import { StudentApplicationModule } from "./modules/student-application/student-application.module";
 import { TicketModule } from "./modules/ticket/ticket.module";
 import { UtilModule } from "./modules/util/util.module";
-import { StaffLeaderboardModule } from "./staff-leaderboard/staff-leaderboard.module";
 
 @Module({
 	imports: [
