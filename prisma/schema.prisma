@@ -15,7 +15,7 @@ model ApplicationTotalScore {
 
   std_total_score                         Float                 
   std_regis_score                         Float
-  std_academic_score                      Float
+  std_academic_score                      Float?
   std_academic_chaos_score                Float
 
   created_at                              DateTime              @default(now())
