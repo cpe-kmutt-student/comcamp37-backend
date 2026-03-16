@@ -9,6 +9,19 @@ datasource db {
   provider = "postgresql"
 }
 
+model ApplicationTotalScore {
+  std_application_id                      String                @id
+  std_application                         StudentApplication    @relation(fields: [std_application_id], references: [std_application_id])
+
+  std_total_score                         Float                 
+  std_regis_score                         Float
+  std_academic_score                      Float?
+  std_academic_chaos_score                Float
+
+  created_at                              DateTime              @default(now())
+  updated_at                              DateTime              @updatedAt
+}
+
 model StaffEmailHistory {
   email_id                                String                @default(uuid()) @id
   
@@ -285,6 +298,8 @@ model StudentApplication {
   std_regis_question                      ApplicationRegisQuestionAnswer[]
   std_academic_question                   ApplicationAcademicQuestionAnswer[]
   std_academic_chaos_question             ApplicationAcademicChaosQuestionAnswer[]
+
+  std_total_score                         ApplicationTotalScore?
   
   std_status                              ApplicationStatus?
 
