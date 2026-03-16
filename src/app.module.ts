@@ -37,10 +37,12 @@ import { StaffRegisQuestionModule } from "./modules/staff-regis-question/staff-r
 import { StaffStatisticModule } from "./modules/staff-statistic/staff-statistic.module";
 import { StaffStatusModule } from "./modules/staff-status/staff-status.module";
 import { StaffStatusUpdaterModule } from "./modules/staff-status-updater/staff-status-updater.module";
+import { StaffTotalScoreModule } from "./modules/staff-total-score/staff-total-score.module";
 import { StatusUpdaterModule } from "./modules/status-updater/status-updater.module";
 import { StudentApplicationModule } from "./modules/student-application/student-application.module";
 import { TicketModule } from "./modules/ticket/ticket.module";
 import { UtilModule } from "./modules/util/util.module";
+import { StaffLeaderboardModule } from "./staff-leaderboard/staff-leaderboard.module";
 
 @Module({
 	imports: [
@@ -85,6 +87,8 @@ import { UtilModule } from "./modules/util/util.module";
 		StaffAcademicChaosGradingModule,
 		TicketModule,
 		StaffEmailModule,
+		StaffTotalScoreModule,
+		StaffLeaderboardModule,
 	],
 
 	controllers: [AppController],
