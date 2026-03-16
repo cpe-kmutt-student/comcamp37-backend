@@ -1,7 +1,7 @@
-import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { BadRequestException, HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
-import { AppStatusCommentDto, AppStatusInfoCheckDto } from "./dto/staff-status.dto";
+import { AllowToConfirmDto, AppStatusCommentDto, AppStatusInfoCheckDto, ChangeResultDto } from "./dto/staff-status.dto";
 
 @Injectable()
 export class StaffStatusService {
@@ -64,6 +64,67 @@ export class StaffStatusService {
 		} catch (e) {
 			this.logger.error(e);
 			throw new InternalServerErrorException();
+		}
+	}
+
+	async allowToConfirm(allowToConfirmDto: AllowToConfirmDto) {
+		try {
+			if (!allowToConfirmDto.confirm) throw new BadRequestException("Need to recieve confirm boolean");
+
+			const findApplication = await this.prisma.studentApplication.findUnique({
+				where: {
+					std_application_id: allowToConfirmDto.application_id,
+				},
+			});
+			if (!findApplication) throw new NotFoundException();
+
+			const updatePermission = await this.prisma.studentApplication.update({
+				where: {
+					std_application_id: allowToConfirmDto.application_id,
+				},
+				data: {
+					stf_application_allow_confirm: true,
+				},
+			});
+
+			return updatePermission;
+		} catch (e) {
+			this.logger.error(e);
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
+		}
+	}
+
+	async changeResult(changeResultDto: ChangeResultDto) {
+		try {
+			const findApplication = await this.prisma.studentApplication.findUnique({
+				where: {
+					std_application_id: changeResultDto.application_id,
+				},
+			});
+
+			if (!findApplication) throw new NotFoundException();
+
+			const updateResult = await this.prisma.studentApplication.update({
+				where: {
+					std_application_id: changeResultDto.application_id,
+				},
+				data: {
+					std_application_result: changeResultDto.result,
+				},
+			});
+
+			return updateResult;
+		} catch (e) {
+			this.logger.error(e);
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 }
