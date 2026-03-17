@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Session, type UserSession } from "@thallesp/nestjs-better-auth";
 import { RegisGuard } from "src/common/guards/regis.guard";
-import { AppStatusCommentDto, AppStatusInfoCheckDto } from "./dto/staff-status.dto";
+import { AllowToConfirmDto, AppStatusCommentDto, AppStatusInfoCheckDto, ChangeResultDto } from "./dto/staff-status.dto";
 import { StaffInfoCheckResponseDto, StaffStatusResponseDto } from "./dto/staff-status-response.dto";
 import { StaffStatusService } from "./staff-status.service";
 
@@ -98,4 +98,14 @@ export class StaffStatusController {
 	infoComment(@Body() appStatusInfoCommentDto: AppStatusCommentDto) {
 		return;
 	}
+
+	@Post("/allow-to-confirm")
+	@UseGuards(RegisGuard)
+	allowToConfirm(@Body() allowToConfirmDto: AllowToConfirmDto) {
+		return this.staffStatusService.allowToConfirm(allowToConfirmDto);
+	}
+
+	@Post("/change-result")
+	@UseGuards(RegisGuard)
+	changeResult(@Body() changeResultDto: ChangeResultDto) {}
 }

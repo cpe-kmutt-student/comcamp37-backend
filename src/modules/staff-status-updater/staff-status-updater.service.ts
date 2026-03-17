@@ -95,7 +95,7 @@ export class StaffStatusUpdaterService {
 			});
 
 			const unCompleteCheck = answer
-				.filter((ans) => ans.std_academic_chaos_answer_section !== "aptitude_102" || "aptitude_302")
+				.filter((ans) => ans.std_academic_chaos_answer_section !== "aptitude_102" && ans.std_academic_chaos_answer_section !== "aptitude_302")
 				.filter((ans) => {
 					return ans.stf_academic_chaos_question_score.length === 0;
 				});

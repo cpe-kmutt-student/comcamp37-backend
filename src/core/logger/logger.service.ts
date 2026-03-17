@@ -16,6 +16,10 @@ export class LoggerService {
 		this.logger.info(ctx.join(" "));
 	}
 
+	success(...ctx: any[]) {
+		this.logger.success(ctx.join(" "));
+	}
+
 	error(...ctx: any[]) {
 		this.logger.error(ctx.join(" "));
 		this.discordWebhook.send(this.discordWebhook.errorEmbed(ctx.join(" ")));
