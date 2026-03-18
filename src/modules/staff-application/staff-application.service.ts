@@ -20,16 +20,15 @@ export class StaffApplicationService {
 					std_status: {
 						std_status_info_done: true,
 					},
-					std_file: {
-						every: {
-							std_file_disabled: false,
-						},
-					},
 				},
 				include: {
 					std_user: true,
 					std_info: true,
-					std_file: true,
+					std_file: {
+						where: {
+							std_file_disabled: false,
+						},
+					},
 					std_regis_question: {
 						include: {
 							stf_regis_question_score: {
