@@ -52,4 +52,7 @@ export const config = {
 			from: process.env.MAIL_FROM || "",
 		},
 	},
+	apis: {
+		slipKey: process.env.API_EASYSLIP_KEY,
+	},
 } as const;

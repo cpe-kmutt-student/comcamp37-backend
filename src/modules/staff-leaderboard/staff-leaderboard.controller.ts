@@ -1,6 +1,6 @@
 import { Controller, Get, Param, ParseEnumPipe, UseGuards } from "@nestjs/common";
 import { AppInfoGender } from "generated/prisma/enums";
-import { AnnouncePeriodGuard } from "src/common/guards/announce-period.guard";
+import { AnnounceAndConfirmPeriodGuard } from "src/common/guards/announce-period.guard";
 import { RegisGuard } from "src/common/guards/regis.guard";
 import { StaffLeaderboardService } from "./staff-leaderboard.service";
 

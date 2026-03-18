@@ -22,6 +22,38 @@ model ApplicationTotalScore {
   updated_at                              DateTime              @updatedAt
 }
 
+model ApplicationPaymentEvidence {
+  pe_id                                   String                @id @default(uuid())
+  pe_transaction_ref                      String
+  pe_transaction_date                     DateTime
+
+  pe_transaction_expect_amount                        Float                 @default(500.00)
+  pe_transaction_actual_amount                        Float
+
+  pe_json                                 String                @db.Text
+
+  pe_sender_account_name                  String                
+  pe_sender_account_number                String
+
+  pe_sender_bank_id                       String                
+  pe_sender_bank_name                     String
+
+  pe_reciever_account_name                String                
+  pe_reciever_account_number              String
+
+  pe_reciever_bank_id                     String                
+  pe_reciever_bank_name                   String
+
+  std_file_key                            String                @unique
+  std_file                                ApplicationFile       @relation(fields: [std_file_key], references: [std_file_key])
+  
+  std_application_id                      String               
+  std_application                         StudentApplication    @relation(fields: [std_application_id], references: [std_application_id])
+
+  created_at                              DateTime              @default(now())
+  updated_at                              DateTime              @updatedAt
+}
+
 model StaffEmailHistory {
   email_id                                String                @default(uuid()) @id
   
@@ -123,6 +155,8 @@ model ApplicationFile {
   std_file_size                           Int?
   std_file_key                            String                    @id
   std_file_type                           FileType
+
+  pe_payment_evidence                     ApplicationPaymentEvidence?
   
   std_file_disabled                       Boolean                   @default(false)
 
@@ -302,6 +336,8 @@ model StudentApplication {
   std_total_score                         ApplicationTotalScore?
   
   std_status                              ApplicationStatus?
+
+  pe_payment_evidence                     ApplicationPaymentEvidence[]
 
   created_at                              DateTime                  @default(now())
   updated_at                              DateTime                  @updatedAt
