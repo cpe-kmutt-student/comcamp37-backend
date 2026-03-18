@@ -7,7 +7,7 @@ import { config } from "src/config/app.config";
 import { PrismaService } from "src/core/prisma/prisma.service";
 
 @Injectable()
-export class AnnouncePeriodGuard implements CanActivate {
+export class AnnounceAndConfirmPeriodGuard implements CanActivate {
 	canActivate(context: ExecutionContext): boolean {
 		try {
 			if (config.resultAnnounceAndConfirmPeriod.bypass) {

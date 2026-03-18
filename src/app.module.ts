@@ -20,6 +20,7 @@ import { auth } from "./lib/auth";
 import { ApplicationConfirmationModule } from "./modules/application-confirmation/application-confirmation.module";
 import { ApplicationFileModule } from "./modules/application-file/application-file.module";
 import { ApplicationInfoModule } from "./modules/application-info/application-info.module";
+import { ApplicationPaymentEvidenceModule } from "./modules/application-payment-evidence/application-payment-evidence.module";
 import { ApplicationQuestionModule } from "./modules/application-question/application-question.module";
 import { ApplicationStatusModule } from "./modules/application-status/application-status.module";
 import { ApplicationSubmitModule } from "./modules/application-submit/application-submit.module";
@@ -89,6 +90,7 @@ import { UtilModule } from "./modules/util/util.module";
 		StaffEmailModule,
 		StaffTotalScoreModule,
 		StaffLeaderboardModule,
+		ApplicationPaymentEvidenceModule,
 	],
 
 	controllers: [AppController],

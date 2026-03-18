@@ -69,8 +69,6 @@ export class StaffStatusService {
 
 	async allowToConfirm(allowToConfirmDto: AllowToConfirmDto) {
 		try {
-			if (!allowToConfirmDto.confirm) throw new BadRequestException("Need to recieve confirm boolean");
-
 			const findApplication = await this.prisma.studentApplication.findUnique({
 				where: {
 					std_application_id: allowToConfirmDto.application_id,
@@ -83,7 +81,7 @@ export class StaffStatusService {
 					std_application_id: allowToConfirmDto.application_id,
 				},
 				data: {
-					stf_application_allow_confirm: true,
+					stf_application_allow_confirm: allowToConfirmDto.allow ? allowToConfirmDto.allow : null,
 				},
 			});
 

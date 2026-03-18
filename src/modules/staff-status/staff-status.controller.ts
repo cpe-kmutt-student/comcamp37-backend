@@ -107,5 +107,7 @@ export class StaffStatusController {
 
 	@Post("/change-result")
 	@UseGuards(RegisGuard)
-	changeResult(@Body() changeResultDto: ChangeResultDto) {}
+	changeResult(@Body() changeResultDto: ChangeResultDto) {
+		return this.staffStatusService.changeResult(changeResultDto);
+	}
 }
