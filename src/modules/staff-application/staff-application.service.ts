@@ -20,6 +20,11 @@ export class StaffApplicationService {
 					std_status: {
 						std_status_info_done: true,
 					},
+					std_file: {
+						some: {
+							std_file_disabled: false,
+						},
+					},
 				},
 				include: {
 					std_user: true,
