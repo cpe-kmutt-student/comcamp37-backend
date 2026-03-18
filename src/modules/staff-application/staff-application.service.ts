@@ -21,7 +21,7 @@ export class StaffApplicationService {
 						std_status_info_done: true,
 					},
 					std_file: {
-						some: {
+						every: {
 							std_file_disabled: false,
 						},
 					},
