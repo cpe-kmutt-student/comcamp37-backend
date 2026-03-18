@@ -1,4 +1,5 @@
-import { BadRequestException, HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { BadRequestException, ConflictException, ForbiddenException, HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { AppInfoStatus, ApplicationResult } from "generated/prisma/enums";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { AllowToConfirmDto, AppStatusCommentDto, AppStatusInfoCheckDto, ChangeResultDto } from "./dto/staff-status.dto";
@@ -73,8 +74,21 @@ export class StaffStatusService {
 				where: {
 					std_application_id: allowToConfirmDto.application_id,
 				},
+				include: {
+					std_status: {
+						include: {
+							stf_info_check: true,
+						},
+					},
+				},
 			});
+
 			if (!findApplication) throw new NotFoundException();
+
+			if (allowToConfirmDto.allow === true) {
+				if (findApplication.std_status?.stf_info_check?.std_info_status !== AppInfoStatus.info_approve) throw new ConflictException("The Application info must be approved before update result");
+				if (findApplication.std_application_result !== ApplicationResult.pass) throw new ConflictException("The Application must have PASS status to allow confirm");
+			}
 
 			const updatePermission = await this.prisma.studentApplication.update({
 				where: {
@@ -102,9 +116,20 @@ export class StaffStatusService {
 				where: {
 					std_application_id: changeResultDto.application_id,
 				},
+				include: {
+					std_status: {
+						include: {
+							stf_info_check: true,
+						},
+					},
+				},
 			});
 
 			if (!findApplication) throw new NotFoundException();
+
+			if (changeResultDto.result !== "waiting_for_announcement" && changeResultDto.result !== "fail") {
+				if (findApplication.std_status?.stf_info_check?.std_info_status !== AppInfoStatus.info_approve) throw new ConflictException("The Application info must be approved before update result");
+			}
 
 			const updateResult = await this.prisma.studentApplication.update({
 				where: {
