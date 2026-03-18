@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "generated/prisma/client";
 import { config } from "src/config/app.config";
@@ -14,15 +16,72 @@ class PrismaQuery {
 	}
 
 	async run() {
-		const getAllApp = await this.prisma.applicationInfo.findMany({
-			where: {
-				std_info_education_level: {
-					not: null,
+		const getAll = await this.prisma.user.findMany({
+			include: {
+				sessions: true,
+				accounts: true,
+				stf_email_history: true,
+				stf_regis_question_score: true,
+				stf_academic_question_score: true,
+				stf_academic_chaos_question_score: true,
+				stf_info_check: true,
+				stf_ticket_solve: true,
+				std_application: {
+					include: {
+						std_info: true,
+						std_file: {
+							include: {
+								pe_payment_evidence: true,
+							},
+						},
+						std_regis_question: {
+							include: {
+								stf_regis_question_score: {
+									include: {
+										stf_user: true,
+									},
+								},
+							},
+						},
+						std_academic_question: {
+							include: {
+								stf_academic_question_score: {
+									include: {
+										stf_user: true,
+									},
+								},
+							},
+						},
+						std_academic_chaos_question: {
+							include: {
+								stf_academic_chaos_question_score: {
+									include: {
+										stf_user: true,
+									},
+								},
+							},
+						},
+						std_total_score: true,
+						std_status: {
+							include: {
+								stf_info_check: {
+									include: {
+										stf_user: true,
+									},
+								},
+							},
+						},
+						pe_payment_evidence: {
+							include: {
+								std_file: true,
+							},
+						},
+					},
 				},
 			},
 		});
 
-		console.log(new Set(getAllApp.map((q) => decodeURI(q.std_info?.std_info_education_level || ""))));
+		fs.writeFileSync(path.join(__dirname, "../output.json"), JSON.stringify(getAll, null, 4), "utf8");
 	}
 }
 
