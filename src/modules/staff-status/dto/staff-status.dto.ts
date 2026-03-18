@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsEnum, IsString, IsUUID } from "class-validator";
+import { IsBoolean, IsEnum, IsNotEmpty, IsString, IsUUID } from "class-validator";
 import { AppInfoGender, AppInfoStatus, ApplicationResult } from "../../../../generated/prisma/enums";
 
 export class AppStatusInfoCheckDto {
@@ -40,8 +40,9 @@ export class AllowToConfirmDto {
 	@IsUUID()
 	readonly application_id: string;
 
+	@IsNotEmpty()
 	@IsBoolean()
-	readonly confirm: boolean;
+	readonly allow: boolean;
 }
 
 export class ChangeResultDto {
