@@ -18,6 +18,7 @@ export class StaffTotalScoreService {
 			const applicationScore = await this.prisma.studentApplication.findMany({
 				where: {
 					std_application_id: appId,
+					std_application_submit: true,
 				},
 				include: {
 					std_total_score: true,
@@ -56,6 +57,7 @@ export class StaffTotalScoreService {
 			const applications = await this.prisma.studentApplication.findMany({
 				where: {
 					std_application_id: appId,
+					std_application_submit: true,
 				},
 				select: {
 					std_application_id: true,
