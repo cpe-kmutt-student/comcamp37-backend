@@ -44,7 +44,15 @@ export class StaffLeaderboardService {
 				},
 				include: {
 					std_total_score: true,
-					std_status: true,
+					std_status: {
+						include: {
+							stf_info_check: {
+								include: {
+									stf_user: true,
+								},
+							},
+						},
+					},
 					std_info: true,
 				},
 				skip: 0,
@@ -88,7 +96,15 @@ export class StaffLeaderboardService {
 				},
 				include: {
 					std_total_score: true,
-					std_status: true,
+					std_status: {
+						include: {
+							stf_info_check: {
+								include: {
+									stf_user: true,
+								},
+							},
+						},
+					},
 					std_info: true,
 				},
 				take: 5,
