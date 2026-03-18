@@ -53,6 +53,6 @@ export const config = {
 		},
 	},
 	apis: {
-		slip2goKey: process.env.API_SLIP_2_GO_KEY,
+		slipKey: process.env.API_EASYSLIP_KEY,
 	},
 } as const;
