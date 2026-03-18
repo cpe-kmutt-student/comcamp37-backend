@@ -1,4 +1,4 @@
-import { Body, Controller, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, FileTypeValidator, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { Session, type UserSession } from "@thallesp/nestjs-better-auth";
 import { AnnounceAndConfirmPeriodGuard } from "src/common/guards/announce-period.guard";
@@ -19,7 +19,7 @@ export class ApplicationPaymentEvidenceController {
 		@Body() applicationPaymentEvidenceDto: ApplicationPaymentEvidenceDto,
 		@UploadedFile(
 			new ParseFilePipe({
-				validators: [new MaxFileSizeValidator({ maxSize: 3 * 1024 * 1024 })],
+				validators: [new MaxFileSizeValidator({ maxSize: 3 * 1024 * 1024 }), new FileTypeValidator({ fileType: "image/*" })],
 			}),
 		)
 		file: Express.Multer.File,
