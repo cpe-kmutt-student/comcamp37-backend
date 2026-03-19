@@ -18,6 +18,9 @@ export class ApplicationStatusService {
 						std_user_id: userId,
 					},
 				},
+				include: {
+					std_application: true,
+				},
 			});
 
 			return applicationStatus ? applicationStatus : new NotFoundException();

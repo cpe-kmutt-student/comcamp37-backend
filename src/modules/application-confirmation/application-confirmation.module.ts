@@ -5,5 +5,6 @@ import { ApplicationConfirmationService } from "./application-confirmation.servi
 @Module({
 	controllers: [ApplicationConfirmationController],
 	providers: [ApplicationConfirmationService],
+	exports: [ApplicationConfirmationService],
 })
 export class ApplicationConfirmationModule {}

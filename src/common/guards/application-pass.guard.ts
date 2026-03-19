@@ -29,7 +29,7 @@ export class ApplicationPassGuard implements CanActivate {
 			const filterPassApplication = studentApplication.filter((app) => app.std_application_result === "pass");
 
 			if (filterPassApplication.length <= 0) {
-				throw `Your Application in : ${studentApplication.map((app) => app.std_application_result).join(", ")} stage`;
+				throw `Your Application not pass`;
 			}
 
 			const filterAllowConfirm = filterPassApplication.filter((app) => app.stf_application_allow_confirm === true);

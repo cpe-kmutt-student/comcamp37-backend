@@ -23,8 +23,8 @@ model ApplicationTotalScore {
 }
 
 model ApplicationPaymentEvidence {
-  pe_id                                   String                @id @default(uuid())
-  pe_transaction_ref                      String
+  pe_transaction_ref                      String                @id
+  pe_transaction_payload                  String                @unique
   pe_transaction_date                     DateTime
 
   pe_transaction_expect_amount                        Float                 @default(500.00)

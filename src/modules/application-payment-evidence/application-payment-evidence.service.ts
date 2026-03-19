@@ -1,24 +1,23 @@
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { HttpException, Injectable, InternalServerErrorException } from "@nestjs/common";
+import { HttpException, Injectable, InternalServerErrorException, NotAcceptableException } from "@nestjs/common";
 import axios, { AxiosResponse } from "axios";
 import { config } from "src/config/app.config";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { S3Service } from "src/core/s3/s3.service";
 import uuid from "uuid";
+import { ApplicationConfirmationService } from "../application-confirmation/application-confirmation.service";
 import { MatchedAccount, RawSlip } from "./@types/VerifyBank.type";
 import { ApplicationPaymentEvidenceDto } from "./dto/application-payment-evidence.dto";
 
-// Request
 interface VerifyByBase64Request {
-	base64: string; // Base64 encoded image
-	remark?: string; // 1-255 chars
+	base64: string;
+	remark?: string;
 	matchAccount?: boolean;
 	matchAmount?: number;
 	checkDuplicate?: boolean;
 }
 
-// Response
 interface VerifyBankResponse {
 	success: true;
 	data: VerifyBankData;
@@ -35,44 +34,154 @@ interface VerifyBankData {
 	rawSlip: RawSlip;
 }
 
-// See POST /verify/bank for full type definitions
-
 @Injectable()
 export class ApplicationPaymentEvidenceService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly logger: LoggerService,
 		private readonly s3: S3Service,
+		private readonly applicationConfirmationService: ApplicationConfirmationService,
 	) {}
 
 	async uploadEvidence(userId: string, applicationPaymentEvidenceDto: ApplicationPaymentEvidenceDto, file: Express.Multer.File) {
 		try {
-			// const verifyBankResponse: AxiosResponse<VerifyBankResponse> = await axios.post<VerifyBankResponse, AxiosResponse<VerifyBankResponse>, VerifyByBase64Request>("https://api.easyslip.com/v2/verify/bank", {
-			// 	base64: "file.buffer.toString('base64')"
-			// }, {
-			// 	headers: {
-			// 		"Authorization": `Bearer ${config.apis.slipKey}`,
-			// 		"Content-Type": "application/json"
-			// 	}
-			// });
+			const base64WithMime = `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;
+			const verifyBankResponse: AxiosResponse<VerifyBankResponse> = await axios.post<VerifyBankResponse, AxiosResponse<VerifyBankResponse>, VerifyByBase64Request>(
+				"https://api.easyslip.com/v2/verify/bank",
+				{
+					base64: base64WithMime,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${config.apis.slipKey}`,
+						"Content-Type": "application/json",
+					},
+				},
+			);
 
-			// const response = await fetch('https://api.easyslip.com/v2/info', {
-			// 	method: 'GET',
-			// 	headers: {
-			// 		'Authorization': `Bearer ${config.apis.slipKey}`,
-			// 		'Content-Type': 'application/json'
-			// 	},
-			// 	body: JSON.stringify({ base64: file.buffer.toString("base64") })
-			// });
+			if (!verifyBankResponse.data.success) throw new InternalServerErrorException(verifyBankResponse.data.message);
 
-			const response = await fetch("https://api.easyslip.com/v2/info", {
-				headers: {
-					Authorization: `Bearer ${config.apis.slipKey}`,
+			if (!verifyBankResponse.data.data.rawSlip.receiver.account.name.en && !verifyBankResponse.data.data.rawSlip.receiver.account.name.th) {
+				throw new NotAcceptableException(`Cannot find reciever name`);
+			}
+
+			if (verifyBankResponse.data.data.rawSlip.receiver.account.name.en) {
+				if (verifyBankResponse.data.data.rawSlip.receiver.account.name.en !== config.payment.reciever.name.en) {
+					throw new NotAcceptableException(`Wrong reciever name en: ${verifyBankResponse.data.data.rawSlip.receiver.account.name.en}`);
+				}
+			}
+
+			if (verifyBankResponse.data.data.rawSlip.receiver.account.name.th) {
+				if (verifyBankResponse.data.data.rawSlip.receiver.account.name.th !== config.payment.reciever.name.th && verifyBankResponse.data.data.rawSlip.receiver.account.name.th !== config.payment.reciever.name.en) {
+					throw new NotAcceptableException(`Wrong reciever name th: ${verifyBankResponse.data.data.rawSlip.receiver.account.name.th}`);
+				}
+			}
+
+			if (!verifyBankResponse.data.data.rawSlip.receiver.account.bank?.account && !verifyBankResponse.data.data.rawSlip.receiver.account.proxy?.account) {
+				throw new NotAcceptableException(`Cannot find account`);
+			}
+
+			if (verifyBankResponse.data.data.rawSlip.receiver.account.bank?.account) {
+				const regex = new RegExp(`^${verifyBankResponse.data.data.rawSlip.receiver.account.bank.account.toLowerCase().replace(/-/g, "").replace(/x/g, "\\d")}$`);
+				if (!regex.test(config.payment.reciever.account.real)) {
+					throw new NotAcceptableException(`Wrong Account: ${verifyBankResponse.data.data.rawSlip.receiver.account.bank?.account}`);
+				}
+				// if (verifyBankResponse.data.data.rawSlip.receiver.account.bank?.account !== config.payment.reciever.account_real) {}
+			}
+
+			if (verifyBankResponse.data.data.rawSlip.receiver.account.proxy?.account) {
+				const regex = new RegExp(`^${verifyBankResponse.data.data.rawSlip.receiver.account.proxy.account.toLowerCase().replace(/-/g, "").replace(/x/g, "\\d")}$`);
+				if (!regex.test(config.payment.reciever.account.proxy)) {
+					throw new NotAcceptableException(`Wrong Account: ${verifyBankResponse.data.data.rawSlip.receiver.account.proxy?.account}`);
+				}
+				// if (verifyBankResponse.data.data.rawSlip.receiver.account.proxy.account !== config.payment.reciever.account_proxy) {}
+			}
+
+			// check isDuplicate
+			const evidence = await this.prisma.applicationPaymentEvidence.count({
+				where: {
+					pe_transaction_ref: verifyBankResponse.data.data.rawSlip.transRef,
 				},
 			});
 
-			const result = await response.json();
-			console.log(result.data);
+			if (evidence !== 0) {
+				throw new NotAcceptableException("This evidence has been used");
+			}
+
+			const key = uuid.v4();
+
+			const createS3File = await this.s3
+				.send(
+					new PutObjectCommand({
+						Bucket: config.s3.bucket,
+						Key: key,
+						Body: file.buffer,
+						ContentType: file.mimetype,
+					}),
+				)
+				.catch((e) => {
+					throw e;
+				});
+
+			const createFile = await this.prisma.applicationFile.create({
+				data: {
+					std_application_id: applicationPaymentEvidenceDto.application_id,
+					std_file_key: key,
+					std_file_type: "file_slip",
+					std_file_originalname: file.originalname,
+					std_file_mimetype: file.mimetype,
+					std_file_encoding: file.encoding,
+					std_file_size: file.size,
+				},
+			});
+
+			const createEvidence = await this.prisma.applicationPaymentEvidence.create({
+				data: {
+					pe_transaction_ref: verifyBankResponse.data.data.rawSlip.transRef,
+					pe_transaction_payload: verifyBankResponse.data.data.rawSlip.payload,
+					pe_transaction_date: new Date(verifyBankResponse.data.data.rawSlip.date),
+
+					pe_transaction_expect_amount: config.payment.reciever.amount,
+					pe_transaction_actual_amount: verifyBankResponse.data.data.rawSlip.amount.amount,
+
+					pe_json: JSON.stringify(verifyBankResponse.data),
+
+					pe_sender_account_name: verifyBankResponse.data.data.rawSlip.sender.account.name.en || verifyBankResponse.data.data.rawSlip.sender.account.name.th || "",
+					pe_sender_account_number: verifyBankResponse.data.data.rawSlip.sender.account.proxy?.account || "",
+
+					pe_sender_bank_id: verifyBankResponse.data.data.rawSlip.sender.bank?.id,
+					pe_sender_bank_name: verifyBankResponse.data.data.rawSlip.sender.bank?.name,
+
+					pe_reciever_account_name: verifyBankResponse.data.data.rawSlip.receiver.account.name.en || verifyBankResponse.data.data.rawSlip.receiver.account.name.th || "",
+					pe_reciever_account_number: verifyBankResponse.data.data.rawSlip.receiver.account.proxy?.account || "",
+
+					pe_reciever_bank_id: verifyBankResponse.data.data.rawSlip.receiver.bank?.id || "",
+					pe_reciever_bank_name: verifyBankResponse.data.data.rawSlip.receiver.bank?.name || "",
+
+					std_file_key: createFile.std_file_key,
+					std_application_id: createFile.std_application_id,
+				},
+			});
+
+			if ((await this.paymentStatusUpdater(userId, applicationPaymentEvidenceDto.application_id)) === false) {
+				throw new NotAcceptableException(`Wrong amount: ${verifyBankResponse.data.data.rawSlip.amount.amount}`);
+			}
+
+			await this.confirmUpdater(userId, applicationPaymentEvidenceDto.application_id);
+
+			const updatedEvidence = await this.prisma.applicationPaymentEvidence.findMany({
+				where: {
+					std_application_id: applicationPaymentEvidenceDto.application_id,
+					std_application: {
+						std_user_id: userId,
+					},
+				},
+				include: {
+					std_file: true,
+				},
+			});
+
+			return updatedEvidence;
 		} catch (e) {
 			console.log(e);
 			this.logger.error(e);
@@ -84,54 +193,37 @@ export class ApplicationPaymentEvidenceService {
 		}
 	}
 
-	// async uploadEvidence(userId: string, applicationPaymentEvidenceDto: ApplicationPaymentEvidenceDto, file: Express.Multer.File) {
-	// 	try {
-	// 		// upload slip allow to access by url
-	// 		const key = uuid.v4();
-	// 		await this.s3.send(
-	// 			new PutObjectCommand({
-	// 				Bucket: config.s3.bucket,
-	// 				Key: key,
-	// 				Body: file.buffer,
-	// 				ContentType: file.mimetype,
-	// 			}),
-	// 		);
+	private async paymentStatusUpdater(userId: string, application_id: string) {
+		const findEvidence = await this.prisma.applicationPaymentEvidence.findMany({
+			where: {
+				std_application_id: application_id,
+				std_application: {
+					std_user_id: userId,
+				},
+			},
+		});
 
-	// 		const slipVerificationResponse: AxiosResponse<SlipVerificationResponse> = await axios.post(
-	// 			"https://connect.slip2go.com/api/verify-slip/qr-image-link/info",
-	// 			{
-	// 				payload: {
-	// 					imageUrl: await this.s3.signedUrl(key),
-	// 				},
-	// 			},
-	// 			{
-	// 				headers: {
-	// 					Authorization: `Bearer ${config.apis.slip2goKey}`,
-	// 				},
-	// 			},
-	// 		);
+		if (findEvidence.length === 0) return false;
 
-	// 		console.dir(slipVerificationResponse.data.data);
+		const totalAmount = findEvidence.map((evd) => evd.pe_transaction_actual_amount).reduce((a: number, b: number) => a + b) ?? 0;
+		console.log(totalAmount);
+		if (totalAmount < config.payment.reciever.amount) return false;
 
-	// 		// const newApplicationEvidenceFile = await this.prisma.applicationFile.create({
-	// 		// 	data: {
-	// 		// 		std_application_id: applicationPaymentEvidenceDto.application_id,
-	// 		// 		std_file_key: key,
-	// 		// 		std_file_type: "file_slip",
-	// 		// 		std_file_originalname: file.originalname,
-	// 		// 		std_file_mimetype: file.mimetype,
-	// 		// 		std_file_encoding: file.encoding,
-	// 		// 		std_file_size: file.size,
-	// 		// 	},
-	// 		// });
-	// 	} catch (e) {
-	// 		console.log(e);
-	// 		this.logger.error(e);
-	// 		if (e instanceof HttpException) {
-	// 			throw e;
-	// 		}
+		await this.prisma.applicationStatus.update({
+			where: {
+				std_application_id: application_id,
+				std_application: {
+					std_user_id: userId,
+				},
+			},
+			data: {
+				std_status_payment_done: true,
+			},
+		});
+		return true;
+	}
 
-	// 		throw new InternalServerErrorException(e);
-	// 	}
-	// }
+	private async confirmUpdater(userId: string, application_id: string) {
+		await this.applicationConfirmationService.isConfirmApplication(userId, { application_id: application_id, confirm: true, reason: "" });
+	}
 }
