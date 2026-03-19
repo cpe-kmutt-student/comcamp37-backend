@@ -66,7 +66,7 @@ export const config = {
 				proxy: "004999224412568",
 				real: "2178877804",
 			},
-			amount: 500,
+			amount: Number(process.env.PAYMENT_AMOUNT || 500),
 		},
 	},
 } as const;
