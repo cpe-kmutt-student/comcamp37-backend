@@ -11,8 +11,8 @@ export class ApplicationPaymentEvidenceController {
 	constructor(private readonly applicationPaymentEvidenceService: ApplicationPaymentEvidenceService) {}
 
 	@Post("/upload")
-	// @UseGuards(AnnounceAndConfirmPeriodGuard)
-	// @UseGuards(ApplicationPassGuard)
+	@UseGuards(AnnounceAndConfirmPeriodGuard)
+	@UseGuards(ApplicationPassGuard)
 	@UseInterceptors(FileInterceptor("file"))
 	uploadEvidence(
 		@Session() session: UserSession,
