@@ -20,6 +20,9 @@ export class AppService {
 				cors_origin: config.app.allowOrigins,
 				regis_period: config.regisPeriod,
 				announce_and_confirm_period: config.resultAnnounceAndConfirmPeriod,
+				payment: {
+					amount: config.payment.reciever.amount,
+				},
 				app_domain: config.app.domain,
 				app_env: config.app.env,
 			},
