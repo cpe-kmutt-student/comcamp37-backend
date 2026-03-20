@@ -22,7 +22,7 @@ export class ApplicationPassGuard implements CanActivate {
 				},
 			});
 
-			if (studentApplication.length > 0) {
+			if (studentApplication.length === 0) {
 				throw "No application found linked with your account";
 			}
 
