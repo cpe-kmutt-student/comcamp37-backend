@@ -8,7 +8,7 @@ interface AnnouncementEmailProps {
 }
 
 const CONFIG = {
-	resultLink: "https://comcamp.io/",
+	resultLink: "https://comcamp.io/application/result",
 };
 
 export default function AnnouncementEmail({ name }: AnnouncementEmailProps) {
@@ -34,15 +34,15 @@ export default function AnnouncementEmail({ name }: AnnouncementEmailProps) {
 				<Head>
 					<Font fontFamily="Helvetica" fallbackFontFamily="Arial" fontWeight={400} fontStyle="normal" />
 				</Head>
-				<Preview>🎉สิ้นสุดการรอคอย! ประกาศผลการคัดเลือกผู้เข้าร่วมค่าย Comcamp 37</Preview>
+				<Preview>🎉สิ้นสุดการรอคอย! ประกาศผลการคัดเลือกผู้เข้าร่วมค่าย ComCamp 37</Preview>
 
 				<Body className="bg-white font-sans">
 					<Container className="mx-auto w-full max-w-[800px] my-10 bg-white rounded-2xl overflow-hidden shadow-lg">
 						<Header />
 
 						<Section className="bg-white px-6 py-8 text-center">
-							<Text className="text-sm font-semibold text-[#92a6d2] m-0 mb-2 tracking-widest uppercase">COMCAMP 37</Text>
-							<Heading className="text-2xl font-bold m-0 text-[#464f6a]">🎉 สิ้นสุดการรอคอย! ประกาศผลการคัดเลือกผู้เข้าร่วมค่าย Comcamp 37</Heading>
+							<Text className="text-sm font-semibold text-[#92a6d2] m-0 mb-2 tracking-widest">ComCamp 37</Text>
+							<Heading className="text-2xl font-bold m-0 text-[#464f6a]">🎉 สิ้นสุดการรอคอย! ประกาศผลการคัดเลือกผู้เข้าร่วมค่าย ComCamp 37</Heading>
 						</Section>
 
 						<Section className="px-6 pt-4 pb-10">
@@ -51,7 +51,7 @@ export default function AnnouncementEmail({ name }: AnnouncementEmailProps) {
 							</Section>
 
 							<Section className="">
-								<Text className="text-base leading-relaxed mb-6">ในนามของคณะกรรมการและทีมงานค่าย Comcamp 37 พวกเราขอขอบคุณน้องๆ ทุกคนที่ให้ความสนใจและตั้งใจทำใบสมัครส่งเข้ามากันอย่างล้นหลามเกินความคาดหมายครับ</Text>
+								<Text className="text-base leading-relaxed mb-6">ในนามของคณะกรรมการและทีมงานค่าย ComCamp 37 พวกเราขอขอบคุณน้องๆ ทุกคนที่ให้ความสนใจและตั้งใจทำใบสมัครส่งเข้ามากันอย่างล้นหลามเกินความคาดหมายครับ</Text>
 								<Text className="text-base leading-relaxed mb-6">ในปีนี้มีผู้สมัครที่มีศักยภาพและความสามารถโดดเด่นมากมาย ทำให้คณะกรรมการของเราต้องใช้เวลาพิจารณากันอย่างหนักและรอบคอบที่สุด เพื่อคัดเลือกผู้ที่จะได้มาร่วมเดินทางและสร้างประสบการณ์ดีๆ ไปด้วยกันในค่ายครั้งนี้</Text>
 								<Text className="text-base leading-relaxed mb-6">และแล้วก็ถึงเวลาที่ทุกคนรอคอย! ตอนนี้ผลการคัดเลือกอย่างเป็นทางการได้ประกาศออกมาเรียบร้อยแล้วครับ น้องๆ สามารถเข้าไปตรวจสอบผลการคัดเลือกของตัวเองได้ที่ลิงก์ด้านล่างนี้เลยครับ</Text>
 							</Section>
@@ -87,7 +87,7 @@ export default function AnnouncementEmail({ name }: AnnouncementEmailProps) {
 									<b>23 มีนาคม 2569 :</b> ประกาศเรียกตัวสำรอง
 								</Text>
 								<Text className="text-sm leading-relaxed text-[#504039] m-0">
-									<b>8 - 12 เมษายน 2569 :</b> วันจัดค่าย Comcamp 37
+									<b>8 - 12 เมษายน 2569 :</b> วันจัดค่าย ComCamp 37
 								</Text>
 							</Section>
 
