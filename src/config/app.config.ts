@@ -55,4 +55,18 @@ export const config = {
 	apis: {
 		slipKey: process.env.API_EASYSLIP_KEY,
 	},
+	payment: {
+		bypass: process.env.PAYMENT_BYPASS === "true",
+		reciever: {
+			name: {
+				en: "MR. SIWACH G",
+				th: "นาย ศิวัช ก",
+			},
+			account: {
+				proxy: "004999224412568",
+				real: "2178877804",
+			},
+			amount: Number(process.env.PAYMENT_AMOUNT || 500),
+		},
+	},
 } as const;

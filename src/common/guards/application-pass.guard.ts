@@ -22,14 +22,14 @@ export class ApplicationPassGuard implements CanActivate {
 				},
 			});
 
-			if (studentApplication.length > 0) {
+			if (studentApplication.length === 0) {
 				throw "No application found linked with your account";
 			}
 
 			const filterPassApplication = studentApplication.filter((app) => app.std_application_result === "pass");
 
 			if (filterPassApplication.length <= 0) {
-				throw `Your Application in : ${studentApplication.map((app) => app.std_application_result).join(", ")} stage`;
+				throw `Your Application not pass`;
 			}
 
 			const filterAllowConfirm = filterPassApplication.filter((app) => app.stf_application_allow_confirm === true);
