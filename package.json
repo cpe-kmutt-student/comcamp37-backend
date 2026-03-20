@@ -22,7 +22,7 @@
 		"check": "biome check --write",
 		"migrate": "pnpm exec prisma migrate dev && pnpm exec prisma generate",
 		"studio": "pnpm exec prisma studio",
-		"email:dev": "email dev -d src/email/templates"
+		"email:dev": "email dev -d src/core/email/templates"
 	},
 	"dependencies": {
 		"@aws-sdk/client-s3": "^3.957.0",
