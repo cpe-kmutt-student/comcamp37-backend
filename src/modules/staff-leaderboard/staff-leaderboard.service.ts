@@ -109,8 +109,9 @@ export class StaffLeaderboardService {
 					},
 					std_info: true,
 				},
-				take: 5 + 15,
-				skip: 20,
+				// take: 5 + 15,
+				// skip: 20,
+				take: 20,
 			});
 
 			return getTopScore;
