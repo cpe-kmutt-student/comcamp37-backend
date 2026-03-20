@@ -25,6 +25,7 @@ export class StaffLeaderboardService {
 					std_total_score: {
 						isNot: null,
 					},
+					std_application_result: "pass",
 					std_info: {
 						std_info_gender: gender,
 						OR: [
@@ -77,6 +78,7 @@ export class StaffLeaderboardService {
 					std_total_score: {
 						isNot: null,
 					},
+					std_application_result: "reserve",
 					std_info: {
 						std_info_gender: gender,
 						OR: [
