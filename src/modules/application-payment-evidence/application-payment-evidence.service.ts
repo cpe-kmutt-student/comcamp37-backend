@@ -65,9 +65,18 @@ export class ApplicationPaymentEvidenceService {
 				throw new NotAcceptableException(`Cannot find reciever name`);
 			}
 
+			// why krungsri send me en name as thai??????? ;-;
 			if (verifyBankResponse.data.data.rawSlip.receiver.account.name.en) {
-				if (verifyBankResponse.data.data.rawSlip.receiver.account.name.en !== config.payment.reciever.name.en) {
-					throw new NotAcceptableException(`Wrong reciever name en: ${verifyBankResponse.data.data.rawSlip.receiver.account.name.en}`);
+				if (verifyBankResponse.data.data.rawSlip.sender.bank.id === "025") {
+					// this for a fucking Krungsri
+					if (verifyBankResponse.data.data.rawSlip.receiver.account.name.en !== config.payment.reciever.name.th) {
+						throw new NotAcceptableException(`Wrong reciever name en: ${verifyBankResponse.data.data.rawSlip.receiver.account.name.en}`);
+					}
+				} else {
+					// for normal bank
+					if (verifyBankResponse.data.data.rawSlip.receiver.account.name.en !== config.payment.reciever.name.en) {
+						throw new NotAcceptableException(`Wrong reciever name en: ${verifyBankResponse.data.data.rawSlip.receiver.account.name.en}`);
+					}
 				}
 			}
 
