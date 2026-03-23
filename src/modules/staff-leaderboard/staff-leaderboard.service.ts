@@ -57,7 +57,7 @@ export class StaffLeaderboardService {
 					std_info: true,
 				},
 				skip: 0,
-				take: 20,
+				take: 25,
 			});
 
 			return getTopScore;
