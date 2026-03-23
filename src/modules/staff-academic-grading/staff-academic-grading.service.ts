@@ -17,6 +17,7 @@ export class StaffAcademicGradingService {
 			const allAnswers = await this.prisma.studentApplication.findMany({
 				where: {
 					std_application_submit: true,
+					std_application_confirm: true,
 				},
 				include: {
 					std_status: true,
