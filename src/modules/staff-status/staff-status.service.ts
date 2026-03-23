@@ -127,7 +127,7 @@ export class StaffStatusService {
 
 			if (!findApplication) throw new NotFoundException();
 
-			if (changeResultDto.result !== "waiting_for_announcement" && changeResultDto.result !== "fail") {
+			if (changeResultDto.result !== ApplicationResult.waiting_for_announcement && changeResultDto.result !== ApplicationResult.fail) {
 				if (findApplication.std_status?.stf_info_check?.std_info_status !== AppInfoStatus.info_approve) throw new ConflictException("The Application info must be approved before update result");
 			}
 
@@ -137,6 +137,7 @@ export class StaffStatusService {
 				},
 				data: {
 					std_application_result: changeResultDto.result,
+					std_application_pass: changeResultDto.result === ApplicationResult.pass,
 				},
 			});
 
