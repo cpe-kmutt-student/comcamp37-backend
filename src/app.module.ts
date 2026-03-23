@@ -32,6 +32,7 @@ import { StaffAcademicQuestionModule } from "./modules/staff-academic-question/s
 import { StaffAccountModule } from "./modules/staff-account/staff-account.module";
 import { StaffApplicationModule } from "./modules/staff-application/staff-application.module";
 import { StaffEmailModule } from "./modules/staff-email/staff-email.module";
+import { StaffExportModule } from "./modules/staff-export/staff-export.module";
 import { StaffFileModule } from "./modules/staff-file/staff-file.module";
 import { StaffLeaderboardModule } from "./modules/staff-leaderboard/staff-leaderboard.module";
 import { StaffRegisGradingModule } from "./modules/staff-regis-grading/staff-regis-grading.module";
@@ -91,6 +92,7 @@ import { UtilModule } from "./modules/util/util.module";
 		StaffTotalScoreModule,
 		StaffLeaderboardModule,
 		ApplicationPaymentEvidenceModule,
+		StaffExportModule,
 	],
 
 	controllers: [AppController],
