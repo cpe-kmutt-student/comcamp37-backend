@@ -43,6 +43,7 @@ import { StaffTotalScoreModule } from "./modules/staff-total-score/staff-total-s
 import { StatusUpdaterModule } from "./modules/status-updater/status-updater.module";
 import { StudentApplicationModule } from "./modules/student-application/student-application.module";
 import { TicketModule } from "./modules/ticket/ticket.module";
+import { UrlShortenerModule } from "./modules/url-shortener/url-shortener.module";
 import { UtilModule } from "./modules/util/util.module";
 
 @Module({
@@ -91,6 +92,7 @@ import { UtilModule } from "./modules/util/util.module";
 		StaffTotalScoreModule,
 		StaffLeaderboardModule,
 		ApplicationPaymentEvidenceModule,
+		UrlShortenerModule,
 	],
 
 	controllers: [AppController],

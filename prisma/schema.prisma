@@ -384,6 +384,8 @@ model User {
 
   stf_ticket_solve                        Ticket[]               @relation("ticket_staff")
 
+  url_shortener                           UrlShortener[]
+
   @@unique([email])
   @@map("user")
   @@unique([username])
@@ -437,4 +439,18 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+
+model UrlShortener {
+  url_id                            String                  @id @default(uuid())
+  url_key                           String                  @unique
+  url_full                          String
+  url_use_count                     Int
+
+  stf_user_id                       String
+  stf_user                          User                    @relation(fields: [stf_user_id], references: [id])
+
+  created_at                          DateTime              @default(now())
+  updated_at                          DateTime              @updatedAt                  
 }
