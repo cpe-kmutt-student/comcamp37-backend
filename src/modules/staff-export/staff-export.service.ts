@@ -191,8 +191,8 @@ export class StaffExportService {
 
 		worksheetAll.addRows(data);
 		worksheetMaleM4.addRows(data.filter((d: any) => (d.std_info_education_level === "มัธยมศึกษาปีที่ 4" || d.std_info_education_level === "ปวช. 1") && d.std_info_gender === "male"));
-		worksheetMaleM5.addRows(data.filter((d: any) => (d.std_info_education_level === "มัธยมศึกษาปีที่ 5" || d.std_info_education_level === "ปวช. 2") && d.std_info_gender === "female"));
-		worksheetFemaleM4.addRows(data.filter((d: any) => (d.std_info_education_level === "มัธยมศึกษาปีที่ 4" || d.std_info_education_level === "ปวช. 1") && d.std_info_gender === "male"));
+		worksheetMaleM5.addRows(data.filter((d: any) => (d.std_info_education_level === "มัธยมศึกษาปีที่ 5" || d.std_info_education_level === "ปวช. 2") && d.std_info_gender === "male"));
+		worksheetFemaleM4.addRows(data.filter((d: any) => (d.std_info_education_level === "มัธยมศึกษาปีที่ 4" || d.std_info_education_level === "ปวช. 1") && d.std_info_gender === "female"));
 		worksheetFemaleM5.addRows(data.filter((d: any) => (d.std_info_education_level === "มัธยมศึกษาปีที่ 5" || d.std_info_education_level === "ปวช. 2") && d.std_info_gender === "female"));
 
 		res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
