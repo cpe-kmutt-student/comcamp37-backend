@@ -9,7 +9,7 @@ export class StaffFileController {
 	constructor(private readonly staffFileService: StaffFileService) {}
 
 	@Get("/:id")
-	@UseGuards(RegisGuard)
+	@UseGuards(StaffGuard)
 	getFileById(@Param("id") fileId: string) {
 		return this.staffFileService.getFileById(fileId);
 	}
