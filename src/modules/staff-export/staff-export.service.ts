@@ -107,8 +107,7 @@ export class StaffExportService {
 			applications.map(async (app) => {
 				const entries = await Promise.all(
 					app.std_file.map(async (file) => {
-						const url = await this.s3.signedUrl(file.std_file_key);
-						return [file.std_file_type, url || ""] as const;
+						return [file.std_file_type, `https://staff.comcamp.io/file/${file.std_file_key}` || ""] as const;
 					}),
 				);
 				const result = this.decodeQueryStrings(Object.fromEntries(entries) as Record<string, string>);
