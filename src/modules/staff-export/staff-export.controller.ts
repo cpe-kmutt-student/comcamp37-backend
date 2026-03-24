@@ -1,4 +1,5 @@
 import { Controller, Get, Res, UseGuards } from "@nestjs/common";
+import { AllowAnonymous } from "@thallesp/nestjs-better-auth";
 import { type Response } from "express";
 import { RegisGuard } from "src/common/guards/regis.guard";
 import { PrismaService } from "src/core/prisma/prisma.service";
@@ -9,7 +10,7 @@ export class StaffExportController {
 	constructor(private readonly staffExportService: StaffExportService) {}
 
 	@Get("/")
-	// @UseGuards(RegisGuard)
+	@UseGuards(RegisGuard)
 	exportAll(@Res() res: Response) {
 		return this.staffExportService.exportAll(res);
 	}

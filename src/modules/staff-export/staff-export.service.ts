@@ -127,9 +127,13 @@ export class StaffExportService {
 		);
 
 		const workbook = new ExcelJS.Workbook();
-		const worksheet = workbook.addWorksheet("All");
+		const worksheetAll = workbook.addWorksheet("All");
+		const worksheetMaleM4 = workbook.addWorksheet("Male M4");
+		const worksheetMaleM5 = workbook.addWorksheet("Male M5");
+		const worksheetFemaleM4 = workbook.addWorksheet("Female M4");
+		const worksheetFemaleM5 = workbook.addWorksheet("FeMale M5");
 
-		worksheet.columns = [
+		const columns = [
 			{ header: "Application ID", key: "std_application_id" },
 			{ header: "User ID", key: "id" },
 			{ header: "Email", key: "email" },
@@ -179,14 +183,59 @@ export class StaffExportService {
 			{ header: "Parent Permission", key: "file_parent_permission" },
 		];
 
-		worksheet.addRows(data);
+		worksheetAll.columns = columns;
+		worksheetMaleM4.columns = columns;
+		worksheetMaleM5.columns = columns;
+		worksheetFemaleM4.columns = columns;
+		worksheetFemaleM5.columns = columns;
+
+		worksheetAll.addRows(data);
+		worksheetMaleM4.addRows(data.filter((d: any) => (d.std_info_education_level === "มัธยมศึกษาปีที่ 4" || d.std_info_education_level === "ปวช. 1") && d.std_info_gender === "male"));
+		worksheetMaleM5.addRows(data.filter((d: any) => (d.std_info_education_level === "มัธยมศึกษาปีที่ 5" || d.std_info_education_level === "ปวช. 2") && d.std_info_gender === "female"));
+		worksheetFemaleM4.addRows(data.filter((d: any) => (d.std_info_education_level === "มัธยมศึกษาปีที่ 4" || d.std_info_education_level === "ปวช. 1") && d.std_info_gender === "male"));
+		worksheetFemaleM5.addRows(data.filter((d: any) => (d.std_info_education_level === "มัธยมศึกษาปีที่ 5" || d.std_info_education_level === "ปวช. 2") && d.std_info_gender === "female"));
 
 		res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-
 		res.setHeader("Content-Disposition", "attachment; filename=ComCamp37-khomul-nongnong.xlsx");
 
 		// // asked chat dont ask me how it work
-		worksheet.columns.forEach((column) => {
+		worksheetAll.columns.forEach((column) => {
+			let maxLength = 0;
+			if (!column.eachCell) return;
+			column.eachCell({ includeEmpty: true }, (cell) => {
+				const value = cell.value ? cell.value.toString() : "";
+				maxLength = Math.max(maxLength, value.length);
+			});
+			column.width = maxLength + 2;
+		});
+		worksheetMaleM4.columns.forEach((column) => {
+			let maxLength = 0;
+			if (!column.eachCell) return;
+			column.eachCell({ includeEmpty: true }, (cell) => {
+				const value = cell.value ? cell.value.toString() : "";
+				maxLength = Math.max(maxLength, value.length);
+			});
+			column.width = maxLength + 2;
+		});
+		worksheetMaleM5.columns.forEach((column) => {
+			let maxLength = 0;
+			if (!column.eachCell) return;
+			column.eachCell({ includeEmpty: true }, (cell) => {
+				const value = cell.value ? cell.value.toString() : "";
+				maxLength = Math.max(maxLength, value.length);
+			});
+			column.width = maxLength + 2;
+		});
+		worksheetFemaleM4.columns.forEach((column) => {
+			let maxLength = 0;
+			if (!column.eachCell) return;
+			column.eachCell({ includeEmpty: true }, (cell) => {
+				const value = cell.value ? cell.value.toString() : "";
+				maxLength = Math.max(maxLength, value.length);
+			});
+			column.width = maxLength + 2;
+		});
+		worksheetFemaleM5.columns.forEach((column) => {
 			let maxLength = 0;
 			if (!column.eachCell) return;
 			column.eachCell({ includeEmpty: true }, (cell) => {
