@@ -180,6 +180,7 @@ export class StaffExportService {
 			{ header: "Transcript", key: "file_pp_1" },
 			{ header: "Student Certification", key: "file_pp_7" },
 			{ header: "Parent Permission", key: "file_parent_permission" },
+			{ header: "Payment Evidence", key: "file_slip" },
 		];
 
 		worksheetAll.columns = columns;
