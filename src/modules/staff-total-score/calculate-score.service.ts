@@ -17,9 +17,9 @@ export class CalculateScoreService {
 			const calRegis = await this.calculateRegisScore(appId).catch((e) => {
 				throw e;
 			});
-			// const calAcademic = await this.calculateAcademicScore(appId).catch((e) => {
-			// 	throw e;
-			// });
+			const calAcademic = await this.calculateAcademicScore(appId).catch((e) => {
+				throw e;
+			});
 			const calAcademicChaos = await this.calculateAcademicChaosScore(appId).catch((e) => {
 				throw e;
 			});
@@ -33,18 +33,27 @@ export class CalculateScoreService {
 				},
 				update: {
 					std_regis_score: calRegis,
-					// std_academic_score: calAcademic,
+					std_academic_score: calAcademic,
 					std_academic_chaos_score: calAcademicChaos,
 					std_total_score: calTotal,
 				},
 				create: {
 					std_application_id: appId,
 					std_regis_score: calRegis,
-					// std_academic_score: calAcademic,
+					std_academic_score: calAcademic,
 					std_academic_chaos_score: calAcademicChaos,
 					std_total_score: calTotal,
 				},
 			});
+
+			// const updateAcademicScore = await this.prisma.applicationTotalScore.update({
+			// 	where: {
+			// 		std_application_id: appId
+			// 	},
+			// 	data: {
+			// 		std_academic_score: calAcademic
+			// 	}
+			// })
 
 			return updateTotalScore;
 		} catch (e) {
