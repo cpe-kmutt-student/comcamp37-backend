@@ -162,6 +162,7 @@ export class StaffExportService {
 			{ header: "Food Allergy", key: "std_info_food_allergy" },
 			{ header: "Parent Name", key: "std_info_parent_fullname" },
 			{ header: "Parent Relation", key: "std_info_parent_relation" },
+			{ header: "Parent Phone Number", key: "std_info_parent_phone_number" },
 
 			{ header: "Have participated before", key: "std_info_have_participated" },
 			{ header: "Have laptop", key: "std_info_have_laptop" },
