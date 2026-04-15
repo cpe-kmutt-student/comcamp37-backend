@@ -1,43 +1,68 @@
-import path from "node:path";
-import { Injectable } from "@nestjs/common";
-import { createCanvas, loadImage, registerFont } from "canvas";
+import { HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { Response } from "express";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
+import { S3Service } from "src/core/s3/s3.service";
 
 @Injectable()
 export class StudentCertificateService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly s3: S3Service,
+		private readonly logger: LoggerService,
+	) {}
 
-	async certificatePreview() {}
+	async getCertificatePreview(res: Response, userId: string): Promise<string> {
+		try {
+			const application = await this.prisma.studentApplication.findMany({
+				where: {
+					std_user_id: userId,
+				},
+			});
 
-	async generateImage(name: string): Promise<Buffer> {
-		// Load background
-		const bgPath = path.join(__dirname, "./certificate_template.png");
-		const background = await loadImage(bgPath);
+			const fileKey = `${application[0].std_application_id}.jpg`;
 
-		// Register custom font
-		const fontPath = path.join(__dirname, "./Arimo-VariableFont_wght.ttf");
-		registerFont(fontPath, { family: "CustomFont" });
+			const fileUrl = await this.s3.signedUrl(fileKey, "certificate");
 
-		// Create canvas
-		const canvas = createCanvas(background.width, background.height);
-		const ctx = canvas.getContext("2d");
+			if (!fileUrl) {
+				throw new NotFoundException("Cannot find this certificate in storage server");
+			}
 
-		// Draw background
-		ctx.drawImage(background, 0, 0);
+			return fileUrl;
+		} catch (e) {
+			this.logger.error(e);
+			if (e instanceof HttpException) {
+				throw e;
+			}
 
-		// Set font
-		ctx.font = '40px "CustomFont"';
-		ctx.fillStyle = "#000000";
+			throw new InternalServerErrorException(e);
+		}
+	}
 
-		// Center text
-		const textWidth = ctx.measureText(name).width;
-		const x = (canvas.width - textWidth) / 2;
-		const y = canvas.height / 2;
+	async getCertificateFull(res: Response, userId: string) {
+		try {
+			const application = await this.prisma.studentApplication.findMany({
+				where: {
+					std_user_id: userId,
+				},
+			});
 
-		// Draw name
-		ctx.fillText(name, x, y);
+			const fileKey = `${application[0].std_application_id}.pdf`;
 
-		// Return image buffer
-		return canvas.toBuffer("image/png");
+			const fileUrl = await this.s3.signedUrl(fileKey, "certificate");
+
+			if (!fileUrl) {
+				throw new NotFoundException("Cannot find this certificate in storage server");
+			}
+
+			return fileUrl;
+		} catch (e) {
+			this.logger.error(e);
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
+		}
 	}
 }
