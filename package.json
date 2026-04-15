@@ -73,7 +73,6 @@
 		"reflect-metadata": "^0.2.2",
 		"resend": "^6.8.0",
 		"rxjs": "^7.8.1",
-		"sharp": "^0.34.5",
 		"signale": "^1.4.0",
 		"systeminformation": "^5.29.0",
 		"typeorm": "^0.3.28",
