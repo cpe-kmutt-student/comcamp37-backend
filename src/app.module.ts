@@ -8,6 +8,7 @@ import { AppService } from "./app.service";
 import { logger } from "./common/middlewares/Logger.middleware";
 import { config } from "./config/app.config";
 import { AuthModule } from "./core/auth/auth.module";
+import { ECertificateModule } from "./core/e-certificate/e-certificate.module";
 import { EmailModule } from "./core/email/email.module";
 import { LoggerModule } from "./core/logger/logger.module";
 import { LoggerService } from "./core/logger/logger.service";
@@ -43,6 +44,7 @@ import { StaffStatusUpdaterModule } from "./modules/staff-status-updater/staff-s
 import { StaffTotalScoreModule } from "./modules/staff-total-score/staff-total-score.module";
 import { StatusUpdaterModule } from "./modules/status-updater/status-updater.module";
 import { StudentApplicationModule } from "./modules/student-application/student-application.module";
+import { StudentCertificateModule } from "./modules/student-certificate/student-certificate.module";
 import { TicketModule } from "./modules/ticket/ticket.module";
 import { UtilModule } from "./modules/util/util.module";
 
@@ -93,6 +95,8 @@ import { UtilModule } from "./modules/util/util.module";
 		StaffLeaderboardModule,
 		ApplicationPaymentEvidenceModule,
 		StaffExportModule,
+		ECertificateModule,
+		StudentCertificateModule,
 	],
 
 	controllers: [AppController],

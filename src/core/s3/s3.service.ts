@@ -24,12 +24,12 @@ export class S3Service extends S3Client {
 		});
 	}
 
-	async signedUrl(key: string | null | undefined): Promise<string | null> {
+	async signedUrl(key: string | null | undefined, bucket?: string): Promise<string | null> {
 		if (!key) return null;
 		return await getSignedUrl(
 			this,
 			new GetObjectCommand({
-				Bucket: config.s3.bucket,
+				Bucket: bucket || config.s3.bucket,
 				Key: key,
 			}),
 			{
