@@ -28,7 +28,7 @@ export class UserParticipatedGuard implements CanActivate {
 			});
 
 			if (studentApplication.length === 0) {
-				throw "Your application not pass or not confirm";
+				throw new ForbiddenException("Your application not pass or not confirm");
 			}
 
 			return true;
