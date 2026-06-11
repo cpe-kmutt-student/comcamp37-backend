@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, InternalServerErrorException, NotAcceptableException } from "@nestjs/common";
+import { ForbiddenException, HttpException, Injectable, InternalServerErrorException, NotAcceptableException } from "@nestjs/common";
 import { EmailService } from "src/core/email/email.service";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
@@ -76,7 +76,11 @@ export class ApplicationSubmitService {
 			return updateSubmitStatus;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 }

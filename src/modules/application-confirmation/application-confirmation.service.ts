@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { ForbiddenException, HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { ApplicationConfirmationDto } from "./dto/application-confirmation.dto";
@@ -28,7 +28,7 @@ export class ApplicationConfirmationService {
 			});
 
 			if (confirmation.length === 0) {
-				return new NotFoundException();
+				throw new NotFoundException();
 			}
 
 			if (!appId) {
@@ -38,7 +38,11 @@ export class ApplicationConfirmationService {
 			return confirmation[0];
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -58,7 +62,7 @@ export class ApplicationConfirmationService {
 			});
 
 			if (!studentApplication) {
-				return new ForbiddenException();
+				throw new ForbiddenException();
 			}
 
 			const updateComfirmation = await this.prisma.studentApplication.update({
@@ -84,7 +88,11 @@ export class ApplicationConfirmationService {
 			return updateComfirmation;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 }

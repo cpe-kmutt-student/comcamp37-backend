@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 
@@ -36,7 +36,11 @@ export class StaffAcademicQuestionService {
 			});
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -56,7 +60,7 @@ export class StaffAcademicQuestionService {
 				},
 			});
 
-			if (!studentAcademicAnswer) return new NotFoundException();
+			if (!studentAcademicAnswer) throw new NotFoundException();
 
 			let score = 0;
 			for (const { stf_academic_question_score } of studentAcademicAnswer.std_academic_question) {
@@ -71,7 +75,11 @@ export class StaffAcademicQuestionService {
 			};
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 }

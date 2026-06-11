@@ -1,6 +1,6 @@
 import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { FileType } from "generated/prisma/enums";
 import { config } from "src/config/app.config";
 import { LoggerService } from "src/core/logger/logger.service";
@@ -34,10 +34,16 @@ export class ApplicationFileService {
 				},
 			});
 
-			return applicationFiles.length !== 0 ? applicationFiles : new NotFoundException();
+			if (applicationFiles.length === 0) throw new NotFoundException();
+
+			return applicationFiles;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -110,7 +116,11 @@ export class ApplicationFileService {
 			};
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -130,20 +140,24 @@ export class ApplicationFileService {
 				},
 			});
 
-			return applicationFile.length !== 0
-				? Promise.all(
-						applicationFile.map(async (af) => ({
-							application_id: af.std_application_id,
-							file_originalname: af.std_file_originalname,
-							file_size: af.std_file_size,
-							file_url: await this.s3.signedUrl(af.std_file_key),
-							file_type: af.std_file_type,
-							created_at: af.created_at,
-						})),
-					)
-				: new NotFoundException();
+			if (applicationFile.length === 0) throw new NotFoundException();
+
+			return Promise.all(
+				applicationFile.map(async (af) => ({
+					application_id: af.std_application_id,
+					file_originalname: af.std_file_originalname,
+					file_size: af.std_file_size,
+					file_url: await this.s3.signedUrl(af.std_file_key),
+					file_type: af.std_file_type,
+					created_at: af.created_at,
+				})),
+			);
 		} catch (e) {
 			this.logger.error(e);
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
 			throw new InternalServerErrorException(e);
 		}
 	}

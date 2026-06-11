@@ -1,5 +1,6 @@
 import { HttpException, Injectable, InternalServerErrorException } from "@nestjs/common";
 import { EmailService } from "src/core/email/email.service";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { StaffSendEmailDto } from "./dto/staff-email.dto";
 
@@ -8,6 +9,7 @@ export class StaffEmailService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly emailService: EmailService,
+		private readonly logger: LoggerService,
 	) {}
 
 	async staffSendEmail(staffId: string, staffName: string, staffSendEmailDto: StaffSendEmailDto) {
@@ -35,6 +37,11 @@ export class StaffEmailService {
 
 			return saveHistory;
 		} catch (e) {
+			this.logger.error(e);
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
 			throw new InternalServerErrorException(e);
 		}
 	}
@@ -48,6 +55,7 @@ export class StaffEmailService {
 			});
 			return emailHistory;
 		} catch (e) {
+			this.logger.error(e);
 			if (e instanceof HttpException) {
 				throw e;
 			}
@@ -78,6 +86,7 @@ export class StaffEmailService {
 
 			return query ? mapEmailAndName.filter((em) => em.email.includes(query)) : mapEmailAndName;
 		} catch (e) {
+			this.logger.error(e);
 			if (e instanceof HttpException) {
 				throw e;
 			}

@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 
@@ -23,10 +23,16 @@ export class ApplicationStatusService {
 				},
 			});
 
-			return applicationStatus ? applicationStatus : new NotFoundException();
+			if (!applicationStatus) throw new NotFoundException();
+
+			return applicationStatus;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -40,10 +46,16 @@ export class ApplicationStatusService {
 				},
 			});
 
-			return applicationStatus.length !== 0 ? applicationStatus : new NotFoundException();
+			if (applicationStatus.length === 0) throw new NotFoundException();
+
+			return applicationStatus;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 }

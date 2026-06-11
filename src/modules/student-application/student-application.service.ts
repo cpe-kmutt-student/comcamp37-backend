@@ -31,10 +31,18 @@ export class StudentApplicationService {
 				},
 			});
 
-			return studentApplication.length !== 0 ? studentApplication : new NotFoundException();
+			if (studentApplication.length === 0) {
+				throw new NotFoundException();
+			}
+
+			return studentApplication;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -61,10 +69,16 @@ export class StudentApplicationService {
 				},
 			});
 
-			return studentApplication ? studentApplication : new NotFoundException();
+			if (!studentApplication) throw new NotFoundException();
+
+			return studentApplication;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -110,7 +124,11 @@ export class StudentApplicationService {
 			});
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -140,6 +158,7 @@ export class StudentApplicationService {
 
 			return studentApplication;
 		} catch (e) {
+			this.logger.error(e);
 			if (e instanceof HttpException) {
 				throw e;
 			}
