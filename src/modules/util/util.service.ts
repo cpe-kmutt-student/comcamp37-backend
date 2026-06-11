@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { HttpException, Injectable, InternalServerErrorException } from "@nestjs/common";
 import { LoggerService } from "src/core/logger/logger.service";
 import type Geography from "../../data/geography.json";
 import geography from "../../data/geography.json";
@@ -24,6 +24,10 @@ export class UtilService {
 			return filtered;
 		} catch (e) {
 			this.logger.error(e);
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
 			throw new InternalServerErrorException(e);
 		}
 	}
@@ -44,6 +48,10 @@ export class UtilService {
 			return this.addressResFormat(filtered);
 		} catch (e) {
 			this.logger.error(e);
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
 			throw new InternalServerErrorException(e);
 		}
 	}

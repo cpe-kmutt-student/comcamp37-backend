@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotAcceptableException } from "@nestjs/common";
+import { HttpException, Injectable, InternalServerErrorException, NotAcceptableException } from "@nestjs/common";
 import { UserRoles } from "generated/prisma/enums";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
@@ -27,7 +27,11 @@ export class StaffAccountService {
 			return staffAccount;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -59,7 +63,11 @@ export class StaffAccountService {
 			return staffAccount;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -95,14 +103,18 @@ export class StaffAccountService {
 			return staffUser;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
 	async deleteStaffAccount(deleteStaffAccountDto: DeleteStaffAccountDto) {
 		try {
 			if (!deleteStaffAccountDto.is_confirm) {
-				return new NotAcceptableException();
+				throw new NotAcceptableException();
 			}
 
 			const deletedUser = await auth.api.removeUser({
@@ -114,7 +126,11 @@ export class StaffAccountService {
 			return deletedUser;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 }

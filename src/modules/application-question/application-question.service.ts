@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { StatusUpdaterService } from "../status-updater/status-updater.service";
@@ -24,7 +24,7 @@ export class ApplicationQuestionService {
 			});
 
 			if (regisAnswer.length === 0) {
-				return new NotFoundException();
+				throw new NotFoundException();
 			}
 
 			if (!appId) {
@@ -34,7 +34,11 @@ export class ApplicationQuestionService {
 			return regisAnswer[0];
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -50,7 +54,7 @@ export class ApplicationQuestionService {
 			});
 
 			if (academicAnswer.length === 0) {
-				return new NotFoundException();
+				throw new NotFoundException();
 			}
 
 			if (!appId) {
@@ -60,7 +64,11 @@ export class ApplicationQuestionService {
 			return academicAnswer[0];
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -76,7 +84,7 @@ export class ApplicationQuestionService {
 			});
 
 			if (academicChaosAnswer.length === 0) {
-				return new NotFoundException();
+				throw new NotFoundException();
 			}
 
 			if (!appId) {
@@ -86,7 +94,11 @@ export class ApplicationQuestionService {
 			return academicChaosAnswer[0];
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -138,7 +150,11 @@ export class ApplicationQuestionService {
 			return updatedAnswer;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -190,7 +206,11 @@ export class ApplicationQuestionService {
 			return updatedAnswer;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -242,7 +262,11 @@ export class ApplicationQuestionService {
 			return updatedAnswer;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 }

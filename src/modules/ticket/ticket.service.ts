@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { HttpException, Injectable, InternalServerErrorException } from "@nestjs/common";
 import { EmailService } from "src/core/email/email.service";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
@@ -45,7 +45,11 @@ export class TicketService {
 			return createTicket;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -60,7 +64,11 @@ export class TicketService {
 			return getAll;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -107,7 +115,11 @@ export class TicketService {
 			return ticketSolved;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 }

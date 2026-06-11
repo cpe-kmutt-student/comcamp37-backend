@@ -71,13 +71,29 @@ export class StaffApplicationService {
 			return allApplications;
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
 	async getByAppId(appId: string) {
-		const apps = await this.getAll(appId);
-		return apps.length !== 0 ? apps[0] : new NotFoundException();
+		try {
+			const apps = await this.getAll(appId);
+
+			if (apps.length === 0) throw new NotFoundException();
+
+			return apps[0];
+		} catch (e) {
+			this.logger.error(e);
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
+		}
 	}
 
 	async checkApplication(staffId: string, staffCheckApplicationDto: StaffCheckApplicationDto) {
