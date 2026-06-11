@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { FileType } from "generated/prisma/enums";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
@@ -40,6 +40,11 @@ export class StatusUpdaterService {
 			});
 		} catch (e) {
 			this.logger.error(e);
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -53,7 +58,7 @@ export class StatusUpdaterService {
 
 			for (const info in appInfo) {
 				if (appInfo[info] === null) {
-					return new NotFoundException();
+					throw new NotFoundException();
 				}
 			}
 
@@ -67,6 +72,11 @@ export class StatusUpdaterService {
 			});
 		} catch (e) {
 			this.logger.error(e);
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -83,7 +93,7 @@ export class StatusUpdaterService {
 			const [...setAnsweredSections] = new Set(answeredSections);
 
 			if (setAnsweredSections.length < 6) {
-				return new NotFoundException();
+				throw new NotFoundException();
 			}
 
 			return await this.prisma.applicationStatus.update({
@@ -96,7 +106,11 @@ export class StatusUpdaterService {
 			});
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -113,7 +127,7 @@ export class StatusUpdaterService {
 			const [...setAnsweredSections] = new Set(answeredSections);
 
 			if (setAnsweredSections.length < 12) {
-				return new NotFoundException();
+				throw new NotFoundException();
 			}
 
 			return await this.prisma.applicationStatus.update({
@@ -126,7 +140,11 @@ export class StatusUpdaterService {
 			});
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -143,7 +161,7 @@ export class StatusUpdaterService {
 			const [...setAnsweredSections] = new Set(answeredSections);
 
 			if (setAnsweredSections.length < 6) {
-				return new NotFoundException();
+				throw new NotFoundException();
 			}
 
 			return await this.prisma.applicationStatus.update({
@@ -156,7 +174,11 @@ export class StatusUpdaterService {
 			});
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -171,7 +193,7 @@ export class StatusUpdaterService {
 			const findPaymentEvidence = appFiles.filter((f) => f.std_file_type === "file_slip");
 
 			if (findPaymentEvidence.length === 0) {
-				return new NotFoundException();
+				throw new NotFoundException();
 			}
 
 			return await this.prisma.applicationStatus.update({
@@ -184,7 +206,11 @@ export class StatusUpdaterService {
 			});
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 
@@ -217,7 +243,11 @@ export class StatusUpdaterService {
 			});
 		} catch (e) {
 			this.logger.error(e);
-			throw new InternalServerErrorException();
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
+			throw new InternalServerErrorException(e);
 		}
 	}
 }

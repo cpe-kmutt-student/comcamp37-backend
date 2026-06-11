@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { StaffStatusUpdaterService } from "../staff-status-updater/staff-status-updater.service";
@@ -39,6 +39,10 @@ export class StaffAcademicChaosGradingService {
 			return allAnswers;
 		} catch (e) {
 			this.logger.error(e);
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
 			throw new InternalServerErrorException(e);
 		}
 	}
@@ -65,6 +69,10 @@ export class StaffAcademicChaosGradingService {
 			return allAnswers;
 		} catch (e) {
 			this.logger.error(e);
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
 			throw new InternalServerErrorException(e);
 		}
 	}
@@ -107,6 +115,10 @@ export class StaffAcademicChaosGradingService {
 			return answerScore;
 		} catch (e) {
 			this.logger.error(e);
+			if (e instanceof HttpException) {
+				throw e;
+			}
+
 			throw new InternalServerErrorException(e);
 		}
 	}

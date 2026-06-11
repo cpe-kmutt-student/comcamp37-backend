@@ -1,4 +1,5 @@
 import { HttpException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { LoggerService } from "src/core/logger/logger.service";
 import { PrismaService } from "src/core/prisma/prisma.service";
 import { S3Service } from "src/core/s3/s3.service";
 
@@ -7,6 +8,7 @@ export class StaffFileService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly s3: S3Service,
+		private readonly logger: LoggerService,
 	) {}
 
 	async getFileById(fileId: string) {
@@ -26,6 +28,7 @@ export class StaffFileService {
 				url: await this.s3.signedUrl(files?.std_file_key),
 			};
 		} catch (e) {
+			this.logger.error(e);
 			if (e instanceof HttpException) {
 				throw e;
 			}
@@ -56,6 +59,7 @@ export class StaffFileService {
 
 			return signedUrls;
 		} catch (e) {
+			this.logger.error(e);
 			if (e instanceof HttpException) {
 				throw e;
 			}
@@ -90,6 +94,7 @@ export class StaffFileService {
 
 			return signedUrls;
 		} catch (e) {
+			this.logger.error(e);
 			if (e instanceof HttpException) {
 				throw e;
 			}

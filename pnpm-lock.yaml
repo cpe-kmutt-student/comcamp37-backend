@@ -199,6 +199,9 @@ importers:
       '@types/body-parser':
         specifier: ^1.19.6
         version: 1.19.6
+      '@types/chalk':
+        specifier: ^2.2.4
+        version: 2.2.4
       '@types/cookie-parser':
         specifier: ^1.4.10
         version: 1.4.10(@types/express@5.0.6)
@@ -238,6 +241,9 @@ importers:
       '@types/uuid':
         specifier: ^11.0.0
         version: 11.0.0
+      chalk:
+        specifier: ^5.6.2
+        version: 5.6.2
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
@@ -2802,6 +2808,10 @@ packages:
 
   '@types/body-parser@1.19.6':
     resolution: {integrity: sha512-HLFeCYgz89uk22N5Qg3dvGvsv46B8GLvKKo1zKG4NybA8U2DiEO3w9lqGg29t/tfLRJpJ6iQxnVw4OnB7MoM9g==}
+
+  '@types/chalk@2.2.4':
+    resolution: {integrity: sha512-pb/QoGqtCpH2famSp72qEsXkNzcErlVmiXlQ/ww+5AddD8TmmYS7EWg5T20YiNCAiTgs8pMf2G8SJG5h/ER1ZQ==}
+    deprecated: This is a stub types definition. chalk provides its own type definitions, so you do not need this installed.
 
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
@@ -10577,6 +10587,10 @@ snapshots:
     dependencies:
       '@types/connect': 3.4.38
       '@types/node': 22.19.3
+
+  '@types/chalk@2.2.4':
+    dependencies:
+      chalk: 5.6.2
 
   '@types/connect@3.4.38':
     dependencies:
