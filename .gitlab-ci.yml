@@ -1,12 +1,16 @@
+stages:
+  - build
+
 build_and_publish_x:
   stage: build
   image: docker:24
+
 
   before_script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
 
   script:
-    - docker buildx create --use || true
+    - docker buildx create --use
     - docker buildx inspect --bootstrap
 
     - docker buildx build \
@@ -16,3 +20,7 @@ build_and_publish_x:
         -t $CI_REGISTRY_IMAGE:latest \
         -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA \
         --push .
+
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "dev"'
