@@ -13,19 +13,21 @@ build_and_publish_x:
     - docker:24-dind
 
   before_script:
-    - docker login ghcr.io -u "$GH_USERNAME" -p "$GH_PAT"
+    - echo "$CI_REGISTRY_PASSWORD" | docker login \
+        -u "$CI_REGISTRY_USER" \
+        --password-stdin "$CI_REGISTRY"
 
   script:
     - docker buildx create --use
     - docker buildx inspect --bootstrap
 
     - docker buildx build \
-      --platform linux/amd64,linux/arm64 \
-      --build-arg DATABASE_URL="$DATABASE_URL" \
-      -f Dockerfile.prod \
-      -t ghcr.io/imjustnon/comcamp37-server-x:latest \
-      -t ghcr.io/imjustnon/comcamp37-server-x:$CI_COMMIT_SHA \
-      --push .
+        --platform linux/amd64,linux/arm64 \
+        --build-arg DATABASE_URL="$DATABASE_URL" \
+        -f Dockerfile.prod \
+        -t $CI_REGISTRY_IMAGE:latest \
+        -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA \
+        --push .
 
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
